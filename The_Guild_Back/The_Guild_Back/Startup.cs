@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace The_Guild_Back
+namespace The_Guild_Back.API
 {
     public class Startup
     {

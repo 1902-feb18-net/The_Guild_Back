@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace The_Guild_Back
+namespace The_Guild_Back.API
 {
     public class Program
     {
