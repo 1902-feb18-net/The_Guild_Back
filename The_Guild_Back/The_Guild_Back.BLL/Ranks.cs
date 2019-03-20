@@ -7,8 +7,10 @@ namespace The_Guild_Back.BLL
     public class Ranks
     {
         private string _name;
+        private decimal _fee;
 
         public int Id { get; set; }
+
         public string Nam
         {
             get => _name;
@@ -18,8 +20,19 @@ namespace The_Guild_Back.BLL
                 _name = value;
             }
         }
-        public decimal Fee { get; set; }
 
-        
+        public decimal Fee
+        {
+            get => _fee;
+            set
+            {
+                if (CheckConstraints.NonNegativeDecimal(value)) //allows setting null, 0, or positive
+                { _fee = value; }
+
+                throw new ArgumentOutOfRangeException();
+            }
+        }
+
+
     }
 }
