@@ -1,11 +1,15 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace The_Guild_Back.BLL
 {
     public static class Mapper
     {
+        static ILogger logger = LogManager.GetCurrentClassLogger();
+
         public static AdventureParty Map(DAL.AdventurerParty party)
         {
             AdventureParty adventureParty = new AdventureParty
@@ -18,14 +22,14 @@ namespace The_Guild_Back.BLL
             {
                 adventureParty.Nam = party.Nam;
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException e)
             {
-                //log
+                logger.Error(e, "Mapping null name to AdventurerParty");
                 throw;
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
-                //log
+                logger.Error(e, "Mapping empty or whitespace name to AdventurerParty");
                 throw;
             }
             return adventureParty;
@@ -54,14 +58,14 @@ namespace The_Guild_Back.BLL
             {
                 login.Username = info.Username;
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException e)
             {
-                //log
+                logger.Error(e, "Mapping null username to LoginInfo");
                 throw;
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
-                //log
+                logger.Error(e, "Mapping empty or whitespace username to LoginInfo");
                 throw;
             }
 
@@ -69,14 +73,14 @@ namespace The_Guild_Back.BLL
             {
                 login.Pass = info.Pass;
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException e)
             {
-                //log
+                logger.Error(e, "Mapping null password to LoginInfo");
                 throw;
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
-                //log
+                logger.Error(e, "Mapping empty or whitespace password to LoginInfo");
                 throw;
             }
             return login;
@@ -104,14 +108,14 @@ namespace The_Guild_Back.BLL
             {
                 prog.Nam = progress.Nam;
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException e)
             {
-                //log
+                logger.Error(e, "Mapping null name to Progress");
                 throw;
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
-                //log
+                logger.Error(e, "Mapping empty or whitespace name to Progress");
                 throw;
             }
             return prog;
@@ -139,9 +143,9 @@ namespace The_Guild_Back.BLL
             {
                 rankRequirements.NumberRequests = requirements.NumberRequests;
             }
-            catch (ArgumentOutOfRangeException)
+            catch (ArgumentOutOfRangeException e)
             {
-                //log
+                logger.Error(e, "Mapping negative Number of Requests to Rank Requirements");
                 throw;
             }
 
@@ -149,9 +153,9 @@ namespace The_Guild_Back.BLL
             {
                 rankRequirements.MinTotalStats = requirements.MinTotalStats;
             }
-            catch (ArgumentOutOfRangeException)
+            catch (ArgumentOutOfRangeException e)
             {
-                //log
+                logger.Error(e, "Mapping negative Minimum Stats to Rank Requirements");
                 throw;
             }
             return rankRequirements;
@@ -180,14 +184,14 @@ namespace The_Guild_Back.BLL
             {
                 rank.Nam = ranks.Nam;
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException e)
             {
-                //log
+                logger.Error(e, "Mapping null name to Rank");
                 throw;
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
-                //log
+                logger.Error(e, "Mapping empty or whitespace name to Rank");
                 throw;
             }
 
@@ -195,9 +199,9 @@ namespace The_Guild_Back.BLL
             {
                 rank.Fee = ranks.Fee;
             }
-            catch (ArgumentOutOfRangeException)
+            catch (ArgumentOutOfRangeException e)
             {
-                //log
+                logger.Error(e, "Mapping negative Fee to Rank");
                 throw;
             }
             return rank;
@@ -226,9 +230,9 @@ namespace The_Guild_Back.BLL
             {
                 req.Cost = request.Cost;
             }
-            catch (ArgumentOutOfRangeException)
+            catch (ArgumentOutOfRangeException e)
             {
-                //log
+                logger.Error(e, "Mapping negative Cost to Request");
                 throw;
             }
 
@@ -236,9 +240,9 @@ namespace The_Guild_Back.BLL
             {
                 req.Reward = request.Reward;
             }
-            catch (ArgumentOutOfRangeException)
+            catch (ArgumentOutOfRangeException e)
             {
-                //log
+                logger.Error(e, "Mapping negative Reward to Request");
                 throw;
             }
 
@@ -246,14 +250,14 @@ namespace The_Guild_Back.BLL
             {
                 req.Descript = request.Descript;
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException e)
             {
-                //log
+                logger.Error(e, "Mapping null Description to Request");
                 throw;
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
-                //log
+                logger.Error(e, "Mapping empty or whitespace Description to Request");
                 throw;
             }
 
@@ -261,14 +265,14 @@ namespace The_Guild_Back.BLL
             {
                 req.Requirements = request.Requirements;
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException e)
             {
-                //log
+                logger.Error(e, "Mapping null Requirements to Request");
                 throw;
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
-                //log
+                logger.Error(e, "Mapping empty or whitespace Requirements to Request");
                 throw;
             }
             return req;
@@ -323,14 +327,14 @@ namespace The_Guild_Back.BLL
             {
                 use.FirstName = user.FirstName;
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException e)
             {
-                //log
+                logger.Error(e, "Mapping null First Name to User");
                 throw;
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
-                //log
+                logger.Error(e, "Mapping empty or whitespace First Name to User");
                 throw;
             }
 
@@ -338,14 +342,14 @@ namespace The_Guild_Back.BLL
             {
                 use.LastName = user.LastName;
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException e)
             {
-                //log
+                logger.Error(e, "Mapping null Last Name to User");
                 throw;
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
-                //log
+                logger.Error(e, "Mapping empty or whitespace Last Name to User");
                 throw;
             }
 
@@ -353,9 +357,9 @@ namespace The_Guild_Back.BLL
             {
                 use.Strength = user.Strength;
             }
-            catch (ArgumentOutOfRangeException)
+            catch (ArgumentOutOfRangeException e)
             {
-                //log
+                logger.Error(e, "Mapping negative Strength to User");
                 throw;
             }
 
@@ -363,9 +367,9 @@ namespace The_Guild_Back.BLL
             {
                 use.Dex = user.Dex;
             }
-            catch (ArgumentOutOfRangeException)
+            catch (ArgumentOutOfRangeException e)
             {
-                //log
+                logger.Error(e, "Mapping negative Dex to User");
                 throw;
             }
 
@@ -373,9 +377,9 @@ namespace The_Guild_Back.BLL
             {
                 use.Intelligence = user.Intelligence;
             }
-            catch (ArgumentOutOfRangeException)
+            catch (ArgumentOutOfRangeException e)
             {
-                //log
+                logger.Error(e, "Mapping negative Intelligence to User");
                 throw;
             }
 
@@ -383,9 +387,9 @@ namespace The_Guild_Back.BLL
             {
                 use.Wisdom = user.Wisdom;
             }
-            catch (ArgumentOutOfRangeException)
+            catch (ArgumentOutOfRangeException e)
             {
-                //log
+                logger.Error(e, "Mapping negative Wisdom to User");
                 throw;
             }
 
@@ -393,9 +397,9 @@ namespace The_Guild_Back.BLL
             {
                 use.Charisma = user.Charisma;
             }
-            catch (ArgumentOutOfRangeException)
+            catch (ArgumentOutOfRangeException e)
             {
-                //log
+                logger.Error(e, "Mapping negative Charisma to User");
                 throw;
             }
 
@@ -403,9 +407,9 @@ namespace The_Guild_Back.BLL
             {
                 use.Constitution = user.Constitution;
             }
-            catch (ArgumentOutOfRangeException)
+            catch (ArgumentOutOfRangeException e)
             {
-                //log
+                logger.Error(e, "Mapping negative Constitution to User");
                 throw;
             }
 
@@ -413,9 +417,9 @@ namespace The_Guild_Back.BLL
             {
                 use.Salary = user.Salary;
             }
-            catch (ArgumentOutOfRangeException)
+            catch (ArgumentOutOfRangeException e)
             {
-                //log
+                logger.Error(e, "Mapping negative Salary to User");
                 throw;
             }
             return use;
@@ -440,5 +444,30 @@ namespace The_Guild_Back.BLL
             };
             return use;
         }
+
+        public static IEnumerable<AdventureParty> Map(IEnumerable<DAL.AdventurerParty> parties) => parties.Select(x => Map(x));
+        public static IEnumerable<DAL.AdventurerParty> Map(IEnumerable<AdventureParty> parties) => parties.Select(x => Map(x));
+
+        public static IEnumerable<LoginInfo> Map(IEnumerable<DAL.LoginInfo> logins) => logins.Select(x => Map(x));
+        public static IEnumerable<DAL.LoginInfo> Map(IEnumerable<LoginInfo> logins) => logins.Select(x => Map(x));
+
+        public static IEnumerable<Progress> Map(IEnumerable<DAL.Progress> progresses) => progresses.Select(x => Map(x));
+        public static IEnumerable<DAL.Progress> Map(IEnumerable<Progress> progresses) => progresses.Select(x => Map(x));
+
+        public static IEnumerable<RankRequirements> Map(IEnumerable<DAL.RankRequirements> requirements) => requirements.Select(x => Map(x));
+        public static IEnumerable<DAL.RankRequirements> Map(IEnumerable<RankRequirements> requirements) => requirements.Select(x => Map(x));
+
+        public static IEnumerable<Ranks> Map(IEnumerable<DAL.Ranks> ranks) => ranks.Select(x => Map(x));
+        public static IEnumerable<DAL.Ranks> Map(IEnumerable<Ranks> ranks) => ranks.Select(x => Map(x));
+
+        public static IEnumerable<Request> Map(IEnumerable<DAL.Request> requests) => requests.Select(x => Map(x));
+        public static IEnumerable<DAL.Request> Map(IEnumerable<Request> requests) => requests.Select(x => Map(x));
+
+        public static IEnumerable<RequestingParty> Map(IEnumerable<DAL.RequestingParty> requesters) => requesters.Select(x => Map(x));
+        public static IEnumerable<DAL.RequestingParty> Map(IEnumerable<RequestingParty> requesters) => requesters.Select(x => Map(x));
+
+        public static IEnumerable<Users> Map(IEnumerable<DAL.Users> users) => users.Select(x => Map(x));
+        public static IEnumerable<DAL.Users> Map(IEnumerable<Users> users) => users.Select(x => Map(x));
+
     }
 }
