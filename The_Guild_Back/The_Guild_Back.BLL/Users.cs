@@ -7,7 +7,7 @@ namespace The_Guild_Back.BLL
     public class Users
     {
         private string _firstName, _lastName;
-        private int? _strength, _dex, _wisdom, _intelligence, _charisma, _constitution;
+        private int? _strength, _dex, _intelligence, _wisdom, _charisma, _constitution;
         private decimal? _salary;
 
         public int Id { get; set; }
@@ -57,18 +57,6 @@ namespace The_Guild_Back.BLL
             }
         }
 
-        public int? Wisdom
-        {
-            get => _wisdom;
-            set
-            {
-                if (CheckConstraints.NonNegativeInt(value)) //allows setting null, 0, or positive
-                { _wisdom = value; }
-
-                throw new ArgumentOutOfRangeException();
-            }
-        }
-
         public int? Intelligence
         {
             get => _intelligence;
@@ -76,6 +64,18 @@ namespace The_Guild_Back.BLL
             {
                 if (CheckConstraints.NonNegativeInt(value)) //allows setting null, 0, or positive
                 { _intelligence = value; }
+
+                throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public int? Wisdom
+        {
+            get => _wisdom;
+            set
+            {
+                if (CheckConstraints.NonNegativeInt(value)) //allows setting null, 0, or positive
+                { _wisdom = value; }
 
                 throw new ArgumentOutOfRangeException();
             }
