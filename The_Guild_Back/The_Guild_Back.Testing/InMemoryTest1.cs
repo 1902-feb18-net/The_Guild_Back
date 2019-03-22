@@ -227,12 +227,22 @@ namespace The_Guild_Back.Testing
                     //create new Repo
                     var testRepo = new Repository(context);
 
+                    //add dependency
+                    var dep = new BLL.Progress
+                    {
+                        //assign values
+                        Nam = "testProgressName"
+                    };
+
+                    dep.Id = testRepo.AddProgress(dep);
+
                     //add obj with values
                     var obj = new BLL.Request
                     {
                         //add values
                         Descript = "testDescription",
-                        Requirements = "testRequirements"
+                        Requirements = "testRequirements",
+                        ProgressId = dep.Id
                     };
 
                     testRepo.AddRequest(obj);
