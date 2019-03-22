@@ -9,7 +9,7 @@ namespace The_Guild_Back.Testing
         [Fact]
         public void AdventurePartyNameCannotBeSetNull()
         {
-            AdventureParty ap = new AdventureParty();
+            AdventurerParty ap = new AdventurerParty();
 
             Assert.Throws<ArgumentNullException>(() => ap.Nam = null);
         }
@@ -20,7 +20,7 @@ namespace The_Guild_Back.Testing
         [InlineData("\n")]
         public void AdventurePartyNameCannotBeSetEmptyOrWhiteSpace(string arg)
         {
-            AdventureParty ap = new AdventureParty();
+            AdventurerParty ap = new AdventurerParty();
 
             Assert.Throws<ArgumentException>(() => ap.Nam = arg);
         }
