@@ -5,16 +5,17 @@ using The_Guild_Back.DAL;
 
 namespace The_Guild_Back.BLL
 {
-    public class UserRepo : IRepository
+    public class Repository : IRepository
     {
         private readonly project2theGuildContext _db;
 
-        public UserRepo(project2theGuildContext db)
+        public Repository(project2theGuildContext db)
         {
             _db = db;
         }
 
-        public void AddUser(DAL.Users users)
+
+        public void AddUser(Users users)
         {
             _db.Add(Mapper.Map(users));
         }
@@ -23,7 +24,6 @@ namespace The_Guild_Back.BLL
         {
             return Mapper.Map(_db.Users);
         }
-
         
         public void DeleteUser(int Id)
         {
@@ -31,7 +31,7 @@ namespace The_Guild_Back.BLL
         }
 
 
-        public void AddLoginInfo(DAL.LoginInfo loginInfo)
+        public void AddLoginInfo(LoginInfo loginInfo)
         {
             _db.Add(Mapper.Map(loginInfo));
         }
@@ -40,6 +40,25 @@ namespace The_Guild_Back.BLL
         {
             return Mapper.Map(_db.LoginInfo);
         }
+
+
+
+        public void AddRequest(Request obj)
+        {
+            _db.Add(Mapper.Map(obj));
+        }
+
+        public IEnumerable<Request> GetAllRequests()
+        {
+            return Mapper.Map(_db.Request);
+        }
+
+        public void DeleteRequest(int Id)
+        {
+            _db.Remove(_db.Request.Find(Id));
+        }
+
+
 
     }
 }

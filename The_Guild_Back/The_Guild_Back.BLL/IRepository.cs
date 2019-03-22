@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace The_Guild_Back.BLL
 {
     public interface IRepository
     {
-        void AddUser(DAL.Users users);
-
-        void AddLoginInfo(DAL.LoginInfo loginInfo);
+        void AddUser(Users users);
+        void DeleteUser(int Id);
+        void AddLoginInfo(LoginInfo loginInfo);
 
         IEnumerable<Users> GetAllUsers();
         IEnumerable<LoginInfo> GetAllLoginInfo();
 
-
+        void AddRequest(Request obj);
+        IEnumerable<Request> GetAllRequests();
+        void DeleteRequest(int Id);
 
     }
 
-   
+
 
 
 }
