@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\The_Guild_Back.DAL\The_Guild_Back.DAL.csproj" />
+    <ProjectReference Include="..\The_Guild_Back.BLL\The_Guild_Back.BLL.csproj" />
   </ItemGroup>
 
 </Project>

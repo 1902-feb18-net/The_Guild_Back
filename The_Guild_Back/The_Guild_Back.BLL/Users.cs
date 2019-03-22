@@ -7,9 +7,13 @@ namespace The_Guild_Back.BLL
     public class Users
     {
         private string _firstName, _lastName;
+        private int? _strength, _dex, _intelligence, _wisdom, _charisma, _constitution;
+        private decimal? _salary;
 
         public int Id { get; set; }
         public int LoginInfoId { get; set; }
+        public int? RankId { get; set; }
+
         public string FirstName
         {
             get => _firstName;
@@ -28,15 +32,89 @@ namespace The_Guild_Back.BLL
                 _lastName = value;
             }
         }
-        public decimal? Salary { get; set; }
-        public int? Strength { get; set; }
-        public int? Dex { get; set; }
-        public int? Wisdom { get; set; }
-        public int? Intelligence { get; set; }
-        public int? Charisma { get; set; }
-        public int? Constitution { get; set; }
-        public int? RankId { get; set; }
 
-        
+        public int? Strength
+        {
+            get => _strength;
+            set
+            {
+                if (CheckConstraints.NonNegativeInt(value)) //allows setting null, 0, or positive
+                { _strength = value; }
+
+                throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public int? Dex
+        {
+            get => _dex;
+            set
+            {
+                if (CheckConstraints.NonNegativeInt(value)) //allows setting null, 0, or positive
+                { _dex = value; }
+
+                throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public int? Intelligence
+        {
+            get => _intelligence;
+            set
+            {
+                if (CheckConstraints.NonNegativeInt(value)) //allows setting null, 0, or positive
+                { _intelligence = value; }
+
+                throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public int? Wisdom
+        {
+            get => _wisdom;
+            set
+            {
+                if (CheckConstraints.NonNegativeInt(value)) //allows setting null, 0, or positive
+                { _wisdom = value; }
+
+                throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public int? Charisma
+        {
+            get => _charisma;
+            set
+            {
+                if (CheckConstraints.NonNegativeInt(value)) //allows setting null, 0, or positive
+                { _charisma = value; }
+
+                throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public int? Constitution
+        {
+            get => _constitution;
+            set
+            {
+                if (CheckConstraints.NonNegativeInt(value)) //allows setting null, 0, or positive
+                { _constitution = value; }
+
+                throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public decimal? Salary
+        {
+            get => _salary;
+            set
+            {
+                if (CheckConstraints.NonNegativeDecimal(value)) //allows setting null, 0, or positive
+                { _salary = value; }
+
+                throw new ArgumentOutOfRangeException();
+}
+        }
     }
 }
