@@ -3,6 +3,7 @@ using Xunit;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using The_Guild_Back.BLL;
 using The_Guild_Back.DAL;
 
 namespace The_Guild_Back.Testing
@@ -55,6 +56,7 @@ namespace The_Guild_Back.Testing
             }
         }
 
+        [Fact]
         public void Add_LoginInfo_writes_to_database()
         {
             // In-memory database only exists while the connection is open
@@ -64,6 +66,7 @@ namespace The_Guild_Back.Testing
             try
             {
                 var options = new DbContextOptionsBuilder<project2theGuildContext>()
+                    //.UseInMemoryDatabase(databaseName: "Add_writes_to_database")
                     .UseSqlite(connection)
                     .Options;
 
@@ -77,23 +80,26 @@ namespace The_Guild_Back.Testing
                 using (var context = new project2theGuildContext(options))
                 {
                     //create new Repo
-                    //var testRepo = new
+                    var testRepo = new Repository(context);
 
                     //add obj with values
-                    var obj = new LoginInfo();
-                    //give values
-                    obj.Username = "testName";
-                    obj.Pass = "testPass";                  
-
-                    //testRepo.Add(obj);
+                    var obj = new BLL.LoginInfo
+                    {
+                        //give values
+                        Username = "testName",
+                        Pass = "testPass"
+                    };
+                    testRepo.AddLoginInfo(obj);
+                    testRepo.Save();
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
                 using (var context = new project2theGuildContext(options))
                 {
-                    //Assert.Equal(1, context.LoginInfo.Count()); //check size of dbset is now one
-                    //Assert.Equal("testName", context.LoginInfo.Single().Username ); //check values equal given values
-                    //Assert.Equal("testPass", context.LoginInfo.Single().Pass );
+                    Assert.Equal(1, context.LoginInfo.Count()); //check size of dbset is now one
+                    //check values equal given values
+                    Assert.Equal("testName", context.LoginInfo.Single().Username ); 
+                    Assert.Equal("testPass", context.LoginInfo.Single().Pass );
                 }
             }
             finally
@@ -102,6 +108,7 @@ namespace The_Guild_Back.Testing
             }
         }
 
+        [Fact]
         public void Add_Progress_writes_to_database()
         {
             // In-memory database only exists while the connection is open
@@ -124,21 +131,24 @@ namespace The_Guild_Back.Testing
                 using (var context = new project2theGuildContext(options))
                 {
                     //create new Repo
-                    //var testRepo = new
+                    var testRepo = new Repository(context);
 
                     //add obj with values
-                    var obj = new Progress();
-                    //assign values
+                    var obj = new BLL.Progress
+                    {
+                        //assign values
+                        Nam = "testProgressName"
+                    };
 
-
-                    //testRepo.Add(obj);
+                    testRepo.AddProgress(obj);
+                    testRepo.Save();
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
                 using (var context = new project2theGuildContext(options))
                 {
-                    //Assert.Equal(1, context.Progress.Count()); //check size of dbset is now one
-                    //Assert.Equal(" value ", context.Progress.Single(). Value ); //check values equal given values
+                    Assert.Equal(1, context.Progress.Count()); //check size of dbset is now one
+                    Assert.Equal("testProgressName", context.Progress.Single().Nam ); //check values equal given values
                 }
             }
             finally
@@ -172,7 +182,7 @@ namespace The_Guild_Back.Testing
                     //var testRepo = new
 
                     //add obj with values
-                    var obj = new RankRequirements();
+                    var obj = new BLL.RankRequirements();
                     //add values
 
 
@@ -192,6 +202,7 @@ namespace The_Guild_Back.Testing
             }
         }
 
+        [Fact]
         public void Add_Request_writes_to_database()
         {
             // In-memory database only exists while the connection is open
@@ -214,21 +225,27 @@ namespace The_Guild_Back.Testing
                 using (var context = new project2theGuildContext(options))
                 {
                     //create new Repo
-                    //var testRepo = new
+                    var testRepo = new Repository(context);
 
                     //add obj with values
-                    var obj = new Request();
-                    //add values
+                    var obj = new BLL.Request
+                    {
+                        //add values
+                        Descript = "testDescription",
+                        Requirements = "testRequirements"
+                    };
 
-
-                    //testRepo.Add(obj);
+                    testRepo.AddRequest(obj);
+                    testRepo.Save();
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
                 using (var context = new project2theGuildContext(options))
                 {
-                    //Assert.Equal(1, context.Request.Count()); //check size of dbset is now one
-                    //Assert.Equal(" value ", context.Request.Single(). Value ); //check values equal given values
+                    Assert.Equal(1, context.Request.Count()); //check size of dbset is now one
+                    //check values equal given values
+                    Assert.Equal("testDescription", context.Request.Single().Descript );
+                    Assert.Equal("testRequirements", context.Request.Single().Requirements);
                 }
             }
             finally
@@ -262,7 +279,7 @@ namespace The_Guild_Back.Testing
                     //var testRepo = new
 
                     //add obj with values
-                    var obj = new RequestingParty();
+                    var obj = new BLL.RequestingParty();
                     //assign values
 
 
@@ -282,7 +299,7 @@ namespace The_Guild_Back.Testing
             }
         }
 
-
+        [Fact]
         public void Add_User_writes_to_database()
         {
             // In-memory database only exists while the connection is open
@@ -305,33 +322,34 @@ namespace The_Guild_Back.Testing
                 using (var context = new project2theGuildContext(options))
                 {
                     //create new Repo
-                    //var testRepo = new
+                    var testRepo = new Repository(context);
 
                     //create loginfo dependency?
-                    //LoginInfo login = new LoginInfo
-                    //{
-                    //    Username = "testUsername",
-                    //    Pass = "testPass"
-                    //};
-                    //add login
+                    var login = new BLL.LoginInfo
+                    {
+                        Username = "testUsername",
+                        Pass = "testPass"
+                    };
+                    login.Id = testRepo.AddLoginInfo(login);
 
                     //add obj with values
-                    var obj = new Users
+                    var obj = new BLL.Users
                     {
                         FirstName = "testFirst",
                         LastName = "testLast",
-                        //LoginInfoId = 
+                        LoginInfoId = login.Id
                     };
-
-
-                    //testRepo.Add(obj);
+                    testRepo.AddUser(obj);
+                    testRepo.Save();
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
                 using (var context = new project2theGuildContext(options))
                 {
-                    //Assert.Equal(1, context.Users.Count()); //check size of dbset is now one
-                    //Assert.Equal(" value ", context.Users.Single(). Value ); //check values equal given values
+                    Assert.Equal(1, context.Users.Count()); //check size of dbset is now one
+                    //check values equal given values
+                    Assert.Equal("testFirst", context.Users.Single().FirstName ); 
+                    Assert.Equal("testLast", context.Users.Single().LastName);
                 }
             }
             finally

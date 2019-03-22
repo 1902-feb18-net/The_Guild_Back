@@ -20,8 +20,8 @@ namespace The_Guild_Back.BLL
         public int AddUser(Users users)
         {
             var mapped = Mapper.Map(users);
-            _db.Add(Mapper.Map(users));
-
+            _db.Add(mapped);
+            return mapped.Id;
         }
 
         public IEnumerable<Users> GetAllUsers()
@@ -37,7 +37,9 @@ namespace The_Guild_Back.BLL
 
         public int AddLoginInfo(LoginInfo loginInfo)
         {
-            _db.Add(Mapper.Map(loginInfo));
+            var mapped = Mapper.Map(loginInfo);
+             _db.Add(mapped);
+            return mapped.Id;
         }
 
         public IEnumerable<LoginInfo> GetAllLoginInfo()
@@ -49,7 +51,9 @@ namespace The_Guild_Back.BLL
 
         public int AddRequest(Request obj)
         {
-            _db.Add(Mapper.Map(obj));
+            var mapped = Mapper.Map(obj);
+            _db.Add(mapped);
+            return mapped.Id;
         }
 
         public IEnumerable<Request> GetAllRequests()
@@ -72,7 +76,18 @@ namespace The_Guild_Back.BLL
             _db.Entry(_db.Request.Find(request.Id)).CurrentValues.SetValues(Mapper.Map(request));
         }
 
+        public void Save()
+        {
+            _db.SaveChanges();
+        }
 
+
+        public int AddProgress(Progress obj)
+        {
+            var mapped = Mapper.Map(obj);
+            _db.Add(mapped);
+            return mapped.Id;
+        }
 
 
 

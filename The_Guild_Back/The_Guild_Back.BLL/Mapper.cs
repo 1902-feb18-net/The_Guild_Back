@@ -320,7 +320,7 @@ namespace The_Guild_Back.BLL
             Users use = new Users
             {
                 Id = user.Id,
-                LoginInfoId = user.Id,
+                LoginInfoId = user.LoginInfoId,
                 RankId = user.RankId,              
             };
             try
@@ -430,7 +430,7 @@ namespace The_Guild_Back.BLL
             DAL.Users use = new DAL.Users
             {
                 Id = user.Id,
-                LoginInfoId = user.Id,
+                LoginInfoId = user.LoginInfoId,
                 RankId = user.RankId,
                 FirstName = user.FirstName,
                 LastName = user.LastName,

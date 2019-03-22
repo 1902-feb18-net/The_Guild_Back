@@ -6,7 +6,7 @@ namespace The_Guild_Back.BLL
     {
         int AddUser(Users users);
         void DeleteUser(int Id);
-        void AddLoginInfo(LoginInfo loginInfo);
+        int AddLoginInfo(LoginInfo loginInfo);
 
         IEnumerable<Users> GetAllUsers();
         IEnumerable<LoginInfo> GetAllLoginInfo();
