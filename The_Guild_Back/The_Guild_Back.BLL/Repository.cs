@@ -17,8 +17,9 @@ namespace The_Guild_Back.BLL
         }
 
 
-        public void AddUser(Users users)
+        public int AddUser(Users users)
         {
+            var mapped = Mapper.Map(users);
             _db.Add(Mapper.Map(users));
 
         }
@@ -34,7 +35,7 @@ namespace The_Guild_Back.BLL
         }
 
 
-        public void AddLoginInfo(LoginInfo loginInfo)
+        public int AddLoginInfo(LoginInfo loginInfo)
         {
             _db.Add(Mapper.Map(loginInfo));
         }
@@ -46,7 +47,7 @@ namespace The_Guild_Back.BLL
 
 
 
-        public void AddRequest(Request obj)
+        public int AddRequest(Request obj)
         {
             _db.Add(Mapper.Map(obj));
         }
@@ -75,7 +76,7 @@ namespace The_Guild_Back.BLL
 
 
 
-        public void AddProgress(Progress progress)
+        public int AddProgress(Progress progress)
         {
             _db.Add(Mapper.Map(progress));
         }
@@ -96,7 +97,7 @@ namespace The_Guild_Back.BLL
 
 
 
-        public void AddAdventurerParty(AdventurerParty adventurerParty)
+        public int AddAdventurerParty(AdventurerParty adventurerParty)
         {
             _db.Add(Mapper.Map(adventurerParty));
         }
