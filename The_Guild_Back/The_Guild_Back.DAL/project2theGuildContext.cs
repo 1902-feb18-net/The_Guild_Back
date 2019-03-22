@@ -16,14 +16,21 @@ namespace The_Guild_Back.DAL
         }
 
         public virtual DbSet<AdventurerParty> AdventurerParty { get; set; }
-        public virtual DbSet<LoginInfo> LoginInfo { get; set; }
         public virtual DbSet<Progress> Progress { get; set; }
         public virtual DbSet<RankRequirements> RankRequirements { get; set; }
         public virtual DbSet<Ranks> Ranks { get; set; }
         public virtual DbSet<Request> Request { get; set; }
-        public virtual DbSet<RequestingParty> RequestingParty { get; set; }
+        public virtual DbSet<RequestingGroup> RequestingGroup { get; set; }
         public virtual DbSet<Users> Users { get; set; }
-        
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("Server=tcp:matthew1995sql.database.windows.net,1433;Initial Catalog=project2theGuild;Persist Security Info=False;User ID=matthew;Password=Llm0507?four;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,7 +39,7 @@ namespace The_Guild_Back.DAL
             modelBuilder.Entity<AdventurerParty>(entity =>
             {
                 entity.HasIndex(e => e.Nam)
-                    .HasName("UQ__Adventur__DF906FE5A449B5C9")
+                    .HasName("UQ__Adventur__DF906FE5CBD4AC4F")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -49,31 +56,14 @@ namespace The_Guild_Back.DAL
                 entity.HasOne(d => d.Adventurer)
                     .WithMany(p => p.AdventurerParty)
                     .HasForeignKey(d => d.AdventurerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_adventurerparty_adventurer");
 
                 entity.HasOne(d => d.Request)
                     .WithMany(p => p.AdventurerParty)
                     .HasForeignKey(d => d.RequestId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_adventurerparty_request");
-            });
-
-            modelBuilder.Entity<LoginInfo>(entity =>
-            {
-                entity.HasIndex(e => e.Username)
-                    .HasName("UQ__LoginInf__F3DBC572C21090AE")
-                    .IsUnique();
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Pass)
-                    .IsRequired()
-                    .HasColumnName("pass")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Username)
-                    .IsRequired()
-                    .HasColumnName("username")
-                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<Progress>(entity =>
@@ -114,7 +104,7 @@ namespace The_Guild_Back.DAL
             modelBuilder.Entity<Ranks>(entity =>
             {
                 entity.HasIndex(e => e.Nam)
-                    .HasName("UQ__Ranks__DF906FE5F73B9A46")
+                    .HasName("UQ__Ranks__DF906FE5D40052F4")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -158,6 +148,7 @@ namespace The_Guild_Back.DAL
                 entity.HasOne(d => d.Progress)
                     .WithMany(p => p.Request)
                     .HasForeignKey(d => d.ProgressId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_request_progress");
 
                 entity.HasOne(d => d.Rank)
@@ -166,7 +157,7 @@ namespace The_Guild_Back.DAL
                     .HasConstraintName("FK_request_rank");
             });
 
-            modelBuilder.Entity<RequestingParty>(entity =>
+            modelBuilder.Entity<RequestingGroup>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -175,14 +166,16 @@ namespace The_Guild_Back.DAL
                 entity.Property(e => e.RequestId).HasColumnName("requestID");
 
                 entity.HasOne(d => d.Customer)
-                    .WithMany(p => p.RequestingParty)
+                    .WithMany(p => p.RequestingGroup)
                     .HasForeignKey(d => d.CustomerId)
-                    .HasConstraintName("FK_requestingparty_customer");
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_requestinggroup_customer");
 
                 entity.HasOne(d => d.Request)
-                    .WithMany(p => p.RequestingParty)
+                    .WithMany(p => p.RequestingGroup)
                     .HasForeignKey(d => d.RequestId)
-                    .HasConstraintName("FK_requestingparty_request");
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_requestinggroup_request");
             });
 
             modelBuilder.Entity<Users>(entity =>
@@ -207,8 +200,6 @@ namespace The_Guild_Back.DAL
                     .HasColumnName("lastName")
                     .HasMaxLength(50);
 
-                entity.Property(e => e.LoginInfoId).HasColumnName("loginInfoID");
-
                 entity.Property(e => e.RankId).HasColumnName("rankID");
 
                 entity.Property(e => e.Salary)
@@ -218,12 +209,6 @@ namespace The_Guild_Back.DAL
                 entity.Property(e => e.Strength).HasColumnName("strength");
 
                 entity.Property(e => e.Wisdom).HasColumnName("wisdom");
-
-                entity.HasOne(d => d.LoginInfo)
-                    .WithMany(p => p.Users)
-                    .HasForeignKey(d => d.LoginInfoId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_user_login");
 
                 entity.HasOne(d => d.Rank)
                     .WithMany(p => p.Users)

@@ -7,7 +7,7 @@ namespace The_Guild_Back.Testing
     public class UnitTest1
     {
         [Fact]
-        public void AdventurePartyNameCannotBeSetNull()
+        public void AdventurerPartyNameCannotBeSetNull()
         {
             AdventurerParty ap = new AdventurerParty();
 
@@ -18,50 +18,13 @@ namespace The_Guild_Back.Testing
         [InlineData("")]
         [InlineData(" ")]
         [InlineData("\n")]
-        public void AdventurePartyNameCannotBeSetEmptyOrWhiteSpace(string arg)
+        public void AdventurerPartyNameCannotBeSetEmptyOrWhiteSpace(string arg)
         {
             AdventurerParty ap = new AdventurerParty();
 
             Assert.Throws<ArgumentException>(() => ap.Nam = arg);
         }
 
-        [Fact]
-        public void LoginInfoUsernameCannotBeSetNull()
-        {
-            LoginInfo info = new LoginInfo();
-
-            Assert.Throws<ArgumentNullException>(() => info.Username = null);
-        }
-
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData("\n")]
-        public void LoginInfoUsernameCannotBeSetEmptyOrWhiteSpace(string arg)
-        {
-            LoginInfo info = new LoginInfo();
-
-            Assert.Throws<ArgumentException>(() => info.Username = arg);
-        }
-
-        [Fact]
-        public void LoginInfoPasswordCannotBeSetNull()
-        {
-            LoginInfo info = new LoginInfo();
-
-            Assert.Throws<ArgumentNullException>(() => info.Username = null);
-        }
-
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData("\n")]
-        public void LoginInfoPasswordCannotBeSetEmptyOrWhiteSpace(string arg)
-        {
-            LoginInfo info = new LoginInfo();
-
-            Assert.Throws<ArgumentException>(() => info.Pass = arg);
-        }
 
         [Fact]
         public void ProgressNameCannotBeSetNull()

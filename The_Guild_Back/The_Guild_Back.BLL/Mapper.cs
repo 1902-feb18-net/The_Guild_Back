@@ -48,54 +48,7 @@ namespace The_Guild_Back.BLL
             return adventurerParty;
         }
 
-        public static LoginInfo Map(DAL.LoginInfo info)
-        {
-            LoginInfo login = new LoginInfo
-            {
-                Id = info.Id,
-            };
-            try
-            {
-                login.Username = info.Username;
-            }
-            catch (ArgumentNullException e)
-            {
-                logger.Error(e, "Mapping null username to LoginInfo");
-                throw;
-            }
-            catch (ArgumentException e)
-            {
-                logger.Error(e, "Mapping empty or whitespace username to LoginInfo");
-                throw;
-            }
-
-            try
-            {
-                login.Pass = info.Pass;
-            }
-            catch (ArgumentNullException e)
-            {
-                logger.Error(e, "Mapping null password to LoginInfo");
-                throw;
-            }
-            catch (ArgumentException e)
-            {
-                logger.Error(e, "Mapping empty or whitespace password to LoginInfo");
-                throw;
-            }
-            return login;
-        }
-
-        public static DAL.LoginInfo Map(LoginInfo info)
-        {
-            DAL.LoginInfo login = new DAL.LoginInfo
-            {
-                Id = info.Id,
-                Username = info.Username,
-                Pass = info.Pass
-            };
-            return login;
-        }
+      
 
 
         public static Progress Map(DAL.Progress progress)
@@ -293,9 +246,9 @@ namespace The_Guild_Back.BLL
             return req;
         }
 
-        public static RequestingParty Map(DAL.RequestingParty requesters)
+        public static RequestingGroup Map(DAL.RequestingGroup requesters)
         {
-            RequestingParty party = new RequestingParty
+            RequestingGroup party = new RequestingGroup
             {
                 Id = requesters.Id,
                 CustomerId = requesters.CustomerId,
@@ -304,9 +257,9 @@ namespace The_Guild_Back.BLL
             return party;
         }
 
-        public static DAL.RequestingParty Map(RequestingParty requesters)
+        public static DAL.RequestingGroup Map(RequestingGroup requesters)
         {
-            DAL.RequestingParty party = new DAL.RequestingParty
+            DAL.RequestingGroup party = new DAL.RequestingGroup
             {
                 Id = requesters.Id,
                 CustomerId = requesters.CustomerId,
@@ -320,8 +273,7 @@ namespace The_Guild_Back.BLL
             Users use = new Users
             {
                 Id = user.Id,
-                LoginInfoId = user.LoginInfoId,
-                RankId = user.RankId,              
+                RankId = user.RankId              
             };
             try
             {
@@ -430,7 +382,6 @@ namespace The_Guild_Back.BLL
             DAL.Users use = new DAL.Users
             {
                 Id = user.Id,
-                LoginInfoId = user.LoginInfoId,
                 RankId = user.RankId,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -448,9 +399,6 @@ namespace The_Guild_Back.BLL
         public static IEnumerable<AdventurerParty> Map(IEnumerable<DAL.AdventurerParty> parties) => parties.Select(x => Map(x));
         public static IEnumerable<DAL.AdventurerParty> Map(IEnumerable<AdventurerParty> parties) => parties.Select(x => Map(x));
 
-        public static IEnumerable<LoginInfo> Map(IEnumerable<DAL.LoginInfo> logins) => logins.Select(x => Map(x));
-        public static IEnumerable<DAL.LoginInfo> Map(IEnumerable<LoginInfo> logins) => logins.Select(x => Map(x));
-
         public static IEnumerable<Progress> Map(IEnumerable<DAL.Progress> progresses) => progresses.Select(x => Map(x));
         public static IEnumerable<DAL.Progress> Map(IEnumerable<Progress> progresses) => progresses.Select(x => Map(x));
 
@@ -463,8 +411,8 @@ namespace The_Guild_Back.BLL
         public static IEnumerable<Request> Map(IEnumerable<DAL.Request> requests) => requests.Select(x => Map(x));
         public static IEnumerable<DAL.Request> Map(IEnumerable<Request> requests) => requests.Select(x => Map(x));
 
-        public static IEnumerable<RequestingParty> Map(IEnumerable<DAL.RequestingParty> requesters) => requesters.Select(x => Map(x));
-        public static IEnumerable<DAL.RequestingParty> Map(IEnumerable<RequestingParty> requesters) => requesters.Select(x => Map(x));
+        public static IEnumerable<RequestingGroup> Map(IEnumerable<DAL.RequestingGroup> requesters) => requesters.Select(x => Map(x));
+        public static IEnumerable<DAL.RequestingGroup> Map(IEnumerable<RequestingGroup> requesters) => requesters.Select(x => Map(x));
 
         public static IEnumerable<Users> Map(IEnumerable<DAL.Users> users) => users.Select(x => Map(x));
         public static IEnumerable<DAL.Users> Map(IEnumerable<Users> users) => users.Select(x => Map(x));

@@ -36,7 +36,7 @@ namespace The_Guild_Back.Testing
                     //var testRepo = new 
 
                     //add obj with values
-                    var obj = new AdventurerParty();
+                    var obj = new BLL.AdventurerParty();
                     //assign values
 
 
@@ -56,57 +56,7 @@ namespace The_Guild_Back.Testing
             }
         }
 
-        [Fact]
-        public void Add_LoginInfo_writes_to_database()
-        {
-            // In-memory database only exists while the connection is open
-            var connection = new SqliteConnection("DataSource=:memory:");
-            connection.Open();
-
-            try
-            {
-                var options = new DbContextOptionsBuilder<project2theGuildContext>()
-                    //.UseInMemoryDatabase(databaseName: "Add_writes_to_database")
-                    .UseSqlite(connection)
-                    .Options;
-
-                // Create the schema in the database
-                using (var context = new project2theGuildContext(options))
-                {
-                    context.Database.EnsureCreated();
-                }
-
-                // Run the test against one instance of the context
-                using (var context = new project2theGuildContext(options))
-                {
-                    //create new Repo
-                    var testRepo = new Repository(context);
-
-                    //add obj with values
-                    var obj = new BLL.LoginInfo
-                    {
-                        //give values
-                        Username = "testName",
-                        Pass = "testPass"
-                    };
-                    testRepo.AddLoginInfo(obj);
-                    testRepo.Save();
-                }
-
-                // Use a separate instance of the context to verify correct data was saved to database
-                using (var context = new project2theGuildContext(options))
-                {
-                    Assert.Equal(1, context.LoginInfo.Count()); //check size of dbset is now one
-                    //check values equal given values
-                    Assert.Equal("testName", context.LoginInfo.Single().Username ); 
-                    Assert.Equal("testPass", context.LoginInfo.Single().Pass );
-                }
-            }
-            finally
-            {
-                connection.Close();
-            }
-        }
+        
 
         [Fact]
         public void Add_Progress_writes_to_database()
@@ -264,7 +214,7 @@ namespace The_Guild_Back.Testing
             }
         }
 
-        public void Add_RequestingParty_writes_to_database()
+        public void Add_RequestingGroup_writes_to_database()
         {
             // In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -289,7 +239,7 @@ namespace The_Guild_Back.Testing
                     //var testRepo = new
 
                     //add obj with values
-                    var obj = new BLL.RequestingParty();
+                    var obj = new BLL.RequestingGroup();
                     //assign values
 
 
@@ -334,20 +284,11 @@ namespace The_Guild_Back.Testing
                     //create new Repo
                     var testRepo = new Repository(context);
 
-                    //create loginfo dependency?
-                    var login = new BLL.LoginInfo
-                    {
-                        Username = "testUsername",
-                        Pass = "testPass"
-                    };
-                    login.Id = testRepo.AddLoginInfo(login);
-
                     //add obj with values
                     var obj = new BLL.Users
                     {
                         FirstName = "testFirst",
-                        LastName = "testLast",
-                        LoginInfoId = login.Id
+                        LastName = "testLast"
                     };
                     testRepo.AddUser(obj);
                     testRepo.Save();

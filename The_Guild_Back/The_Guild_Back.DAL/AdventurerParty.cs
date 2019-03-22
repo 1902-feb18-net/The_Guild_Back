@@ -7,8 +7,8 @@ namespace The_Guild_Back.DAL
     {
         public int Id { get; set; }
         public string Nam { get; set; }
-        public int? AdventurerId { get; set; }
-        public int? RequestId { get; set; }
+        public int AdventurerId { get; set; }
+        public int RequestId { get; set; }
 
         public virtual Users Adventurer { get; set; }
         public virtual Request Request { get; set; }

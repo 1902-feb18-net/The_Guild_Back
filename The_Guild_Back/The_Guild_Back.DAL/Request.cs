@@ -8,7 +8,7 @@ namespace The_Guild_Back.DAL
         public Request()
         {
             AdventurerParty = new HashSet<AdventurerParty>();
-            RequestingParty = new HashSet<RequestingParty>();
+            RequestingGroup = new HashSet<RequestingGroup>();
         }
 
         public int Id { get; set; }
@@ -17,11 +17,11 @@ namespace The_Guild_Back.DAL
         public string Requirements { get; set; }
         public decimal? Reward { get; set; }
         public decimal? Cost { get; set; }
-        public int? ProgressId { get; set; }
+        public int ProgressId { get; set; }
 
         public virtual Progress Progress { get; set; }
         public virtual Ranks Rank { get; set; }
         public virtual ICollection<AdventurerParty> AdventurerParty { get; set; }
-        public virtual ICollection<RequestingParty> RequestingParty { get; set; }
+        public virtual ICollection<RequestingGroup> RequestingGroup { get; set; }
     }
 }

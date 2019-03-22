@@ -11,7 +11,7 @@ namespace The_Guild_Back.BLL
         
         public int Id { get; set; }
         public int? RankId { get; set; }
-        public int? ProgressId { get; set; }
+        public int ProgressId { get; set; }
 
         public decimal? Cost
         {

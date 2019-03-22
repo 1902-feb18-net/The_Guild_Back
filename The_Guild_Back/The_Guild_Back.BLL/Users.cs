@@ -1,7 +1,4 @@
-﻿
-
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Ardalis.GuardClauses;
 
@@ -14,7 +11,6 @@ namespace The_Guild_Back.BLL
         private decimal? _salary;
 
         public int Id { get; set; }
-        public int LoginInfoId { get; set; }
         public int? RankId { get; set; }
 
         public string FirstName

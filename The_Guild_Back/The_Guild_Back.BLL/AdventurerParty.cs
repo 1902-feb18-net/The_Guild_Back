@@ -9,8 +9,8 @@ namespace The_Guild_Back.BLL
     {
         private string _name;
         public int Id { get; set; }
-        public int? AdventurerId { get; set; }
-        public int? RequestId { get; set; }
+        public int AdventurerId { get; set; }
+        public int RequestId { get; set; }
 
         public string Nam {
             get => _name;

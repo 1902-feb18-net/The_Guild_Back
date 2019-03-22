@@ -35,17 +35,6 @@ namespace The_Guild_Back.BLL
         }
 
 
-        public int AddLoginInfo(LoginInfo loginInfo)
-        {
-            var mapped = Mapper.Map(loginInfo);
-             _db.Add(mapped);
-            return mapped.Id;
-        }
-
-        public IEnumerable<LoginInfo> GetAllLoginInfo()
-        {
-            return Mapper.Map(_db.LoginInfo);
-        }
 
 
 
