@@ -10,9 +10,9 @@ namespace The_Guild_Back.BLL
     {
         static ILogger logger = LogManager.GetCurrentClassLogger();
 
-        public static AdventureParty Map(DAL.AdventurerParty party)
+        public static AdventurerParty Map(DAL.AdventurerParty party)
         {
-            AdventureParty adventureParty = new AdventureParty
+            AdventurerParty adventureParty = new AdventurerParty
             {
                 Id = party.Id,
                 AdventurerId = party.AdventurerId,
@@ -35,7 +35,7 @@ namespace The_Guild_Back.BLL
             return adventureParty;
         }
 
-        public static DAL.AdventurerParty Map(AdventureParty party)
+        public static DAL.AdventurerParty Map(AdventurerParty party)
         {
             DAL.AdventurerParty adventurerParty = new DAL.AdventurerParty
             {
@@ -320,7 +320,7 @@ namespace The_Guild_Back.BLL
             Users use = new Users
             {
                 Id = user.Id,
-                LoginInfoId = user.Id,
+                LoginInfoId = user.LoginInfoId,
                 RankId = user.RankId,              
             };
             try
@@ -430,7 +430,7 @@ namespace The_Guild_Back.BLL
             DAL.Users use = new DAL.Users
             {
                 Id = user.Id,
-                LoginInfoId = user.Id,
+                LoginInfoId = user.LoginInfoId,
                 RankId = user.RankId,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -445,8 +445,8 @@ namespace The_Guild_Back.BLL
             return use;
         }
 
-        public static IEnumerable<AdventureParty> Map(IEnumerable<DAL.AdventurerParty> parties) => parties.Select(x => Map(x));
-        public static IEnumerable<DAL.AdventurerParty> Map(IEnumerable<AdventureParty> parties) => parties.Select(x => Map(x));
+        public static IEnumerable<AdventurerParty> Map(IEnumerable<DAL.AdventurerParty> parties) => parties.Select(x => Map(x));
+        public static IEnumerable<DAL.AdventurerParty> Map(IEnumerable<AdventurerParty> parties) => parties.Select(x => Map(x));
 
         public static IEnumerable<LoginInfo> Map(IEnumerable<DAL.LoginInfo> logins) => logins.Select(x => Map(x));
         public static IEnumerable<DAL.LoginInfo> Map(IEnumerable<LoginInfo> logins) => logins.Select(x => Map(x));

@@ -5,7 +5,7 @@ using Ardalis.GuardClauses;
 
 namespace The_Guild_Back.BLL
 {
-    public class AdventureParty
+    public class AdventurerParty
     {
         private string _name;
         public int Id { get; set; }
