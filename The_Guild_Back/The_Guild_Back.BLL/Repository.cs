@@ -76,10 +76,6 @@ namespace The_Guild_Back.BLL
             _db.Entry(_db.Request.Find(request.Id)).CurrentValues.SetValues(Mapper.Map(request));
         }
 
-        public void Save()
-        {
-            _db.SaveChanges();
-        }
 
 
         public int AddProgress(Progress obj)
@@ -89,12 +85,6 @@ namespace The_Guild_Back.BLL
             return mapped.Id;
         }
 
-
-
-        public int AddProgress(Progress progress)
-        {
-            _db.Add(Mapper.Map(progress));
-        }
         public IEnumerable<Progress> GetAllProgress()
         {
             return Mapper.Map(_db.Progress);
@@ -114,7 +104,9 @@ namespace The_Guild_Back.BLL
 
         public int AddAdventurerParty(AdventurerParty adventurerParty)
         {
-            _db.Add(Mapper.Map(adventurerParty));
+            var mapped = Mapper.Map(adventurerParty);
+            _db.Add(mapped);
+            return mapped.Id;
         }
         public IEnumerable<AdventurerParty> GetAllAdventurerParties()
         {
