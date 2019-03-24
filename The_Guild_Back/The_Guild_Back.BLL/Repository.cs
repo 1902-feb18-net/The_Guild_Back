@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using The_Guild_Back.DAL;
 
 namespace The_Guild_Back.BLL
@@ -120,10 +121,35 @@ namespace The_Guild_Back.BLL
             _db.Entry(_db.Request.Find(adventurerParty.Id)).CurrentValues.SetValues(Mapper.Map(adventurerParty));
         }
 
+        public int AddRequestingGroup(RequestingGroup requestingGroup)
+        {
+            var mapped = Mapper.Map(requestingGroup);
+            _db.Add(mapped);
+            return mapped.Id;
+        }
+
+        public int AddRank(Ranks rank)
+        {
+            var mapped = Mapper.Map(rank);
+            _db.Add(mapped);
+            return mapped.Id;
+        }
+
+        public int AddRankRequirements(RankRequirements rankReq)
+        {
+            var mapped = Mapper.Map(rankReq);
+            _db.Add(mapped);
+            return mapped.Id;
+        }
 
         public void Save()
         {
             _db.SaveChanges();
+        }
+
+        public async Task SaveAsync()
+        {
+            await _db.SaveChangesAsync();
         }
     }
 }
