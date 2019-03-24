@@ -43,8 +43,10 @@ namespace The_Guild_Back.API.Controllers
         public ActionResult<Users> GetById(int id)
         {
             //repo.get call for specific user id
-            //var user =  _repo.GetUserById(id);
-            //return user;
+            if (_repo.GetUserById(id) is Users user)
+            {
+                return user;
+            }
 
             //if user not found,
             return NotFound();
@@ -81,14 +83,14 @@ namespace The_Guild_Back.API.Controllers
             //if problem, return 400
 
             //need repo methods implemented
-            //if (_repo.GetUserById(id) is Users user) //if found
-            //{
-            //    //update with given user info
-            //    Users user = _mapp.Map(apiUser);
-            //    _repo.UpdateUser(user);
-            //    _repo.Save();
-            //    return NoContent(); // 204
-            //}
+            if (_repo.GetUserById(id) is Users user) //if found
+            {
+                //update with given user info
+                Users upUser = _mapp.Map(apiUser);
+                _repo.UpdateUser(upUser);
+                _repo.Save();
+                return NoContent(); // 204
+            }
 
             //if not found, 
             return NotFound(); //404
@@ -101,15 +103,15 @@ namespace The_Guild_Back.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Delete(int id)
         {
-            //if (_repo.GetUserById(id) is Users user) //if found
-            //{
-            //     //delete user
-            //     _repo.DeleteUser(user.Id);
-            //    _repo.Save();
-            //    return NoContent(); // 204
-            //}
+            if (_repo.GetUserById(id) is Users user) //if found
+            {
+                //delete user
+                _repo.DeleteUser(user.Id);
+                _repo.Save();
+                return NoContent(); // 204
+            }
 
-            ////if not found,
+            //if not found,
             return NotFound(); //404
         }
     }
