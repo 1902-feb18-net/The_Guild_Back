@@ -28,10 +28,18 @@ namespace The_Guild_Back.BLL
         {
             return Mapper.Map(_db.Users);
         }
-        
+
+        public Users GetUserById(int id)
+        {
+            return Mapper.Map(_db.Users.AsNoTracking().First(r => r.Id == id));
+        }
         public void DeleteUser(int Id)
         {
             _db.Remove(_db.Users.Find(Id));
+        }
+        public void UpdateUser(Users user)
+        {
+            _db.Entry(_db.Users.Find(user.Id)).CurrentValues.SetValues(Mapper.Map(user));
         }
 
 
