@@ -15,6 +15,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
+using The_Guild_Back.API.Models;
+using The_Guild_Back.BLL;
 using The_Guild_Back.DAL;
 
 namespace The_Guild_Back.API
@@ -31,6 +33,13 @@ namespace The_Guild_Back.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IRepository, Repository>();
+
+            services.AddSingleton<IAPIMapper, APIMapper>();
+
+            services.AddDbContext<project2theGuildContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("project2theGuild")));
+
             services.AddDbContext<AuthDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("AuthDb")));
 
