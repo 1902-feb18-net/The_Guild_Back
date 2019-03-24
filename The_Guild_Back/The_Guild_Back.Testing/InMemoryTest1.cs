@@ -10,7 +10,7 @@ namespace The_Guild_Back.Testing
 {
     public class InMemoryTest1
     {
-        
+        [Fact]
         public void Add_AdventurerParty_writes_to_database()
         {
             // In-memory database only exists while the connection is open
@@ -33,21 +33,47 @@ namespace The_Guild_Back.Testing
                 using (var context = new project2theGuildContext(options))
                 {
                     //create new Repo
-                    //var testRepo = new 
+                    var testRepo = new Repository(context);
+
+                    //dependencies
+                    var adventurer  = new BLL.Users
+                    {
+                        FirstName = "testFirst",
+                        LastName = "testLast"
+                    };
+                    adventurer.Id = testRepo.AddUser(adventurer);
+
+                    var dep = new BLL.Progress
+                    {
+                        Nam = "testProgressName"
+                    };
+                    dep.Id = testRepo.AddProgress(dep);
+                    var request = new BLL.Request
+                    {
+                        Descript = "testDescription",
+                        Requirements = "testRequirements",
+                        ProgressId = dep.Id
+                    };
+                    request.Id = testRepo.AddRequest(request);
 
                     //add obj with values
-                    var obj = new BLL.AdventurerParty();
-                    //assign values
+                    var obj = new BLL.AdventurerParty
+                    {
+                        //assign values
+                        Nam = "testName",
+                        RequestId = request.Id,
+                        AdventurerId = adventurer.Id
+                    };
 
-
-                    //testRepo.Add(obj);
+                    testRepo.AddAdventurerParty(obj);
+                    testRepo.Save();
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
                 using (var context = new project2theGuildContext(options))
                 {
-                    //Assert.Equal(1, context.AdventurerParty.Count()); //check size of in memory dbset is now one
-                    //Assert.Equal(" value ", context.AdventurerParty.Single(). Value ); //check values equal given values
+                    Assert.Equal(1, context.AdventurerParty.Count()); //check size of in memory dbset is now one
+                    Assert.Equal("testName", context.AdventurerParty.Single().Nam ); //check values equal given values
                 }
             }
             finally
@@ -107,6 +133,56 @@ namespace The_Guild_Back.Testing
             }
         }
 
+        //[Fact]
+        public void Add_Rank_writes_to_database()
+        {
+            // In-memory database only exists while the connection is open
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+
+            try
+            {
+                var options = new DbContextOptionsBuilder<project2theGuildContext>()
+                    .UseSqlite(connection)
+                    .Options;
+
+                // Create the schema in the database
+                using (var context = new project2theGuildContext(options))
+                {
+                    context.Database.EnsureCreated();
+                }
+
+                // Run the test against one instance of the context
+                using (var context = new project2theGuildContext(options))
+                {
+                    //create new Repo
+                    var testRepo = new Repository(context);
+
+                    //add dependencies
+
+                    //add obj with values
+                    var obj = new BLL.Ranks();
+                    //add values
+
+
+
+                    //testRepo.AddRanks(obj);
+                    //testRepo.Save();
+                }
+
+                // Use a separate instance of the context to verify correct data was saved to database
+                using (var context = new project2theGuildContext(options))
+                {
+                    //Assert.Equal(1, context.RankRequirements.Count()); //check size of dbset is now one
+                    //Assert.Equal(" value ", context.RankRequirements.Single(). Value ); //check values equal given values
+                }
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
         public void Add_RankRequirements_writes_to_database()
         {
             // In-memory database only exists while the connection is open
@@ -129,14 +205,18 @@ namespace The_Guild_Back.Testing
                 using (var context = new project2theGuildContext(options))
                 {
                     //create new Repo
-                    //var testRepo = new
+                    var testRepo = new Repository(context);
+
+                    //add dependencies
 
                     //add obj with values
                     var obj = new BLL.RankRequirements();
                     //add values
 
 
-                    //testRepo.Add(obj);
+
+                    //testRepo.AddRankRequirements(obj);
+                    //testRepo.Save();
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
@@ -214,50 +294,74 @@ namespace The_Guild_Back.Testing
             }
         }
 
-        public void Add_RequestingGroup_writes_to_database()
-        {
-            // In-memory database only exists while the connection is open
-            var connection = new SqliteConnection("DataSource=:memory:");
-            connection.Open();
+        //[Fact]
+        //public void Add_RequestingGroup_writes_to_database()
+        //{
+        //    // In-memory database only exists while the connection is open
+        //    var connection = new SqliteConnection("DataSource=:memory:");
+        //    connection.Open();
 
-            try
-            {
-                var options = new DbContextOptionsBuilder<project2theGuildContext>()
-                    .UseSqlite(connection)
-                    .Options;
+        //    try
+        //    {
+        //        var options = new DbContextOptionsBuilder<project2theGuildContext>()
+        //            .UseSqlite(connection)
+        //            .Options;
 
-                // Create the schema in the database
-                using (var context = new project2theGuildContext(options))
-                {
-                    context.Database.EnsureCreated();
-                }
+        //        // Create the schema in the database
+        //        using (var context = new project2theGuildContext(options))
+        //        {
+        //            context.Database.EnsureCreated();
+        //        }
 
-                // Run the test against one instance of the context
-                using (var context = new project2theGuildContext(options))
-                {
-                    //create new Repo
-                    //var testRepo = new
+        //        // Run the test against one instance of the context
+        //        using (var context = new project2theGuildContext(options))
+        //        {
+        //            //create new Repo
+        //            var testRepo = new Repository(context);
 
-                    //add obj with values
-                    var obj = new BLL.RequestingGroup();
-                    //assign values
+        //            //dependencies
+        //            var customer = new BLL.Users
+        //            {
+        //                FirstName = "testFirst",
+        //                LastName = "testLast"
+        //            };
+        //            customer.Id = testRepo.AddUser(customer);
 
+        //            var dep = new BLL.Progress
+        //            {
+        //                Nam = "testProgressName"
+        //            };
+        //            dep.Id = testRepo.AddProgress(dep);
+        //            var request = new BLL.Request
+        //            {
+        //                Descript = "testDescription",
+        //                Requirements = "testRequirements",
+        //                ProgressId = dep.Id
+        //            };
+        //            request.Id = testRepo.AddRequest(request);
 
-                    //testRepo.Add(obj);
-                }
+        //            //add obj with values
+        //            var obj = new BLL.RequestingGroup
+        //            {
+        //                //assign values
+        //                CustomerId = customer.Id,
+        //                RequestId = request.Id
+        //            };
 
-                // Use a separate instance of the context to verify correct data was saved to database
-                using (var context = new project2theGuildContext(options))
-                {
-                    //Assert.Equal(1, context.RequestingParty.Count()); //check size of dbset is now one
-                    //Assert.Equal(" value ", context.RequestingParty.Single(). Value ); //check values equal given values
-                }
-            }
-            finally
-            {
-                connection.Close();
-            }
-        }
+        //            testRepo.AddRequestingGroup(obj);
+        //        }
+
+        //        // Use a separate instance of the context to verify correct data was saved to database
+        //        using (var context = new project2theGuildContext(options))
+        //        {
+        //            Assert.Equal(1, context.RequestingGroup.Count()); //check size of dbset is now one                   
+        //        }
+        //    }
+        //    finally
+        //    {
+        //        connection.Close();
+        //    }
+        //}
 
         [Fact]
         public void Add_User_writes_to_database()
