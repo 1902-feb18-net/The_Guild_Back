@@ -14,6 +14,5 @@ namespace The_Guild_Back.API.Models
         [Required]
         public string Nam { get; set; }
 
-        public IEnumerable<Request> Request { get; set; }
     }
 }

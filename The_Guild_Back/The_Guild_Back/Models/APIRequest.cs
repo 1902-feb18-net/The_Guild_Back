@@ -25,8 +25,5 @@ namespace The_Guild_Back.API.Models
         public decimal? Cost { get; set; }
         public int ProgressId { get; set; } // ?
 
-        public IEnumerable<AdventurerParty> AdventurerParty { get; set; }
-        public IEnumerable<RequestingGroup> RequestingGroup { get; set; }
-
     }
 }

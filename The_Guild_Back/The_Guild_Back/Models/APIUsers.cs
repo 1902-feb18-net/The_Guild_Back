@@ -10,7 +10,6 @@ namespace The_Guild_Back.API.Models
     public class APIUsers
     {
         public int Id { get; set; }
-        public int LoginInfoId { get; set; }
 
         [Required]
         public string FirstName { get; set; }
@@ -41,10 +40,6 @@ namespace The_Guild_Back.API.Models
         [Range(0, 40)]
         public int? Constitution { get; set; }
 
-        [Range(0, 900000)]
         public int? RankId { get; set; }
-
-        public IEnumerable<AdventurerParty> AdventureParty { get; set; }
-        public IEnumerable<RequestingGroup> RequestingParty { get; set; }
     }
 }
