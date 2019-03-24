@@ -104,8 +104,8 @@ namespace The_Guild_Back.API.Controllers
         [Authorize]
         public async Task<IActionResult> AssignRole(string id,
             string role,
-            UserManager<IdentityUser> userManager,
-            RoleManager<IdentityRole> roleManager)
+            [FromServices] UserManager<IdentityUser> userManager,
+            [FromServices] RoleManager<IdentityRole> roleManager)
         {
             IdentityUser user = await userManager.FindByIdAsync(id);
             IdentityResult result = await userManager.AddToRoleAsync(user, role);
