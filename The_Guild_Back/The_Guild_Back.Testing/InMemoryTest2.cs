@@ -5,13 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using The_Guild_Back.BLL;
 using The_Guild_Back.DAL;
+using System.Threading.Tasks;
 
 namespace The_Guild_Back.Testing
 {
-    public class InMemoryTest1
+    public class InMemoryTest2
     {
         [Fact]
-        public void Add_AdventurerParty_writes_to_database()
+        public async Task UpdateAsync_AdventurerParty_writes_to_database()
         {
             // In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -65,14 +66,18 @@ namespace The_Guild_Back.Testing
                         AdventurerId = adventurer.Id
                     };
 
-                    testRepo.AddAdventurerParty(obj);
+                    obj.Id = testRepo.AddAdventurerParty(obj);
+
+                    obj.Nam = "newName";
+                    await testRepo.UpdateAdventurerPartyAsync(obj);
+                    await testRepo.SaveAsync();
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
                 using (var context = new project2theGuildContext(options))
                 {
                     Assert.Equal(1, context.AdventurerParty.Count()); //check size of in memory dbset is now one
-                    Assert.Equal("testName", context.AdventurerParty.Single().Nam ); //check values equal given values
+                    Assert.Equal("newName", context.AdventurerParty.Single().Nam ); //check values equal given values
                 }
             }
             finally
@@ -84,7 +89,7 @@ namespace The_Guild_Back.Testing
         
 
         [Fact]
-        public void Add_Progress_writes_to_database()
+        public async Task UpdateAsync_Progress_writes_to_database()
         {
             // In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -115,14 +120,19 @@ namespace The_Guild_Back.Testing
                         Nam = "testProgressName"
                     };
 
-                    testRepo.AddProgress(obj);
+                    obj.Id = testRepo.AddProgress(obj);
+                    //testRepo.Save();
+
+                    obj.Nam = "newName";
+                    await testRepo.UpdateProgressAsync(obj);
+                    await testRepo.SaveAsync();
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
                 using (var context = new project2theGuildContext(options))
                 {
                     Assert.Equal(1, context.Progress.Count()); //check size of dbset is now one
-                    Assert.Equal("testProgressName", context.Progress.Single().Nam ); //check values equal given values
+                    Assert.Equal("newName", context.Progress.Single().Nam ); //check values equal given values
                 }
             }
             finally
@@ -132,7 +142,7 @@ namespace The_Guild_Back.Testing
         }
 
         [Fact]
-        public void Add_Rank_writes_to_database()
+        public async Task UpdateAsync_Rank_writes_to_database()
         {
             // In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -164,15 +174,23 @@ namespace The_Guild_Back.Testing
                         Fee = 10
                     };
 
-                    testRepo.AddRank(obj);
+                    obj.Id = testRepo.AddRank(obj);
+
+
+                    obj.Nam = "newName";
+                    obj.Fee = 100;
+
+                    await testRepo.UpdateRankAsync(obj);
+                    await testRepo.SaveAsync();
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
                 using (var context = new project2theGuildContext(options))
                 {
                     Assert.Equal(1, context.Ranks.Count()); //check size of dbset is now one
-                    Assert.Equal("testName", context.Ranks.Single().Nam ); //check values equal given values
-                    Assert.Equal(10, context.Ranks.Single().Fee);
+                    //check values equal given values
+                    Assert.Equal("newName", context.Ranks.Single().Nam ); 
+                    Assert.Equal(100, context.Ranks.Single().Fee);
                 }
             }
             finally
@@ -182,7 +200,7 @@ namespace The_Guild_Back.Testing
         }
 
         [Fact]
-        public void Add_RankRequirements_writes_to_database()
+        public async Task UpdateAsync_RankRequirements_writes_to_database()
         {
             // In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -232,7 +250,13 @@ namespace The_Guild_Back.Testing
                         NumberRequests = 11
                     };
 
-                    testRepo.AddRankRequirements(obj);
+                    obj.Id = testRepo.AddRankRequirements(obj);
+
+                    obj.MinTotalStats = 12;
+                    obj.NumberRequests = 13;
+
+                    await testRepo.UpdateRankRequirementsAsync(obj);
+                    await testRepo.SaveAsync();
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
@@ -240,8 +264,8 @@ namespace The_Guild_Back.Testing
                 {
                     Assert.Equal(1, context.RankRequirements.Count()); //check size of dbset is now one
                     //check values equal given values
-                    Assert.Equal(10, context.RankRequirements.Single().MinTotalStats ); 
-                    Assert.Equal(11, context.RankRequirements.Single().NumberRequests);
+                    Assert.Equal(12, context.RankRequirements.Single().MinTotalStats ); 
+                    Assert.Equal(13, context.RankRequirements.Single().NumberRequests);
                 }
             }
             finally
@@ -251,7 +275,7 @@ namespace The_Guild_Back.Testing
         }
 
         [Fact]
-        public void Add_Request_writes_to_database()
+        public async Task UpdateAsync_Request_writes_to_database()
         {
             // In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -293,7 +317,12 @@ namespace The_Guild_Back.Testing
                         ProgressId = dep.Id
                     };
 
-                    testRepo.AddRequest(obj);
+                    obj.Id = testRepo.AddRequest(obj);
+
+                    obj.Descript = "newDescription";
+                    obj.Requirements = "newRequirements";
+                    await testRepo.UpdateRequestAsync(obj);
+                    await testRepo.SaveAsync();
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
@@ -301,8 +330,8 @@ namespace The_Guild_Back.Testing
                 {
                     Assert.Equal(1, context.Request.Count()); //check size of dbset is now one
                     //check values equal given values
-                    Assert.Equal("testDescription", context.Request.Single().Descript );
-                    Assert.Equal("testRequirements", context.Request.Single().Requirements);
+                    Assert.Equal("newDescription", context.Request.Single().Descript );
+                    Assert.Equal("newRequirements", context.Request.Single().Requirements);
                 }
             }
             finally
@@ -312,7 +341,7 @@ namespace The_Guild_Back.Testing
         }
 
         [Fact]
-        public void Add_RequestingGroup_writes_to_database()
+        public async Task UpdateAsync_RequestingGroup_writes_to_database()
         {
             // In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -365,7 +394,27 @@ namespace The_Guild_Back.Testing
                         RequestId = request.Id
                     };
 
-                    testRepo.AddRequestingGroup(obj);
+                    obj.Id = testRepo.AddRequestingGroup(obj);
+
+
+                    var customer2 = new BLL.Users
+                    {
+                        FirstName = "testFirst",
+                        LastName = "testLast"
+                    };
+                    customer2.Id = testRepo.AddUser(customer2);
+                    var request2 = new BLL.Request
+                    {
+                        Descript = "testDescription",
+                        Requirements = "testRequirements",
+                        ProgressId = dep.Id
+                    };
+                    request2.Id = testRepo.AddRequest(request2);
+
+                    obj.CustomerId = customer2.Id;
+                    obj.RequestId = request2.Id;
+                    await testRepo.UpdateRequestingGroupAsync(obj);
+                    await testRepo.SaveAsync();
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
@@ -381,7 +430,7 @@ namespace The_Guild_Back.Testing
         }
 
         [Fact]
-        public void Add_User_writes_to_database()
+        public async Task UpdateAsync_User_writes_to_database()
         {
             // In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -398,7 +447,7 @@ namespace The_Guild_Back.Testing
                 {
                     context.Database.EnsureCreated();
                 }
-
+                BLL.Users obj;
                 // Run the test against one instance of the context
                 using (var context = new project2theGuildContext(options))
                 {
@@ -406,12 +455,17 @@ namespace The_Guild_Back.Testing
                     var testRepo = new Repository(context);
 
                     //add obj with values
-                    var obj = new BLL.Users
+                    obj = new BLL.Users
                     {
                         FirstName = "testFirst",
                         LastName = "testLast"
                     };
-                    testRepo.AddUser(obj);
+                    obj.Id = testRepo.AddUser(obj);
+
+                    obj.FirstName = "newFirst";
+                    obj.LastName = "newLast";
+                    await testRepo.UpdateUserAsync(obj);
+                    await testRepo.SaveAsync();
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
@@ -419,8 +473,8 @@ namespace The_Guild_Back.Testing
                 {
                     Assert.Equal(1, context.Users.Count()); //check size of dbset is now one
                     //check values equal given values
-                    Assert.Equal("testFirst", context.Users.Single().FirstName ); 
-                    Assert.Equal("testLast", context.Users.Single().LastName);
+                    Assert.Equal("newFirst", context.Users.Single().FirstName ); 
+                    Assert.Equal("newLast", context.Users.Single().LastName);
                 }
             }
             finally

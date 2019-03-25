@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using The_Guild_Back.DAL;
 
@@ -22,6 +20,7 @@ namespace The_Guild_Back.BLL
         {
             var mapped = Mapper.Map(users);
             _db.Add(mapped);
+            _db.SaveChanges();
             return mapped.Id;
         }
 
@@ -46,7 +45,7 @@ namespace The_Guild_Back.BLL
         }
         public async Task DeleteUserAsync(int Id)
         {
-            _db.Remove( await _db.Users.FindAsync(Id));
+            _db.Remove(await _db.Users.FindAsync(Id));
         }
 
         public void UpdateUser(Users user)
@@ -64,6 +63,7 @@ namespace The_Guild_Back.BLL
         {
             var mapped = Mapper.Map(obj);
             _db.Add(mapped);
+            _db.SaveChanges();
             return mapped.Id;
         }
 
@@ -105,6 +105,7 @@ namespace The_Guild_Back.BLL
         {
             var mapped = Mapper.Map(obj);
             _db.Add(mapped);
+            _db.SaveChanges();
             return mapped.Id;
         }
 
@@ -142,6 +143,7 @@ namespace The_Guild_Back.BLL
         {
             var mapped = Mapper.Map(adventurerParty);
             _db.Add(mapped);
+            _db.SaveChanges();
             return mapped.Id;
         }
 
@@ -166,7 +168,7 @@ namespace The_Guild_Back.BLL
         }
         public async Task UpdateAdventurerPartyAsync(AdventurerParty adventurerParty)
         {
-            _db.Entry( await _db.AdventurerParty.FindAsync(adventurerParty.Id)).CurrentValues.SetValues(Mapper.Map(adventurerParty));
+            _db.Entry(await _db.AdventurerParty.FindAsync(adventurerParty.Id)).CurrentValues.SetValues(Mapper.Map(adventurerParty));
         }
 
         public async Task DeleteAdventurerPartyAsync(int Id)
@@ -180,6 +182,7 @@ namespace The_Guild_Back.BLL
         {
             var mapped = Mapper.Map(requestingGroup);
             _db.Add(mapped);
+            _db.SaveChanges();
             return mapped.Id;
         }
 
@@ -209,6 +212,7 @@ namespace The_Guild_Back.BLL
         {
             var mapped = Mapper.Map(rank);
             _db.Add(mapped);
+            _db.SaveChanges();
             return mapped.Id;
         }
 
@@ -237,6 +241,7 @@ namespace The_Guild_Back.BLL
         {
             var mapped = Mapper.Map(rankReq);
             _db.Add(mapped);
+            _db.SaveChanges();
             return mapped.Id;
         }
 
@@ -252,7 +257,7 @@ namespace The_Guild_Back.BLL
         }
         public async Task UpdateRankRequirementsAsync(RankRequirements RankRequirements)
         {
-            _db.Entry( await _db.RankRequirements.FindAsync(RankRequirements.Id)).CurrentValues.SetValues(Mapper.Map(RankRequirements));
+            _db.Entry(await _db.RankRequirements.FindAsync(RankRequirements.Id)).CurrentValues.SetValues(Mapper.Map(RankRequirements));
         }
 
         public async Task DeleteRankRequirementsAsync(int Id)
