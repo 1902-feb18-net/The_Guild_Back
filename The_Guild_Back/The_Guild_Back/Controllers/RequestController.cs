@@ -11,83 +11,83 @@ namespace The_Guild_Back.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class RequestController : ControllerBase
     {
         private readonly IRepository _repo;
-        private readonly IAPIMapper _mapp;
+        private readonly IAPIMapper _mapp; //to map BLL to API and vice-versa
 
-        public UsersController(IRepository Repository, IAPIMapper Mapper)
+        public RequestController(IRepository Repository, IAPIMapper Mapper)
         {
             _repo = Repository;
             _mapp = Mapper;
         }
 
-        // GET: api/Users
+        // GET: api/request
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IEnumerable<APIUsers> Get()
+        public IEnumerable<APIRequest> Get()
         {
-            //repo call for all users
-            var users = _repo.GetAllUsers().Select(x => _mapp.Map(x));
-            return users;
+            //repo call for all Request
+            var request = _repo.GetAllRequests().Select(x => _mapp.Map(x));
+            return request;
 
-            ////if no users at all,
+            ////if no Request at all,
             //return NotFound(); 
             //won't work with nick's automatic 200 OK wrapping of IEnumerable?
             //(needs to return actual ActionResult)
         }
 
-        // GET: api/Users/5
-        [HttpGet("{id}", Name = "GetUser")]
+        // GET: api/request/5
+        [HttpGet("{id}", Name = "GetRequest")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIUsers>> GetById(int id)
+        public async Task<ActionResult<APIRequest>> GetById(int id)
         {
-            //repo.get call for specific user id
-            if (await _repo.GetUserByIdAsync(id) is Users user)
+            //repo.get call for specific Request id
+            if (await _repo.GetRequestByIdAsync(id) is Request request) //if found
             {
-                return _mapp.Map(user);
+                return _mapp.Map(request);
             }
 
-            //if user not found,
+            //if request not found,
             return NotFound();
         }
 
-        // POST: api/Users
+        // POST: api/request
         [HttpPost]
-        [ProducesResponseType(typeof(Users), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(Request), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post([FromBody] APIUsers apiUser)
+        public async Task<IActionResult> Post([FromBody] APIRequest apiRequest)
         {
             //validate
             //if problem, return 400
 
             //repo add
-            Users user = _mapp.Map(apiUser);
-            user.Id =  _repo.AddUser(user);
+            Request request = _mapp.Map(apiRequest);
+            request.Id = _repo.AddRequest(request);
             await _repo.SaveAsync();
-            APIUsers newApiUser = _mapp.Map(user);
+            APIRequest newApiRequest = _mapp.Map(request);
 
-            return CreatedAtAction(nameof(GetById), new { id = newApiUser.Id },
-                newApiUser); //201
+            return CreatedAtAction(nameof(GetById), new { id = newApiRequest.Id },
+                newApiRequest); //201
 
         }
 
-        // PUT: api/Users/5
+        // PUT: api/request/5
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Put(int id, [FromBody] APIUsers apiUser)
+        public async Task<IActionResult> Put(int id, [FromBody] APIRequest apiRequest)
         {
             //validate    
             //if problem, return 400
 
             //need repo methods implemented
-            if (await _repo.GetUserByIdAsync(id) is Users user) //if found
+            if (await _repo.GetRequestByIdAsync(id) is Request request) //if found
             {
-                //update with given user info
-                Users upUser = _mapp.Map(apiUser);
-                await _repo.UpdateUserAsync(upUser);
+                //update with given Request info
+                Request upRequest = _mapp.Map(apiRequest);
+                await _repo.UpdateRequestAsync(upRequest);
                 await _repo.SaveAsync();
                 return NoContent(); // 204
             }
@@ -97,16 +97,16 @@ namespace The_Guild_Back.API.Controllers
 
         }
 
-        // DELETE: api/users/5
+        // DELETE: api/request/5
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int id)
         {
-            if (await _repo.GetUserByIdAsync(id) is Users user) //if found
+            if (await _repo.GetRequestByIdAsync(id) is Request request) //if found
             {
-                //delete user
-                await _repo.DeleteUserAsync(user.Id);
+                //delete Request
+                await _repo.DeleteRequestAsync(request.Id);
                 await _repo.SaveAsync();
                 return NoContent(); // 204
             }
