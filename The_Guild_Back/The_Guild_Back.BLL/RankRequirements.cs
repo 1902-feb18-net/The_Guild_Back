@@ -18,8 +18,10 @@ namespace The_Guild_Back.BLL
             {
                 if (CheckConstraints.NonNegativeInt(value)) //allows setting null, 0, or positive
                 { _numberRequests = value; }
-
-                throw new ArgumentOutOfRangeException();
+                else
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
             }
         }
 
@@ -30,8 +32,10 @@ namespace The_Guild_Back.BLL
             {
                 if (CheckConstraints.NonNegativeInt(value)) //allows setting null, 0, or positive
                 { _minTotalStats = value; }
-
-                throw new ArgumentOutOfRangeException();
+                else
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
             }
         }
 
