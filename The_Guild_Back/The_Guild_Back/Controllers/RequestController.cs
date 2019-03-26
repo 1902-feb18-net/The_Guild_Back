@@ -64,7 +64,6 @@ namespace The_Guild_Back.API.Controllers
             //repo add
             Request request = _mapp.Map(apiRequest);
             request.Id = _repo.AddRequest(request);
-            await _repo.SaveAsync();
             APIRequest newApiRequest = _mapp.Map(request);
 
             return CreatedAtAction(nameof(GetById), new { id = newApiRequest.Id },
@@ -88,7 +87,6 @@ namespace The_Guild_Back.API.Controllers
                 //update with given Request info
                 Request upRequest = _mapp.Map(apiRequest);
                 await _repo.UpdateRequestAsync(upRequest);
-                await _repo.SaveAsync();
                 return NoContent(); // 204
             }
 
@@ -107,7 +105,6 @@ namespace The_Guild_Back.API.Controllers
             {
                 //delete Request
                 await _repo.DeleteRequestAsync(request.Id);
-                await _repo.SaveAsync();
                 return NoContent(); // 204
             }
 

@@ -64,7 +64,6 @@ namespace The_Guild_Back.API.Controllers
             //repo add
             Ranks Rank = _mapp.Map(apiRanks);
             Rank.Id = _repo.AddRank(Rank);
-            await _repo.SaveAsync();
             APIRanks newApiRanks = _mapp.Map(Rank);
 
             return CreatedAtAction(nameof(GetById), new { id = newApiRanks.Id },
@@ -88,7 +87,6 @@ namespace The_Guild_Back.API.Controllers
                 //update with given Ranks info
                 Ranks upRanks = _mapp.Map(apiRanks);
                 await _repo.UpdateRankAsync(upRanks);
-                await _repo.SaveAsync();
                 return NoContent(); // 204
             }
 
@@ -107,7 +105,6 @@ namespace The_Guild_Back.API.Controllers
             {
                 //delete Ranks
                 await _repo.DeleteRankAsync(Ranks.Id);
-                await _repo.SaveAsync();
                 return NoContent(); // 204
             }
 

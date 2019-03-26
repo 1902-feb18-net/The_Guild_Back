@@ -46,19 +46,23 @@ namespace The_Guild_Back.BLL
         public void DeleteUser(int Id)
         {
             _db.Remove(_db.Users.Find(Id));
+            _db.SaveChanges();
         }
         public async Task DeleteUserAsync(int Id)
         {
             _db.Remove(await _db.Users.FindAsync(Id));
+            await _db.SaveChangesAsync();
         }
 
         public void UpdateUser(Users user)
         {
             _db.Entry(_db.Users.Find(user.Id)).CurrentValues.SetValues(Mapper.Map(user));
+            _db.SaveChanges();
         }
         public async Task UpdateUserAsync(Users user)
         {
             _db.Entry(await _db.Users.FindAsync(user.Id)).CurrentValues.SetValues(Mapper.Map(user));
+            await _db.SaveChangesAsync();
         }
 
 
@@ -92,19 +96,23 @@ namespace The_Guild_Back.BLL
         public void DeleteRequest(int Id)
         {
             _db.Remove(_db.Request.Find(Id));
+            _db.SaveChanges();
         }
         public async Task DeleteRequestAsync(int Id)
         {
             _db.Remove(await _db.Request.FindAsync(Id));
+            await _db.SaveChangesAsync();
         }
 
         public void UpdateRequest(Request request)
         {
             _db.Entry(_db.Request.Find(request.Id)).CurrentValues.SetValues(Mapper.Map(request));
+            _db.SaveChanges();
         }
         public async Task UpdateRequestAsync(Request request)
         {
             _db.Entry(await _db.Request.FindAsync(request.Id)).CurrentValues.SetValues(Mapper.Map(request));
+            await _db.SaveChangesAsync();
         }
 
 
@@ -137,15 +145,18 @@ namespace The_Guild_Back.BLL
         public void UpdateProgress(Progress progress)
         {
             _db.Entry(_db.Progress.Find(progress.Id)).CurrentValues.SetValues(Mapper.Map(progress));
+            _db.SaveChanges();
         }
         public async Task UpdateProgressAsync(Progress progress)
         {
             _db.Entry(await _db.Progress.FindAsync(progress.Id)).CurrentValues.SetValues(Mapper.Map(progress));
+            await _db.SaveChangesAsync();
         }
 
         public async Task DeleteProgressAsync(int Id)
         {
             _db.Remove(await _db.Progress.FindAsync(Id));
+            await _db.SaveChangesAsync();
         }
 
 
@@ -178,15 +189,18 @@ namespace The_Guild_Back.BLL
         public void UpdateAdventurerParty(AdventurerParty adventurerParty)
         {
             _db.Entry(_db.AdventurerParty.Find(adventurerParty.Id)).CurrentValues.SetValues(Mapper.Map(adventurerParty));
+            _db.SaveChanges();
         }
         public async Task UpdateAdventurerPartyAsync(AdventurerParty adventurerParty)
         {
             _db.Entry(await _db.AdventurerParty.FindAsync(adventurerParty.Id)).CurrentValues.SetValues(Mapper.Map(adventurerParty));
+            await _db.SaveChangesAsync();
         }
 
         public async Task DeleteAdventurerPartyAsync(int Id)
         {
             _db.Remove(await _db.AdventurerParty.FindAsync(Id));
+            await _db.SaveChangesAsync();
         }
 
 
@@ -216,15 +230,18 @@ namespace The_Guild_Back.BLL
         public void UpdateRequestingGroup(RequestingGroup RequestingGroup)
         {
             _db.Entry(_db.RequestingGroup.Find(RequestingGroup.Id)).CurrentValues.SetValues(Mapper.Map(RequestingGroup));
+            _db.SaveChanges();
         }
         public async Task UpdateRequestingGroupAsync(RequestingGroup RequestingGroup)
         {
             _db.Entry(await _db.RequestingGroup.FindAsync(RequestingGroup.Id)).CurrentValues.SetValues(Mapper.Map(RequestingGroup));
+            await _db.SaveChangesAsync();
         }
 
         public async Task DeleteRequestingGroupAsync(int Id)
         {
             _db.Remove(await _db.RequestingGroup.FindAsync(Id));
+            await _db.SaveChangesAsync();
         }
 
 
@@ -254,15 +271,18 @@ namespace The_Guild_Back.BLL
         public void UpdateRank(Ranks Rank)
         {
             _db.Entry(_db.Ranks.Find(Rank.Id)).CurrentValues.SetValues(Mapper.Map(Rank));
+            _db.SaveChanges();
         }
         public async Task UpdateRankAsync(Ranks Rank)
         {
             _db.Entry(await _db.Ranks.FindAsync(Rank.Id)).CurrentValues.SetValues(Mapper.Map(Rank));
+            await _db.SaveChangesAsync();
         }
 
         public async Task DeleteRankAsync(int Id)
         {
             _db.Remove(await _db.Ranks.FindAsync(Id));
+            await _db.SaveChangesAsync();
         }
 
 
@@ -291,15 +311,18 @@ namespace The_Guild_Back.BLL
         public void UpdateRankRequirements(RankRequirements RankRequirements)
         {
             _db.Entry(_db.RankRequirements.Find(RankRequirements.Id)).CurrentValues.SetValues(Mapper.Map(RankRequirements));
+            _db.SaveChanges();
         }
         public async Task UpdateRankRequirementsAsync(RankRequirements RankRequirements)
         {
             _db.Entry(await _db.RankRequirements.FindAsync(RankRequirements.Id)).CurrentValues.SetValues(Mapper.Map(RankRequirements));
+            await _db.SaveChangesAsync();
         }
 
         public async Task DeleteRankRequirementsAsync(int Id)
         {
             _db.Remove(await _db.RankRequirements.FindAsync(Id));
+            await _db.SaveChangesAsync();
         }
 
 

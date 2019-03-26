@@ -64,7 +64,6 @@ namespace The_Guild_Back.API.Controllers
             //repo add
             Users user = _mapp.Map(apiUser);
             user.Id =  _repo.AddUser(user);
-            await _repo.SaveAsync();
             APIUsers newApiUser = _mapp.Map(user);
 
             return CreatedAtAction(nameof(GetById), new { id = newApiUser.Id },
@@ -88,7 +87,6 @@ namespace The_Guild_Back.API.Controllers
                 //update with given user info
                 Users upUser = _mapp.Map(apiUser);
                 await _repo.UpdateUserAsync(upUser);
-                await _repo.SaveAsync();
                 return NoContent(); // 204
             }
 
@@ -107,7 +105,6 @@ namespace The_Guild_Back.API.Controllers
             {
                 //delete user
                 await _repo.DeleteUserAsync(user.Id);
-                await _repo.SaveAsync();
                 return NoContent(); // 204
             }
 

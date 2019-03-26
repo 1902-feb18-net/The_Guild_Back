@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace The_Guild_Back.Testing
 {
-    public class InMemoryTest2
+    public class InMemoryTest3
     {
         [Fact]
-        public async Task UpdateAsync_AdventurerParty_writes_to_database()
+        public async Task DeleteAsync_AdventurerParty_removes_from_database()
         {
             // In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -68,15 +68,13 @@ namespace The_Guild_Back.Testing
 
                     obj.Id = testRepo.AddAdventurerParty(obj);
 
-                    obj.Nam = "newName";
-                    await testRepo.UpdateAdventurerPartyAsync(obj);
+                    await testRepo.DeleteAdventurerPartyAsync(obj.Id);
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
                 using (var context = new project2theGuildContext(options))
                 {
-                    Assert.Equal(1, context.AdventurerParty.Count()); //check size of in memory dbset is now one
-                    Assert.Equal("newName", context.AdventurerParty.Single().Nam ); //check values equal given values
+                    Assert.Equal(0, context.AdventurerParty.Count()); //check size of in memory dbset is now zero
                 }
             }
             finally
@@ -88,7 +86,7 @@ namespace The_Guild_Back.Testing
         
 
         [Fact]
-        public async Task UpdateAsync_Progress_writes_to_database()
+        public async Task DeleteAsync_Progress_removes_from_database()
         {
             // In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -120,17 +118,14 @@ namespace The_Guild_Back.Testing
                     };
 
                     obj.Id = testRepo.AddProgress(obj);
-                    //testRepo.Save();
 
-                    obj.Nam = "newName";
-                    await testRepo.UpdateProgressAsync(obj);
+                    await testRepo.DeleteProgressAsync(obj.Id);
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
                 using (var context = new project2theGuildContext(options))
                 {
-                    Assert.Equal(1, context.Progress.Count()); //check size of dbset is now one
-                    Assert.Equal("newName", context.Progress.Single().Nam ); //check values equal given values
+                    Assert.Equal(0, context.Progress.Count()); //check size of dbset is now zero
                 }
             }
             finally
@@ -140,7 +135,7 @@ namespace The_Guild_Back.Testing
         }
 
         [Fact]
-        public async Task UpdateAsync_Rank_writes_to_database()
+        public async Task DeleteAsync_Rank_removes_from_database()
         {
             // In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -174,20 +169,13 @@ namespace The_Guild_Back.Testing
 
                     obj.Id = testRepo.AddRank(obj);
 
-
-                    obj.Nam = "newName";
-                    obj.Fee = 100;
-
-                    await testRepo.UpdateRankAsync(obj);
+                    await testRepo.DeleteRankAsync(obj.Id);
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
                 using (var context = new project2theGuildContext(options))
                 {
-                    Assert.Equal(1, context.Ranks.Count()); //check size of dbset is now one
-                    //check values equal given values
-                    Assert.Equal("newName", context.Ranks.Single().Nam ); 
-                    Assert.Equal(100, context.Ranks.Single().Fee);
+                    Assert.Equal(0, context.Ranks.Count()); //check size of dbset is now zero
                 }
             }
             finally
@@ -197,7 +185,7 @@ namespace The_Guild_Back.Testing
         }
 
         [Fact]
-        public async Task UpdateAsync_RankRequirements_writes_to_database()
+        public async Task DeleteAsync_RankRequirements_removes_from_database()
         {
             // In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -249,19 +237,13 @@ namespace The_Guild_Back.Testing
 
                     obj.Id = testRepo.AddRankRequirements(obj);
 
-                    obj.MinTotalStats = 12;
-                    obj.NumberRequests = 13;
-
-                    await testRepo.UpdateRankRequirementsAsync(obj);
+                    await testRepo.DeleteRankRequirementsAsync(obj.Id);
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
                 using (var context = new project2theGuildContext(options))
                 {
-                    Assert.Equal(1, context.RankRequirements.Count()); //check size of dbset is now one
-                    //check values equal given values
-                    Assert.Equal(12, context.RankRequirements.Single().MinTotalStats ); 
-                    Assert.Equal(13, context.RankRequirements.Single().NumberRequests);
+                    Assert.Equal(0, context.RankRequirements.Count()); //check size of dbset is now zero
                 }
             }
             finally
@@ -271,7 +253,7 @@ namespace The_Guild_Back.Testing
         }
 
         [Fact]
-        public async Task UpdateAsync_Request_writes_to_database()
+        public async Task DeleteAsync_Request_removes_from_database()
         {
             // In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -315,18 +297,13 @@ namespace The_Guild_Back.Testing
 
                     obj.Id = testRepo.AddRequest(obj);
 
-                    obj.Descript = "newDescription";
-                    obj.Requirements = "newRequirements";
-                    await testRepo.UpdateRequestAsync(obj);
+                    await testRepo.DeleteRequestAsync(obj.Id);
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
                 using (var context = new project2theGuildContext(options))
                 {
-                    Assert.Equal(1, context.Request.Count()); //check size of dbset is now one
-                    //check values equal given values
-                    Assert.Equal("newDescription", context.Request.Single().Descript );
-                    Assert.Equal("newRequirements", context.Request.Single().Requirements);
+                    Assert.Equal(0, context.Request.Count()); //check size of dbset is now zero
                 }
             }
             finally
@@ -336,7 +313,7 @@ namespace The_Guild_Back.Testing
         }
 
         [Fact]
-        public async Task UpdateAsync_RequestingGroup_writes_to_database()
+        public async Task DeleteAsync_RequestingGroup_removes_from_database()
         {
             // In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -391,30 +368,13 @@ namespace The_Guild_Back.Testing
 
                     obj.Id = testRepo.AddRequestingGroup(obj);
 
-
-                    var customer2 = new BLL.Users
-                    {
-                        FirstName = "testFirst",
-                        LastName = "testLast"
-                    };
-                    customer2.Id = testRepo.AddUser(customer2);
-                    var request2 = new BLL.Request
-                    {
-                        Descript = "testDescription",
-                        Requirements = "testRequirements",
-                        ProgressId = dep.Id
-                    };
-                    request2.Id = testRepo.AddRequest(request2);
-
-                    obj.CustomerId = customer2.Id;
-                    obj.RequestId = request2.Id;
-                    await testRepo.UpdateRequestingGroupAsync(obj);
+                    await testRepo.DeleteRequestingGroupAsync(obj.Id);
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
                 using (var context = new project2theGuildContext(options))
                 {
-                    Assert.Equal(1, context.RequestingGroup.Count()); //check size of dbset is now one                   
+                    Assert.Equal(0, context.RequestingGroup.Count()); //check size of dbset is now zero                  
                 }
             }
             finally
@@ -424,7 +384,7 @@ namespace The_Guild_Back.Testing
         }
 
         [Fact]
-        public async Task UpdateAsync_User_writes_to_database()
+        public async Task DeleteAsync_User_removes_from_database()
         {
             // In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -456,18 +416,13 @@ namespace The_Guild_Back.Testing
                     };
                     obj.Id = testRepo.AddUser(obj);
 
-                    obj.FirstName = "newFirst";
-                    obj.LastName = "newLast";
-                    await testRepo.UpdateUserAsync(obj);
+                    await testRepo.DeleteUserAsync(obj.Id);
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
                 using (var context = new project2theGuildContext(options))
                 {
-                    Assert.Equal(1, context.Users.Count()); //check size of dbset is now one
-                    //check values equal given values
-                    Assert.Equal("newFirst", context.Users.Single().FirstName ); 
-                    Assert.Equal("newLast", context.Users.Single().LastName);
+                    Assert.Equal(0, context.Users.Count()); //check size of dbset is now zero
                 }
             }
             finally
