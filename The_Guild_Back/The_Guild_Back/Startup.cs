@@ -71,7 +71,7 @@ namespace The_Guild_Back.API
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Character API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "Guild API", Version = "v1" });
             });
 
         }
@@ -95,7 +95,7 @@ namespace The_Guild_Back.API
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Character API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Guild API V1");
             });
 
             app.UseHttpsRedirection();
