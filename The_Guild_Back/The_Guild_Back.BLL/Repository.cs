@@ -199,6 +199,11 @@ namespace The_Guild_Back.BLL
             return mapped.Id;
         }
 
+        public IEnumerable<RequestingGroup> GetAllRequestingGroups()
+        {
+            return Mapper.Map(_db.RequestingGroup);
+        }
+
         public async Task<RequestingGroup> GetRequestingGroupByIdAsync(int id)
         {
             var RequestingGroup = await _db.RequestingGroup.FindAsync(id);
@@ -232,6 +237,11 @@ namespace The_Guild_Back.BLL
             return mapped.Id;
         }
 
+        public IEnumerable<Ranks> GetAllRanks()
+        {
+            return Mapper.Map(_db.Ranks);
+        }
+
         public async Task<Ranks> GetRankByIdAsync(int id)
         {
             var Rank = await _db.Ranks.FindAsync(id);
@@ -262,6 +272,11 @@ namespace The_Guild_Back.BLL
             _db.Add(mapped);
             _db.SaveChanges();
             return mapped.Id;
+        }
+
+        public IEnumerable<RankRequirements> GetAllRankRequirements()
+        {
+            return Mapper.Map(_db.RankRequirements);
         }
 
         public async Task<RankRequirements> GetRankRequirementsByIdAsync(int id)

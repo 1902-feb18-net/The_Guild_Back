@@ -25,6 +25,9 @@ namespace The_Guild_Back.BLL
         Task<AdventurerParty> GetAdventurerPartyByIdAsync(int id);
         IEnumerable<AdventurerParty> GetAllAdventurerParties();
         IEnumerable<Progress> GetAllProgress();
+        IEnumerable<RankRequirements> GetAllRankRequirements();
+        IEnumerable<Ranks> GetAllRanks();
+        IEnumerable<RequestingGroup> GetAllRequestingGroups();
         IEnumerable<Request> GetAllRequests();
         IEnumerable<Users> GetAllUsers();
         Progress GetProgressById(int id);
