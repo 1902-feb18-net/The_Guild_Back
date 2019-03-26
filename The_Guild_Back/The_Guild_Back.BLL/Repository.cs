@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,7 +37,10 @@ namespace The_Guild_Back.BLL
         public async Task<Users> GetUserByIdAsync(int id)
         {
             var user = await _db.Users.FindAsync(id);
-            return Mapper.Map(user);
+            if (user == null)
+                return null;
+            else
+                return Mapper.Map(user);
         }
 
         public void DeleteUser(int Id)
@@ -79,7 +83,10 @@ namespace The_Guild_Back.BLL
         public async Task<Request> GetRequestByIdAsync(int id)
         {
             var Request = await _db.Request.FindAsync(id);
-            return Mapper.Map(Request);
+            if (Request == null)
+                return null;
+            else
+                return Mapper.Map(Request);
         }
 
         public void DeleteRequest(int Id)
@@ -121,7 +128,10 @@ namespace The_Guild_Back.BLL
         public async Task<Progress> GetProgressByIdAsync(int id)
         {
             var Progress = await _db.Progress.FindAsync(id);
-            return Mapper.Map(Progress);
+            if (Progress == null)
+                return null;
+            else
+                return Mapper.Map(Progress);
         }
 
         public void UpdateProgress(Progress progress)
@@ -159,7 +169,10 @@ namespace The_Guild_Back.BLL
         public async Task<AdventurerParty> GetAdventurerPartyByIdAsync(int id)
         {
             var AdventurerParty = await _db.AdventurerParty.FindAsync(id);
-            return Mapper.Map(AdventurerParty);
+            if (AdventurerParty == null)
+                return null;
+            else
+                return Mapper.Map(AdventurerParty);
         }
 
         public void UpdateAdventurerParty(AdventurerParty adventurerParty)
@@ -189,7 +202,10 @@ namespace The_Guild_Back.BLL
         public async Task<RequestingGroup> GetRequestingGroupByIdAsync(int id)
         {
             var RequestingGroup = await _db.RequestingGroup.FindAsync(id);
-            return Mapper.Map(RequestingGroup);
+            if (RequestingGroup == null)
+                return null;
+            else
+                return Mapper.Map(RequestingGroup);
         }
 
         public void UpdateRequestingGroup(RequestingGroup RequestingGroup)
@@ -219,7 +235,10 @@ namespace The_Guild_Back.BLL
         public async Task<Ranks> GetRankByIdAsync(int id)
         {
             var Rank = await _db.Ranks.FindAsync(id);
-            return Mapper.Map(Rank);
+            if (Rank == null)
+                return null;
+            else
+                return Mapper.Map(Rank);
         }
 
         public void UpdateRank(Ranks Rank)
@@ -248,7 +267,10 @@ namespace The_Guild_Back.BLL
         public async Task<RankRequirements> GetRankRequirementsByIdAsync(int id)
         {
             var RankRequirements = await _db.RankRequirements.FindAsync(id);
-            return Mapper.Map(RankRequirements);
+            if (RankRequirements == null)
+                return null;
+            else
+                return Mapper.Map(RankRequirements);
         }
 
         public void UpdateRankRequirements(RankRequirements RankRequirements)

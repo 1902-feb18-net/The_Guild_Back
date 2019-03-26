@@ -42,14 +42,14 @@ namespace The_Guild_Back.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIUsers>> GetById(int id)
         {
-            //repo.get call for specific user id
-            if (await _repo.GetUserByIdAsync(id) is Users user)
-            {
-                return _mapp.Map(user);
-            }
+                //repo.get call for specific user id
+                if (await _repo.GetUserByIdAsync(id) is Users user) //if found
+                {
+                    return _mapp.Map(user);
+                }
 
-            //if user not found,
-            return NotFound();
+                //if user not found,
+                return NotFound();
         }
 
         // POST: api/Users
