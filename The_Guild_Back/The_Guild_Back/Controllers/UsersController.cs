@@ -40,25 +40,25 @@ namespace The_Guild_Back.API.Controllers
         }
 
         // GET: api/Users/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}", Name = "GetUser")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<Users> GetById(int id)
+        public async Task<ActionResult<APIUsers>> GetById(int id)
         {
-            //repo.get call for specific user id
-            if (_repo.GetUserById(id) is Users user)
-            {
-                return user;
-            }
+                //repo.get call for specific user id
+                if (await _repo.GetUserByIdAsync(id) is Users user) //if found
+                {
+                    return _mapp.Map(user);
+                }
 
-            //if user not found,
-            return NotFound();
+                //if user not found,
+                return NotFound();
         }
 
         // POST: api/Users
         [HttpPost]
         [ProducesResponseType(typeof(Users), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Post([FromBody] APIUsers apiUser)
+        public async Task<IActionResult> Post([FromBody] APIUsers apiUser)
         {
             //validate
             //if problem, return 400
@@ -66,7 +66,6 @@ namespace The_Guild_Back.API.Controllers
             //repo add
             Users user = _mapp.Map(apiUser);
             user.Id =  _repo.AddUser(user);
-            _repo.Save();
             APIUsers newApiUser = _mapp.Map(user);
 
             return CreatedAtAction(nameof(GetById), new { id = newApiUser.Id },
@@ -79,18 +78,17 @@ namespace The_Guild_Back.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Put(int id, [FromBody] APIUsers apiUser)
+        public async Task<IActionResult> Put(int id, [FromBody] APIUsers apiUser)
         {
             //validate    
             //if problem, return 400
 
             //need repo methods implemented
-            if (_repo.GetUserById(id) is Users user) //if found
+            if (await _repo.GetUserByIdAsync(id) is Users user) //if found
             {
                 //update with given user info
                 Users upUser = _mapp.Map(apiUser);
-                _repo.UpdateUser(upUser);
-                _repo.Save();
+                await _repo.UpdateUserAsync(upUser);
                 return NoContent(); // 204
             }
 
@@ -103,13 +101,12 @@ namespace The_Guild_Back.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (_repo.GetUserById(id) is Users user) //if found
+            if (await _repo.GetUserByIdAsync(id) is Users user) //if found
             {
                 //delete user
-                _repo.DeleteUser(user.Id);
-                _repo.Save();
+                await _repo.DeleteUserAsync(user.Id);
                 return NoContent(); // 204
             }
 

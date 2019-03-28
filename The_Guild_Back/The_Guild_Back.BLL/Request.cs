@@ -20,8 +20,10 @@ namespace The_Guild_Back.BLL
             {
                 if (CheckConstraints.NonNegativeDecimal(value)) //allows setting null, 0, or positive
                 { _cost = value; }
-
-                throw new ArgumentOutOfRangeException();
+                else
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
             }
         }
 
@@ -32,8 +34,10 @@ namespace The_Guild_Back.BLL
             {
                 if (CheckConstraints.NonNegativeDecimal(value)) //allows setting null, 0, or positive
                 { _reward = value; }
-
-                throw new ArgumentOutOfRangeException();
+                else
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
             }
         }
 

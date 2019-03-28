@@ -39,8 +39,10 @@ namespace The_Guild_Back.BLL
             {
                 if (CheckConstraints.NonNegativeInt(value)) //allows setting null, 0, or positive
                 { _strength = value; }
-
-                throw new ArgumentOutOfRangeException();
+                else
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
             }
         }
 
@@ -51,8 +53,10 @@ namespace The_Guild_Back.BLL
             {
                 if (CheckConstraints.NonNegativeInt(value)) //allows setting null, 0, or positive
                 { _dex = value; }
-
-                throw new ArgumentOutOfRangeException();
+                else
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
             }
         }
 
@@ -63,8 +67,10 @@ namespace The_Guild_Back.BLL
             {
                 if (CheckConstraints.NonNegativeInt(value)) //allows setting null, 0, or positive
                 { _intelligence = value; }
-
-                throw new ArgumentOutOfRangeException();
+                else
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
             }
         }
 
@@ -75,8 +81,10 @@ namespace The_Guild_Back.BLL
             {
                 if (CheckConstraints.NonNegativeInt(value)) //allows setting null, 0, or positive
                 { _wisdom = value; }
-
-                throw new ArgumentOutOfRangeException();
+                else
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
             }
         }
 
@@ -87,8 +95,10 @@ namespace The_Guild_Back.BLL
             {
                 if (CheckConstraints.NonNegativeInt(value)) //allows setting null, 0, or positive
                 { _charisma = value; }
-
-                throw new ArgumentOutOfRangeException();
+                else
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
             }
         }
 
@@ -99,8 +109,10 @@ namespace The_Guild_Back.BLL
             {
                 if (CheckConstraints.NonNegativeInt(value)) //allows setting null, 0, or positive
                 { _constitution = value; }
-
-                throw new ArgumentOutOfRangeException();
+                else
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
             }
         }
 
@@ -111,8 +123,10 @@ namespace The_Guild_Back.BLL
             {
                 if (CheckConstraints.NonNegativeDecimal(value)) //allows setting null, 0, or positive
                 { _salary = value; }
-
-                throw new ArgumentOutOfRangeException();
+                else
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
 }
         }
     }

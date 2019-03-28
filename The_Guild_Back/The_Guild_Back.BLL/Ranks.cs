@@ -28,8 +28,10 @@ namespace The_Guild_Back.BLL
             {
                 if (CheckConstraints.NonNegativeDecimal(value)) //allows setting null, 0, or positive
                 { _fee = value; }
-
-                throw new ArgumentOutOfRangeException();
+                else
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
             }
         }
 
