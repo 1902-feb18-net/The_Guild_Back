@@ -312,7 +312,8 @@ namespace The_Guild_Back.BLL
             catch (ArgumentOutOfRangeException e)
             {
                 logger.Error(e, "Mapping negative Strength to User");
-                throw;
+                //if(use.Strength != null)
+                    //throw;
             }
 
             try
@@ -322,7 +323,8 @@ namespace The_Guild_Back.BLL
             catch (ArgumentOutOfRangeException e)
             {
                 logger.Error(e, "Mapping negative Dex to User");
-                throw;
+                //if(use.Dex != null)
+                    //throw;
             }
 
             try
@@ -332,7 +334,8 @@ namespace The_Guild_Back.BLL
             catch (ArgumentOutOfRangeException e)
             {
                 logger.Error(e, "Mapping negative Intelligence to User");
-                throw;
+                //if(use.Intelligence != null)
+                    //throw;
             }
 
             try
@@ -342,7 +345,8 @@ namespace The_Guild_Back.BLL
             catch (ArgumentOutOfRangeException e)
             {
                 logger.Error(e, "Mapping negative Wisdom to User");
-                throw;
+                //if(use.Wisdom != null)
+                    //throw;
             }
 
             try
@@ -352,7 +356,8 @@ namespace The_Guild_Back.BLL
             catch (ArgumentOutOfRangeException e)
             {
                 logger.Error(e, "Mapping negative Charisma to User");
-                throw;
+                //if(use.Charisma != null)
+                    //throw;
             }
 
             try
@@ -362,7 +367,8 @@ namespace The_Guild_Back.BLL
             catch (ArgumentOutOfRangeException e)
             {
                 logger.Error(e, "Mapping negative Constitution to User");
-                throw;
+                //if(use.Constitution != null)
+                    //throw;
             }
 
             try
@@ -372,7 +378,8 @@ namespace The_Guild_Back.BLL
             catch (ArgumentOutOfRangeException e)
             {
                 logger.Error(e, "Mapping negative Salary to User");
-                throw;
+                //if(use.Salary != null)
+                    //throw;
             }
             return use;
         }

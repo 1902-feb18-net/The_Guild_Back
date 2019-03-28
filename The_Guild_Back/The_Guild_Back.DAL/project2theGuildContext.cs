@@ -21,16 +21,7 @@ namespace The_Guild_Back.DAL
         public virtual DbSet<Ranks> Ranks { get; set; }
         public virtual DbSet<Request> Request { get; set; }
         public virtual DbSet<RequestingGroup> RequestingGroup { get; set; }
-        public virtual DbSet<Users> Users { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=tcp:matthew1995sql.database.windows.net,1433;Initial Catalog=project2theGuild;Persist Security Info=False;User ID=matthew;Password=Llm0507?four;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-            }
-        }
+        public virtual DbSet<Users> Users { get; set; }        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
