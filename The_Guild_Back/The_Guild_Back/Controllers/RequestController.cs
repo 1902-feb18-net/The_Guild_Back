@@ -64,6 +64,15 @@ namespace The_Guild_Back.API.Controllers
             //repo add
             Request request = _mapp.Map(apiRequest);
             request.Id = _repo.AddRequest(request);
+            foreach (var requester in apiRequest.Requesters) {
+                var RequestingGroup = new RequestingGroup()
+                {
+                    CustomerId = requester.Id,
+                    RequestId = request.Id
+                };
+                _repo.AddRequestingGroup(RequestingGroup);
+            }
+
             APIRequest newApiRequest = _mapp.Map(request);
 
             return CreatedAtAction(nameof(GetById), new { id = newApiRequest.Id },

@@ -70,6 +70,7 @@ namespace The_Guild_Back.BLL
         public int AddRequest(Request obj)
         {
             var mapped = Mapper.Map(obj);
+            mapped.ProgressId = 1; //set new dbRequest to pending
             _db.Add(mapped);
             _db.SaveChanges();
             return mapped.Id;
