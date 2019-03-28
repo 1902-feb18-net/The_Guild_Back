@@ -25,5 +25,6 @@ namespace The_Guild_Back.API.Models
         public decimal? Cost { get; set; }
         public int ProgressId { get; set; } // ?
 
+        public List<Users> Requesters { get; set; } = new List<Users>();
     }
 }
