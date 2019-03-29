@@ -30,7 +30,7 @@ namespace The_Guild_Back.API.Controllers
 
         // POST for create resource, but also for "perform operation"
         // when there is no way to fit the operation into CRUD terms.
-        // POST /account/login
+        // POST azureyurl/api/account/login
         [HttpPost("[action]")]
         public async Task<IActionResult> Login(Login login)
         {
@@ -130,6 +130,17 @@ namespace The_Guild_Back.API.Controllers
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError,
                         "master role not created");
+                }
+            }
+
+            if (!await roleManager.RoleExistsAsync("user"))
+            {
+                var role4 = new IdentityRole("user");
+                IdentityResult identityResult = await roleManager.CreateAsync(role4);
+                if(!identityResult.Succeeded)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError,
+                        "base user role not created");
                 }
             }
 

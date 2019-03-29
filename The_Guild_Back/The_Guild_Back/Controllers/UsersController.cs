@@ -11,7 +11,7 @@ using The_Guild_Back.BLL;
 namespace The_Guild_Back.API.Controllers
 {
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -25,6 +25,7 @@ namespace The_Guild_Back.API.Controllers
         }
 
         // GET: api/Users
+        [Authorize(Roles = "master, receptionist")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IEnumerable<ApiUsers> Get()

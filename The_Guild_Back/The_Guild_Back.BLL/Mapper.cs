@@ -312,8 +312,8 @@ namespace The_Guild_Back.BLL
             catch (ArgumentOutOfRangeException e)
             {
                 logger.Error(e, "Mapping negative Strength to User");
-                //if(use.Strength != null)
-                    //throw;
+                if(use.Strength != null)
+                    throw;
             }
 
             try
@@ -323,8 +323,8 @@ namespace The_Guild_Back.BLL
             catch (ArgumentOutOfRangeException e)
             {
                 logger.Error(e, "Mapping negative Dex to User");
-                //if(use.Dex != null)
-                    //throw;
+                if(use.Dex != null)
+                    throw;
             }
 
             try
@@ -334,8 +334,8 @@ namespace The_Guild_Back.BLL
             catch (ArgumentOutOfRangeException e)
             {
                 logger.Error(e, "Mapping negative Intelligence to User");
-                //if(use.Intelligence != null)
-                    //throw;
+                if(use.Intelligence != null)
+                    throw;
             }
 
             try
@@ -345,8 +345,8 @@ namespace The_Guild_Back.BLL
             catch (ArgumentOutOfRangeException e)
             {
                 logger.Error(e, "Mapping negative Wisdom to User");
-                //if(use.Wisdom != null)
-                    //throw;
+                if(use.Wisdom != null)
+                    throw;
             }
 
             try
@@ -356,8 +356,8 @@ namespace The_Guild_Back.BLL
             catch (ArgumentOutOfRangeException e)
             {
                 logger.Error(e, "Mapping negative Charisma to User");
-                //if(use.Charisma != null)
-                    //throw;
+                if(use.Charisma != null)
+                    throw;
             }
 
             try
@@ -367,8 +367,8 @@ namespace The_Guild_Back.BLL
             catch (ArgumentOutOfRangeException e)
             {
                 logger.Error(e, "Mapping negative Constitution to User");
-                //if(use.Constitution != null)
-                    //throw;
+                if(use.Constitution != null)
+                    throw;
             }
 
             try
@@ -378,8 +378,8 @@ namespace The_Guild_Back.BLL
             catch (ArgumentOutOfRangeException e)
             {
                 logger.Error(e, "Mapping negative Salary to User");
-                //if(use.Salary != null)
-                    //throw;
+                if(use.Salary != null)
+                    throw;
             }
             return use;
         }
