@@ -5,13 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using The_Guild_Back.BLL;
 using The_Guild_Back.DAL;
+using System.Threading.Tasks;
 
 namespace The_Guild_Back.Testing
 {
     public class InMemoryTest1
     {
         [Fact]
-        public void Add_AdventurerParty_writes_to_database()
+        public async Task Add_AdventurerPartyAsync_writes_to_database()
         {
             // In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -41,20 +42,20 @@ namespace The_Guild_Back.Testing
                         FirstName = "testFirst",
                         LastName = "testLast"
                     };
-                    adventurer.Id = testRepo.AddUser(adventurer);
+                    adventurer.Id = await testRepo.AddUserAsync(adventurer);
 
                     var dep = new BLL.Progress
                     {
                         Nam = "testProgressName"
                     };
-                    dep.Id = testRepo.AddProgress(dep);
+                    dep.Id = await testRepo.AddProgressAsync(dep);
                     var request = new BLL.Request
                     {
                         Descript = "testDescription",
                         Requirements = "testRequirements",
                         ProgressId = dep.Id
                     };
-                    request.Id = testRepo.AddRequest(request);
+                    request.Id = await testRepo.AddRequestAsync(request);
 
                     //add obj with values
                     var obj = new BLL.AdventurerParty
@@ -65,7 +66,7 @@ namespace The_Guild_Back.Testing
                         AdventurerId = adventurer.Id
                     };
 
-                    testRepo.AddAdventurerParty(obj);
+                    await testRepo.AddAdventurerPartyAsync(obj);
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
@@ -84,7 +85,7 @@ namespace The_Guild_Back.Testing
         
 
         [Fact]
-        public void Add_Progress_writes_to_database()
+        public async Task Add_ProgressAsync_writes_to_database()
         {
             // In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -115,7 +116,7 @@ namespace The_Guild_Back.Testing
                         Nam = "testProgressName"
                     };
 
-                    testRepo.AddProgress(obj);
+                    await testRepo.AddProgressAsync(obj);
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
@@ -132,7 +133,7 @@ namespace The_Guild_Back.Testing
         }
 
         [Fact]
-        public void Add_Rank_writes_to_database()
+        public async Task Add_RankAsync_writes_to_database()
         {
             // In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -164,7 +165,7 @@ namespace The_Guild_Back.Testing
                         Fee = 10
                     };
 
-                    testRepo.AddRank(obj);
+                    await testRepo.AddRankAsync(obj);
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
@@ -182,7 +183,7 @@ namespace The_Guild_Back.Testing
         }
 
         [Fact]
-        public void Add_RankRequirements_writes_to_database()
+        public async Task Add_RankRequirementsAsync_writes_to_database()
         {
             // In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -219,8 +220,8 @@ namespace The_Guild_Back.Testing
                         Nam = "r2",
                         Fee = 2
                     };
-                    dep1.Id = testRepo.AddRank(dep1);
-                    dep2.Id = testRepo.AddRank(dep2);
+                    dep1.Id = await testRepo.AddRankAsync(dep1);
+                    dep2.Id = await testRepo.AddRankAsync(dep2);
 
                     //add obj with values
                     var obj = new BLL.RankRequirements
@@ -232,7 +233,7 @@ namespace The_Guild_Back.Testing
                         NumberRequests = 11
                     };
 
-                    testRepo.AddRankRequirements(obj);
+                    await testRepo.AddRankRequirementsAsync(obj);
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
@@ -251,7 +252,7 @@ namespace The_Guild_Back.Testing
         }
 
         [Fact]
-        public void Add_Request_writes_to_database()
+        public async Task Add_RequestAsync_writes_to_database()
         {
             // In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -282,7 +283,7 @@ namespace The_Guild_Back.Testing
                         Nam = "testProgressName"
                     };
 
-                    dep.Id = testRepo.AddProgress(dep);
+                    dep.Id = await testRepo.AddProgressAsync(dep);
 
                     //add obj with values
                     var obj = new BLL.Request
@@ -293,7 +294,7 @@ namespace The_Guild_Back.Testing
                         ProgressId = dep.Id
                     };
 
-                    testRepo.AddRequest(obj);
+                    await testRepo.AddRequestAsync(obj);
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
@@ -312,7 +313,7 @@ namespace The_Guild_Back.Testing
         }
 
         [Fact]
-        public void Add_RequestingGroup_writes_to_database()
+        public async Task Add_RequestingGroupAsync_writes_to_database()
         {
             // In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -342,20 +343,20 @@ namespace The_Guild_Back.Testing
                         FirstName = "testFirst",
                         LastName = "testLast"
                     };
-                    customer.Id = testRepo.AddUser(customer);
+                    customer.Id = await testRepo.AddUserAsync(customer);
 
                     var dep = new BLL.Progress
                     {
                         Nam = "testProgressName"
                     };
-                    dep.Id = testRepo.AddProgress(dep);
+                    dep.Id = await testRepo.AddProgressAsync(dep);
                     var request = new BLL.Request
                     {
                         Descript = "testDescription",
                         Requirements = "testRequirements",
                         ProgressId = dep.Id
                     };
-                    request.Id = testRepo.AddRequest(request);
+                    request.Id = await testRepo.AddRequestAsync(request);
 
                     //add obj with values
                     var obj = new BLL.RequestingGroup
@@ -365,7 +366,7 @@ namespace The_Guild_Back.Testing
                         RequestId = request.Id
                     };
 
-                    testRepo.AddRequestingGroup(obj);
+                    await testRepo.AddRequestingGroupAsync(obj);
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
@@ -381,7 +382,7 @@ namespace The_Guild_Back.Testing
         }
 
         [Fact]
-        public void Add_User_writes_to_database()
+        public async Task Add_UserAsync_writes_to_database()
         {
             // In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -411,7 +412,7 @@ namespace The_Guild_Back.Testing
                         FirstName = "testFirst",
                         LastName = "testLast"
                     };
-                    testRepo.AddUser(obj);
+                    await testRepo.AddUserAsync(obj);
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database

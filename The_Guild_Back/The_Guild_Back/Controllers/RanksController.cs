@@ -32,7 +32,7 @@ namespace The_Guild_Back.API.Controllers
             return Ranks;
 
             ////if no Ranks at all,
-            //return NotFound(); 
+            //would normally return not found (404) 
             //won't work with nick's automatic 200 OK wrapping of IEnumerable?
             //(needs to return actual ActionResult)
         }
@@ -63,7 +63,7 @@ namespace The_Guild_Back.API.Controllers
 
             //repo add
             Ranks Rank = _mapp.Map(apiRanks);
-            Rank.Id = _repo.AddRank(Rank);
+            Rank.Id = await _repo.AddRankAsync(Rank);
             ApiRanks newApiRanks = _mapp.Map(Rank);
 
             return CreatedAtAction(nameof(GetById), new { id = newApiRanks.Id },

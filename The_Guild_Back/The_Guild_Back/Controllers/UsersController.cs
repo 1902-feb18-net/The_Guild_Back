@@ -32,7 +32,7 @@ namespace The_Guild_Back.API.Controllers
             return users;
 
             ////if no users at all,
-            //return NotFound(); 
+            //would normally return not found (404) 
             //won't work with nick's automatic 200 OK wrapping of IEnumerable?
             //(needs to return actual ActionResult)
         }
@@ -63,7 +63,7 @@ namespace The_Guild_Back.API.Controllers
 
             //repo add
             Users user = _mapp.Map(apiUser);
-            user.Id =  _repo.AddUser(user);
+            user.Id =  await _repo.AddUserAsync(user);
             ApiUsers newApiUser = _mapp.Map(user);
 
             return CreatedAtAction(nameof(GetById), new { id = newApiUser.Id },

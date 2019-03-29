@@ -14,9 +14,9 @@ namespace The_Guild_Back.API.Controllers
     public class ProgressController : ControllerBase
     {
         private readonly IRepository _repo;
-        private readonly IAPIMapper _mapp; //to map BLL to API and vice-versa
+        private readonly IApiMapper _mapp; //to map BLL to API and vice-versa
 
-        public ProgressController(IRepository Repository, IAPIMapper Mapper)
+        public ProgressController(IRepository Repository, IApiMapper Mapper)
         {
             _repo = Repository;
             _mapp = Mapper;
@@ -25,14 +25,14 @@ namespace The_Guild_Back.API.Controllers
         // GET: api/Progress
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IEnumerable<APIProgress> Get()
+        public IEnumerable<ApiProgress> Get()
         {
             //repo call for all Ranks
             var Progress = _repo.GetAllProgress().Select(x => _mapp.Map(x));
             return Progress;
 
             ////if no Ranks at all,
-            //return NotFound(); 
+            //would normally return not found (404) 
             //won't work with nick's automatic 200 OK wrapping of IEnumerable?
             //(needs to return actual ActionResult)
         }
@@ -40,7 +40,7 @@ namespace The_Guild_Back.API.Controllers
         // GET: api/Progress/5
         [HttpGet("{id}", Name = "GetProgress")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIProgress>> GetById(int id)
+        public async Task<ActionResult<ApiProgress>> GetById(int id)
         {
             //repo.get call for specific Ranks id
             if (await _repo.GetProgressByIdAsync(id) is Progress Progress) //if found

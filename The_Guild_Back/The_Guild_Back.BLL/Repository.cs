@@ -17,11 +17,11 @@ namespace The_Guild_Back.BLL
         }
 
 
-        public int AddUser(Users users)
+        public async Task<int> AddUserAsync(Users users)
         {
             var mapped = Mapper.Map(users);
             _db.Add(mapped);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return mapped.Id;
         }
 
@@ -67,12 +67,12 @@ namespace The_Guild_Back.BLL
 
 
 
-        public int AddRequest(Request obj)
+        public async Task<int> AddRequestAsync(Request obj)
         {
             var mapped = Mapper.Map(obj);
             mapped.ProgressId = 1; //set new dbRequest to pending
             _db.Add(mapped);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return mapped.Id;
         }
 
@@ -117,11 +117,11 @@ namespace The_Guild_Back.BLL
         }
 
 
-        public int AddProgress(Progress obj)
+        public async Task<int> AddProgressAsync(Progress obj)
         {
             var mapped = Mapper.Map(obj);
             _db.Add(mapped);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return mapped.Id;
         }
 
@@ -161,11 +161,11 @@ namespace The_Guild_Back.BLL
         }
 
 
-        public int AddAdventurerParty(AdventurerParty adventurerParty)
+        public async Task<int> AddAdventurerPartyAsync(AdventurerParty adventurerParty)
         {
             var mapped = Mapper.Map(adventurerParty);
             _db.Add(mapped);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return mapped.Id;
         }
 
@@ -206,11 +206,11 @@ namespace The_Guild_Back.BLL
 
 
 
-        public int AddRequestingGroup(RequestingGroup requestingGroup)
+        public async Task<int> AddRequestingGroupAsync(RequestingGroup requestingGroup)
         {
             var mapped = Mapper.Map(requestingGroup);
             _db.Add(mapped);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return mapped.Id;
         }
 
@@ -247,11 +247,11 @@ namespace The_Guild_Back.BLL
 
 
 
-        public int AddRank(Ranks rank)
+        public async Task<int> AddRankAsync(Ranks rank)
         {
             var mapped = Mapper.Map(rank);
             _db.Add(mapped);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return mapped.Id;
         }
 
@@ -287,11 +287,11 @@ namespace The_Guild_Back.BLL
         }
 
 
-        public int AddRankRequirements(RankRequirements rankReq)
+        public async Task<int> AddRankRequirementsAsync(RankRequirements rankReq)
         {
             var mapped = Mapper.Map(rankReq);
             _db.Add(mapped);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return mapped.Id;
         }
 

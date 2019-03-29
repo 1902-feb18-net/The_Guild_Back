@@ -32,7 +32,7 @@ namespace The_Guild_Back.API.Controllers
             return request;
 
             ////if no Request at all,
-            //return NotFound(); 
+            //would normally return not found (404) 
             //won't work with nick's automatic 200 OK wrapping of IEnumerable?
             //(needs to return actual ActionResult)
         }
@@ -63,14 +63,14 @@ namespace The_Guild_Back.API.Controllers
 
             //repo add
             Request request = _mapp.Map(apiRequest);
-            request.Id = _repo.AddRequest(request);
+            request.Id = await _repo.AddRequestAsync(request);
             foreach (var requester in apiRequest.Requesters) {
                 var RequestingGroup = new RequestingGroup()
                 {
                     CustomerId = requester.Id,
                     RequestId = request.Id
                 };
-                _repo.AddRequestingGroup(RequestingGroup);
+                await _repo.AddRequestingGroupAsync(RequestingGroup);
             }
 
             ApiRequest newApiRequest = _mapp.Map(request);

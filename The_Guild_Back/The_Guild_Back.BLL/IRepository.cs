@@ -5,13 +5,13 @@ namespace The_Guild_Back.BLL
 {
     public interface IRepository
     {
-        int AddAdventurerParty(AdventurerParty adventurerParty);
-        int AddProgress(Progress obj);
-        int AddRank(Ranks rank);
-        int AddRankRequirements(RankRequirements rankReq);
-        int AddRequest(Request obj);
-        int AddRequestingGroup(RequestingGroup requestingGroup);
-        int AddUser(Users users);
+        Task<int> AddAdventurerPartyAsync(AdventurerParty adventurerParty);
+        Task<int> AddProgressAsync(Progress obj);
+        Task<int> AddRankAsync(Ranks rank);
+        Task<int> AddRankRequirementsAsync(RankRequirements rankReq);
+        Task<int> AddRequestAsync(Request obj);
+        Task<int> AddRequestingGroupAsync(RequestingGroup requestingGroup);
+        Task<int> AddUserAsync(Users users);
         Task DeleteAdventurerPartyAsync(int Id);
         Task DeleteProgressAsync(int Id);
         Task DeleteRankAsync(int Id);
