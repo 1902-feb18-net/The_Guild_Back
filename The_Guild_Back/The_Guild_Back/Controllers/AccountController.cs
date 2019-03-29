@@ -55,7 +55,7 @@ namespace The_Guild_Back.API.Controllers
         }
 
         // POST /account
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<IActionResult> Register(RegisterUser register,
             [FromServices] UserManager<IdentityUser> userManager,
             [FromServices] RoleManager<IdentityRole> roleManager)
