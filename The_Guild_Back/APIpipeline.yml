@@ -1,3 +1,12 @@
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - The_Guild_Back
+
 pool:
   name: Default
 
@@ -23,6 +32,8 @@ steps:
 - script: dotnet build 
     --configuration $(buildConfiguration) 
     --no-restore
+  workingDirectory: $(solutionDir)
+  displayName: Build
 
 - script: dotnet test **/*Test*.csproj
     --configuration $(buildConfiguration)
@@ -36,13 +47,6 @@ steps:
   workingDirectory: $(solutionDir)
   displayName: Test
   
-# - task: DotNetCoreCLI@2
-  # displayName: .NET Core Test
-  # inputs:
-    # command: test
-    # projects: '**/*Test*/*.csproj'
-    # arguments: '--configuration $(buildConfiguration)'
-    # nobuild: true
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: VSTest
@@ -63,15 +67,6 @@ steps:
   workingDirectory: $(solutionDir)
   displayName: Publish
   
-# - task: DotNetCoreCLI@2
-  # displayName: .NET Core Publish
-  # inputs:
-    # command: publish
-    # publishWebProjects: false
-    # projects: 'The_Guild_Back/The_Guild_Back/*API.csproj'
-    # arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/publish'
-    # modifyOutputPath: false
-    # nobuild: true
 
 - task: AzureRmWebAppDeployment@4
   displayName: 'Azure App Service Deploy: project2theGuild'
@@ -83,6 +78,4 @@ steps:
 
 - task: PublishBuildArtifacts@1
   displayName: Publish artifact
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/publish'
     
