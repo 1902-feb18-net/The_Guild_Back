@@ -44,7 +44,10 @@ namespace The_Guild_Back.API
             options.UseSqlServer(Configuration.GetConnectionString("AuthDb")));
 
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
-            { }).AddEntityFrameworkStores<AuthDbContext>();
+            {
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            }).AddEntityFrameworkStores<AuthDbContext>();
 
             services.ConfigureApplicationCookie(options =>
             {

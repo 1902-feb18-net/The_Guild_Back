@@ -13,7 +13,6 @@ using The_Guild_Back.DAL;
 namespace The_Guild_Back.API.Controllers
 {
     [Route("api/[controller]")]
-    //[Authorize]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -24,7 +23,7 @@ namespace The_Guild_Back.API.Controllers
         public AccountController(SignInManager<IdentityUser> signInManager,
             AuthDbContext dbContext, ILogger<AccountController> logger)
         {
-            dbContext.Database.EnsureCreated();
+            //dbContext.Database.EnsureCreated();
             SignInManager = signInManager;
             _logger = logger;
         }
@@ -77,7 +76,7 @@ namespace The_Guild_Back.API.Controllers
 
         // PUT /account/update/5
         [HttpPut("[action]")]
-        [Authorize]
+        [Authorize(Roles = "master")]
         public async Task<IActionResult> AssignRole(string id,
             string role,
             [FromServices] UserManager<IdentityUser> userManager,
@@ -86,7 +85,7 @@ namespace The_Guild_Back.API.Controllers
             IdentityUser user = await userManager.FindByIdAsync(id);
             IdentityResult result = await userManager.AddToRoleAsync(user, role);
 
-            if(!result.Succeeded)
+            if (!result.Succeeded)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     "unable to update user permissions");
@@ -97,8 +96,9 @@ namespace The_Guild_Back.API.Controllers
         // POST /account/roles
         [HttpPost("[action]")]
         [AllowAnonymous]
-        public async Task<IActionResult> seed(
-            [FromServices] RoleManager<IdentityRole> roleManager)
+        public async Task<IActionResult> Roles(
+            [FromServices] RoleManager<IdentityRole> roleManager,
+            [FromServices] UserManager<IdentityUser> userManager)
         {
             if(!await roleManager.RoleExistsAsync("receptionist"))
             {
@@ -130,6 +130,28 @@ namespace The_Guild_Back.API.Controllers
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError,
                         "master role not created");
+                }
+            }
+
+            var Lee = "Lunk";
+            if (await userManager.FindByIdAsync(Lee) is null)
+            {
+                var leeUser = userManager.FindByNameAsync(Lee).Result;
+
+
+                /*IdentityResult result = await userManager.CreateAsync(leeUser, "NamineHano23#");
+
+                if (!result.Succeeded)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError,
+                        "failed to seed user");
+                }*/
+                
+                IdentityResult addRoleResult = await userManager.AddToRoleAsync(leeUser, "master");
+                if (!addRoleResult.Succeeded)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError,
+                        "failed to add user to admin role");
                 }
             }
 
