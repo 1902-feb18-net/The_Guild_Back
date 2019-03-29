@@ -65,7 +65,21 @@ namespace The_Guild_Back.BLL
             await _db.SaveChangesAsync();
         }
 
+        public IEnumerable<Request> GetSubmittedRequestsByUserId(int id)
+        {
+            var reqs = _db.Request.Include(o => o.RequestingGroup)
+            .Where(r => r.RequestingGroup.Where(rg => rg.CustomerId == id).Count() != 0).ToList();
 
+            return Mapper.Map(reqs);
+        }
+
+        public IEnumerable<Request> GetAcceptedRequestsByUserId(int id)
+        {
+            var reqs = _db.Request.Include(o => o.AdventurerParty)
+            .Where(r => r.AdventurerParty.Where(rg => rg.AdventurerId == id).Count() != 0).ToList();
+
+            return Mapper.Map(reqs);
+        }
 
         public async Task<int> AddRequestAsync(Request obj)
         {
