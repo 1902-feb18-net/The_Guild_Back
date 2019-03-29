@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using The_Guild_Back.API.Models;
@@ -10,6 +11,7 @@ using The_Guild_Back.BLL;
 namespace The_Guild_Back.API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -23,6 +25,7 @@ namespace The_Guild_Back.API.Controllers
         }
 
         // GET: api/Users
+        [Authorize(Roles = "master, receptionist")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IEnumerable<ApiUsers> Get()
