@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace The_Guild_Back.API.Models
 {
-    public class APIAdventureParty
+    public class ApiAdventureParty
     {
         [Required]
         public string Name { get; set; }

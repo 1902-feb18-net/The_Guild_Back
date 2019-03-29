@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace The_Guild_Back.API.Models
 {
-    public class APIRankRequirements
+    public class ApiRankRequirements
     {
         public int Id { get; set; }
         public int CurrentRankId { get; set; }

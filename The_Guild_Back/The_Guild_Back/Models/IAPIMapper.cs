@@ -6,27 +6,27 @@ using The_Guild_Back.BLL;
 
 namespace The_Guild_Back.API.Models
 {
-    public interface IAPIMapper
+    public interface IApiMapper
     {
-        APIAdventureParty Map(AdventurerParty adventurerParty);
-        AdventurerParty Map(APIAdventureParty apiAdventureParty);
+        ApiAdventureParty Map(AdventurerParty adventurerParty);
+        AdventurerParty Map(ApiAdventureParty apiAdventureParty);
 
-        APIProgress Map(Progress progress);
-        Progress Map(APIProgress apiProgress);
+        ApiProgress Map(Progress progress);
+        Progress Map(ApiProgress apiProgress);
 
-        APIRankRequirements Map(RankRequirements rankRequirements);
-        RankRequirements Map(APIRankRequirements apiRankRequirements);
+        ApiRankRequirements Map(RankRequirements rankRequirements);
+        RankRequirements Map(ApiRankRequirements apiRankRequirements);
 
-        APIRanks Map(Ranks ranks);
-        Ranks Map(APIRanks apiRanks);
+        ApiRanks Map(Ranks ranks);
+        Ranks Map(ApiRanks apiRanks);
 
-        APIRequest Map(Request request);
-        Request Map(APIRequest apiRequest);
+        ApiRequest Map(Request request);
+        Request Map(ApiRequest apiRequest);
 
-        APIRequestingParty Map(RequestingGroup requestingGroup);
-        RequestingGroup Map(APIRequestingParty apiRequestingParty);
+        ApiRequestingParty Map(RequestingGroup requestingGroup);
+        RequestingGroup Map(ApiRequestingParty apiRequestingParty);
 
-        APIUsers Map(Users users);
-        Users Map(APIUsers apiUsers);
+        ApiUsers Map(Users users);
+        Users Map(ApiUsers apiUsers);
     }
 }

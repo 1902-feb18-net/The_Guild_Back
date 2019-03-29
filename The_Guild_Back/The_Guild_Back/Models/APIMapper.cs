@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using The_Guild_Back.API.Models;
 using The_Guild_Back.BLL;
 
-namespace The_Guild_Back.API.Models
+namespace The_Guild_Back.Api.Models
 {
-    public class APIMapper : IAPIMapper
+    public class ApiMapper : IApiMapper
     {
-        public APIAdventureParty Map(AdventurerParty adventurerParty) => new APIAdventureParty
+        public ApiAdventureParty Map(AdventurerParty adventurerParty) => new ApiAdventureParty
         {
             Name = adventurerParty.Nam,
             Id = adventurerParty.Id,
@@ -16,27 +17,27 @@ namespace The_Guild_Back.API.Models
             RequestId = adventurerParty.RequestId
         };
 
-        public AdventurerParty Map(APIAdventureParty apiAdventureParty) => new AdventurerParty
+        public AdventurerParty Map(ApiAdventureParty ApiAdventureParty) => new AdventurerParty
         {
-            Nam = apiAdventureParty.Name,
-            Id = apiAdventureParty.Id,
-            AdventurerId = apiAdventureParty.AdventurerId,
-            RequestId = apiAdventureParty.RequestId
+            Nam = ApiAdventureParty.Name,
+            Id = ApiAdventureParty.Id,
+            AdventurerId = ApiAdventureParty.AdventurerId,
+            RequestId = ApiAdventureParty.RequestId
         };
 
-        public APIProgress Map(Progress progress) => new APIProgress
+        public ApiProgress Map(Progress progress) => new ApiProgress
         {
             Id = progress.Id,
             Nam = progress.Nam
         };
 
-        public Progress Map(APIProgress apiProgress) => new Progress
+        public Progress Map(ApiProgress ApiProgress) => new Progress
         {
-            Id = apiProgress.Id,
-            Nam = apiProgress.Nam
+            Id = ApiProgress.Id,
+            Nam = ApiProgress.Nam
         };
 
-        public APIRankRequirements Map(RankRequirements rankRequirements) => new APIRankRequirements
+        public ApiRankRequirements Map(RankRequirements rankRequirements) => new ApiRankRequirements
         {
             Id = rankRequirements.Id,
             CurrentRankId = rankRequirements.CurrentRankId,
@@ -45,30 +46,30 @@ namespace The_Guild_Back.API.Models
             MinTotalStats = rankRequirements.MinTotalStats
         };
 
-        public RankRequirements Map(APIRankRequirements apiRankRequirements) => new RankRequirements
+        public RankRequirements Map(ApiRankRequirements ApiRankRequirements) => new RankRequirements
         {
-            Id = apiRankRequirements.Id,
-            CurrentRankId = apiRankRequirements.CurrentRankId,
-            NextRankId = apiRankRequirements.NextRankId,
-            NumberRequests = apiRankRequirements.NumberRequests,
-            MinTotalStats = apiRankRequirements.MinTotalStats
+            Id = ApiRankRequirements.Id,
+            CurrentRankId = ApiRankRequirements.CurrentRankId,
+            NextRankId = ApiRankRequirements.NextRankId,
+            NumberRequests = ApiRankRequirements.NumberRequests,
+            MinTotalStats = ApiRankRequirements.MinTotalStats
         };
 
-        public APIRanks Map(Ranks ranks) => new APIRanks
+        public ApiRanks Map(Ranks ranks) => new ApiRanks
         {
             Id = ranks.Id,
             Name = ranks.Nam,
             Fee = ranks.Fee
         };
 
-        public Ranks Map(APIRanks apiRanks) => new Ranks
+        public Ranks Map(ApiRanks ApiRanks) => new Ranks
         {
-            Id = apiRanks.Id,
-            Nam = apiRanks.Name,
-            Fee = apiRanks.Fee
+            Id = ApiRanks.Id,
+            Nam = ApiRanks.Name,
+            Fee = ApiRanks.Fee
         };
 
-        public APIRequest Map(Request request) => new APIRequest
+        public ApiRequest Map(Request request) => new ApiRequest
         {
             Id = request.Id,
             RankId = request.RankId,
@@ -79,32 +80,32 @@ namespace The_Guild_Back.API.Models
             ProgressId = request.ProgressId
         };
 
-        public Request Map(APIRequest apiRequest) => new Request
+        public Request Map(ApiRequest ApiRequest) => new Request
         {
-            Id = apiRequest.Id,
-            RankId = apiRequest.RankId,
-            Descript = apiRequest.Descript,
-            Requirements = apiRequest.Requirements,
-            Reward = apiRequest.Reward,
-            Cost = apiRequest.Cost,
-            ProgressId = apiRequest.ProgressId
+            Id = ApiRequest.Id,
+            RankId = ApiRequest.RankId,
+            Descript = ApiRequest.Descript,
+            Requirements = ApiRequest.Requirements,
+            Reward = ApiRequest.Reward,
+            Cost = ApiRequest.Cost,
+            ProgressId = ApiRequest.ProgressId
         };
 
-        public APIRequestingParty Map(RequestingGroup requestingGroup) => new APIRequestingParty
+        public ApiRequestingParty Map(RequestingGroup requestingGroup) => new ApiRequestingParty
         {
             Id = requestingGroup.Id,
             RequestId = requestingGroup.RequestId,
             CustomerId = requestingGroup.CustomerId
         };
 
-        public RequestingGroup Map(APIRequestingParty apiRequestingParty) => new RequestingGroup
+        public RequestingGroup Map(ApiRequestingParty ApiRequestingParty) => new RequestingGroup
         {
-            Id = apiRequestingParty.Id,
-            RequestId = apiRequestingParty.RequestId,
-            CustomerId = apiRequestingParty.CustomerId
+            Id = ApiRequestingParty.Id,
+            RequestId = ApiRequestingParty.RequestId,
+            CustomerId = ApiRequestingParty.CustomerId
         };
 
-        public APIUsers Map(Users users) => new APIUsers
+        public ApiUsers Map(Users users) => new ApiUsers
         {
             Id = users.Id,
             FirstName = users.FirstName,
@@ -119,19 +120,19 @@ namespace The_Guild_Back.API.Models
             RankId = users.RankId,
         };
 
-        public Users Map(APIUsers apiUsers) => new Users
+        public Users Map(ApiUsers ApiUsers) => new Users
         {
-            Id = apiUsers.Id,
-            FirstName = apiUsers.FirstName,
-            LastName = apiUsers.LastName,
-            Salary = apiUsers.Salary,
-            Strength = apiUsers.Strength,
-            Dex = apiUsers.Dex,
-            Wisdom = apiUsers.Wisdom,
-            Intelligence = apiUsers.Intelligence,
-            Charisma = apiUsers.Charisma,
-            Constitution = apiUsers.Constitution,
-            RankId = apiUsers.RankId,
+            Id = ApiUsers.Id,
+            FirstName = ApiUsers.FirstName,
+            LastName = ApiUsers.LastName,
+            Salary = ApiUsers.Salary,
+            Strength = ApiUsers.Strength,
+            Dex = ApiUsers.Dex,
+            Wisdom = ApiUsers.Wisdom,
+            Intelligence = ApiUsers.Intelligence,
+            Charisma = ApiUsers.Charisma,
+            Constitution = ApiUsers.Constitution,
+            RankId = ApiUsers.RankId,
         };
 
     }
