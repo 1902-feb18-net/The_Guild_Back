@@ -7,7 +7,7 @@ using The_Guild_Back.BLL;
 
 namespace The_Guild_Back.API.Models
 {
-    public class APIUsers
+    public class ApiUsers
     {
         public int Id { get; set; }
 

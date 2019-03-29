@@ -42,20 +42,20 @@ namespace The_Guild_Back.Testing
                         FirstName = "testFirst",
                         LastName = "testLast"
                     };
-                    adventurer.Id = testRepo.AddUser(adventurer);
+                    adventurer.Id = await testRepo.AddUserAsync(adventurer);
 
                     var dep = new BLL.Progress
                     {
                         Nam = "testProgressName"
                     };
-                    dep.Id = testRepo.AddProgress(dep);
+                    dep.Id = await testRepo.AddProgressAsync(dep);
                     var request = new BLL.Request
                     {
                         Descript = "testDescription",
                         Requirements = "testRequirements",
                         ProgressId = dep.Id
                     };
-                    request.Id = testRepo.AddRequest(request);
+                    request.Id = await testRepo.AddRequestAsync(request);
 
                     //add obj with values
                     var obj = new BLL.AdventurerParty
@@ -66,7 +66,7 @@ namespace The_Guild_Back.Testing
                         AdventurerId = adventurer.Id
                     };
 
-                    obj.Id = testRepo.AddAdventurerParty(obj);
+                    obj.Id = await testRepo.AddAdventurerPartyAsync(obj);
 
                     obj.Nam = "newName";
                     await testRepo.UpdateAdventurerPartyAsync(obj);
@@ -119,7 +119,7 @@ namespace The_Guild_Back.Testing
                         Nam = "testProgressName"
                     };
 
-                    obj.Id = testRepo.AddProgress(obj);
+                    obj.Id = await testRepo.AddProgressAsync(obj);
                     //testRepo.Save();
 
                     obj.Nam = "newName";
@@ -172,7 +172,7 @@ namespace The_Guild_Back.Testing
                         Fee = 10
                     };
 
-                    obj.Id = testRepo.AddRank(obj);
+                    obj.Id = await testRepo.AddRankAsync(obj);
 
 
                     obj.Nam = "newName";
@@ -234,8 +234,8 @@ namespace The_Guild_Back.Testing
                         Nam = "r2",
                         Fee = 2
                     };
-                    dep1.Id = testRepo.AddRank(dep1);
-                    dep2.Id = testRepo.AddRank(dep2);
+                    dep1.Id = await testRepo.AddRankAsync(dep1);
+                    dep2.Id = await testRepo.AddRankAsync(dep2);
 
                     //add obj with values
                     var obj = new BLL.RankRequirements
@@ -247,7 +247,7 @@ namespace The_Guild_Back.Testing
                         NumberRequests = 11
                     };
 
-                    obj.Id = testRepo.AddRankRequirements(obj);
+                    obj.Id = await testRepo.AddRankRequirementsAsync(obj);
 
                     obj.MinTotalStats = 12;
                     obj.NumberRequests = 13;
@@ -302,7 +302,7 @@ namespace The_Guild_Back.Testing
                         Nam = "testProgressName"
                     };
 
-                    dep.Id = testRepo.AddProgress(dep);
+                    dep.Id = await testRepo.AddProgressAsync(dep);
 
                     //add obj with values
                     var obj = new BLL.Request
@@ -313,7 +313,7 @@ namespace The_Guild_Back.Testing
                         ProgressId = dep.Id
                     };
 
-                    obj.Id = testRepo.AddRequest(obj);
+                    obj.Id = await testRepo.AddRequestAsync(obj);
 
                     obj.Descript = "newDescription";
                     obj.Requirements = "newRequirements";
@@ -366,20 +366,20 @@ namespace The_Guild_Back.Testing
                         FirstName = "testFirst",
                         LastName = "testLast"
                     };
-                    customer.Id = testRepo.AddUser(customer);
+                    customer.Id = await testRepo.AddUserAsync(customer);
 
                     var dep = new BLL.Progress
                     {
                         Nam = "testProgressName"
                     };
-                    dep.Id = testRepo.AddProgress(dep);
+                    dep.Id = await testRepo.AddProgressAsync(dep);
                     var request = new BLL.Request
                     {
                         Descript = "testDescription",
                         Requirements = "testRequirements",
                         ProgressId = dep.Id
                     };
-                    request.Id = testRepo.AddRequest(request);
+                    request.Id = await testRepo.AddRequestAsync(request);
 
                     //add obj with values
                     var obj = new BLL.RequestingGroup
@@ -389,7 +389,7 @@ namespace The_Guild_Back.Testing
                         RequestId = request.Id
                     };
 
-                    obj.Id = testRepo.AddRequestingGroup(obj);
+                    obj.Id = await testRepo.AddRequestingGroupAsync(obj);
 
 
                     var customer2 = new BLL.Users
@@ -397,14 +397,14 @@ namespace The_Guild_Back.Testing
                         FirstName = "testFirst",
                         LastName = "testLast"
                     };
-                    customer2.Id = testRepo.AddUser(customer2);
+                    customer2.Id = await testRepo.AddUserAsync(customer2);
                     var request2 = new BLL.Request
                     {
                         Descript = "testDescription",
                         Requirements = "testRequirements",
                         ProgressId = dep.Id
                     };
-                    request2.Id = testRepo.AddRequest(request2);
+                    request2.Id = await testRepo.AddRequestAsync(request2);
 
                     obj.CustomerId = customer2.Id;
                     obj.RequestId = request2.Id;
@@ -454,7 +454,7 @@ namespace The_Guild_Back.Testing
                         FirstName = "testFirst",
                         LastName = "testLast"
                     };
-                    obj.Id = testRepo.AddUser(obj);
+                    obj.Id = await testRepo.AddUserAsync(obj);
 
                     obj.FirstName = "newFirst";
                     obj.LastName = "newLast";

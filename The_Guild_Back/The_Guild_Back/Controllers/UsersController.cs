@@ -16,9 +16,9 @@ namespace The_Guild_Back.API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IRepository _repo;
-        private readonly IAPIMapper _mapp;
+        private readonly IApiMapper _mapp;
 
-        public UsersController(IRepository Repository, IAPIMapper Mapper)
+        public UsersController(IRepository Repository, IApiMapper Mapper)
         {
             _repo = Repository;
             _mapp = Mapper;
@@ -27,14 +27,14 @@ namespace The_Guild_Back.API.Controllers
         // GET: api/Users
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IEnumerable<APIUsers> Get()
+        public IEnumerable<ApiUsers> Get()
         {
             //repo call for all users
             var users = _repo.GetAllUsers().Select(x => _mapp.Map(x));
             return users;
 
             ////if no users at all,
-            //return NotFound(); 
+            //would normally return not found (404) 
             //won't work with nick's automatic 200 OK wrapping of IEnumerable?
             //(needs to return actual ActionResult)
         }
@@ -42,7 +42,7 @@ namespace The_Guild_Back.API.Controllers
         // GET: api/Users/5
         [HttpGet("{id}", Name = "GetUser")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIUsers>> GetById(int id)
+        public async Task<ActionResult<ApiUsers>> GetById(int id)
         {
                 //repo.get call for specific user id
                 if (await _repo.GetUserByIdAsync(id) is Users user) //if found
@@ -58,15 +58,15 @@ namespace The_Guild_Back.API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(Users), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post([FromBody] APIUsers apiUser)
+        public async Task<IActionResult> Post([FromBody] ApiUsers apiUser)
         {
             //validate
             //if problem, return 400
 
             //repo add
             Users user = _mapp.Map(apiUser);
-            user.Id =  _repo.AddUser(user);
-            APIUsers newApiUser = _mapp.Map(user);
+            user.Id =  await _repo.AddUserAsync(user);
+            ApiUsers newApiUser = _mapp.Map(user);
 
             return CreatedAtAction(nameof(GetById), new { id = newApiUser.Id },
                 newApiUser); //201
@@ -78,7 +78,7 @@ namespace The_Guild_Back.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Put(int id, [FromBody] APIUsers apiUser)
+        public async Task<IActionResult> Put(int id, [FromBody] ApiUsers apiUser)
         {
             //validate    
             //if problem, return 400

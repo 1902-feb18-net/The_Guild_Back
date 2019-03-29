@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
+using The_Guild_Back.Api.Models;
 using The_Guild_Back.API.Models;
 using The_Guild_Back.BLL;
 using The_Guild_Back.DAL;
@@ -35,7 +36,7 @@ namespace The_Guild_Back.API
         {
             services.AddScoped<IRepository, Repository>();
 
-            services.AddSingleton<IAPIMapper, APIMapper>();
+            services.AddSingleton<IApiMapper, ApiMapper>();
 
             services.AddDbContext<project2theGuildContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("project2theGuild")));
@@ -82,6 +83,9 @@ namespace The_Guild_Back.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            var swaggerUrl = "/swagger/v1/swagger.json";
+            var swaggerName = "The Guild API V1";
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -98,7 +102,7 @@ namespace The_Guild_Back.API
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Guild API V1");
+                c.SwaggerEndpoint(swaggerUrl, swaggerName);
             });
 
             app.UseHttpsRedirection();

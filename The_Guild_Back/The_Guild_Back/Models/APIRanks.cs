@@ -7,7 +7,7 @@ using The_Guild_Back.BLL;
 
 namespace The_Guild_Back.API.Models
 {
-    public class APIRanks
+    public class ApiRanks
     {
         public int Id { get; set; }
 

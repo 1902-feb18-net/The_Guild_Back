@@ -14,9 +14,9 @@ namespace The_Guild_Back.API.Controllers
     public class RanksController : ControllerBase
     {
         private readonly IRepository _repo;
-        private readonly IAPIMapper _mapp; //to map BLL to API and vice-versa
+        private readonly IApiMapper _mapp; //to map BLL to API and vice-versa
 
-        public RanksController(IRepository Repository, IAPIMapper Mapper)
+        public RanksController(IRepository Repository, IApiMapper Mapper)
         {
             _repo = Repository;
             _mapp = Mapper;
@@ -25,14 +25,14 @@ namespace The_Guild_Back.API.Controllers
         // GET: api/Ranks
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IEnumerable<APIRanks> Get()
+        public IEnumerable<ApiRanks> Get()
         {
             //repo call for all Ranks
             var Ranks = _repo.GetAllRanks().Select(x => _mapp.Map(x));
             return Ranks;
 
             ////if no Ranks at all,
-            //return NotFound(); 
+            //would normally return not found (404) 
             //won't work with nick's automatic 200 OK wrapping of IEnumerable?
             //(needs to return actual ActionResult)
         }
@@ -40,7 +40,7 @@ namespace The_Guild_Back.API.Controllers
         // GET: api/Ranks/5
         [HttpGet("{id}", Name = "GetRanks")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIRanks>> GetById(int id)
+        public async Task<ActionResult<ApiRanks>> GetById(int id)
         {
             //repo.get call for specific Ranks id
             if (await _repo.GetRankByIdAsync(id) is Ranks Ranks) //if found
@@ -56,15 +56,15 @@ namespace The_Guild_Back.API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(Ranks), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post([FromBody] APIRanks apiRanks)
+        public async Task<IActionResult> Post([FromBody] ApiRanks apiRanks)
         {
             //validate
             //if problem, return 400
 
             //repo add
             Ranks Rank = _mapp.Map(apiRanks);
-            Rank.Id = _repo.AddRank(Rank);
-            APIRanks newApiRanks = _mapp.Map(Rank);
+            Rank.Id = await _repo.AddRankAsync(Rank);
+            ApiRanks newApiRanks = _mapp.Map(Rank);
 
             return CreatedAtAction(nameof(GetById), new { id = newApiRanks.Id },
                 newApiRanks); //201
@@ -76,7 +76,7 @@ namespace The_Guild_Back.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Put(int id, [FromBody] APIRanks apiRanks)
+        public async Task<IActionResult> Put(int id, [FromBody] ApiRanks apiRanks)
         {
             //validate    
             //if problem, return 400
