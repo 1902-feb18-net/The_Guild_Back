@@ -81,6 +81,20 @@ namespace The_Guild_Back.BLL
             return Mapper.Map(reqs);
         }
 
+        public async Task<RankRequirements> GetRankRequirementsByCurrentRankIdAsync(int id)
+        {
+            if (_db.RankRequirements.Count() == 0) //if empty, firstasync threw an error
+                return null;
+
+            var rankReq = await _db.RankRequirements.FirstAsync(r => r.CurrentRankId == id); //should only be one
+
+            if (rankReq == null)
+                return null;
+            else
+                return Mapper.Map(rankReq);
+        }
+
+
         public async Task<int> AddRequestAsync(Request obj)
         {
             var mapped = Mapper.Map(obj);

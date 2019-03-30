@@ -52,6 +52,20 @@ namespace The_Guild_Back.API.Controllers
             return NotFound();
         }
 
+        // GET: api/Ranks/5
+        [HttpGet("{id}/RankRequirements", Name = "GetRankRequirements")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ApiRankRequirements>> GetRankRequirementsByRankId(int id)
+        {
+            if (await _repo.GetRankRequirementsByCurrentRankIdAsync(id) is RankRequirements RankReqs) //if found
+            {
+                return _mapp.Map(RankReqs);
+            }
+
+            //if Ranks not found,
+            return NotFound();
+        }
+
         // POST: api/Ranks
         [HttpPost]
         [ProducesResponseType(typeof(Ranks), StatusCodes.Status201Created)]
