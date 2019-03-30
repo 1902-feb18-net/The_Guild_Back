@@ -252,6 +252,83 @@ namespace The_Guild_Back.Testing
         }
 
         [Fact]
+        public async Task Add_RankRequirementsAsync_Throws_Error()
+        {
+            // In-memory database only exists while the connection is open
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+
+            try
+            {
+                var options = new DbContextOptionsBuilder<project2theGuildContext>()
+                    .UseSqlite(connection)
+                    .Options;
+
+                // Create the schema in the database
+                using (var context = new project2theGuildContext(options))
+                {
+                    context.Database.EnsureCreated();
+                }
+
+                // Run the test against one instance of the context
+                using (var context = new project2theGuildContext(options))
+                {
+                    //create new Repo
+                    var testRepo = new Repository(context);
+
+                    //add dependencies
+                    var dep1 = new BLL.Ranks
+                    {
+                        //add values
+                        Nam = "r1",
+                        Fee = 1
+                    };
+                    var dep2 = new BLL.Ranks
+                    {
+                        //add values
+                        Nam = "r2",
+                        Fee = 2
+                    };
+                    dep1.Id = await testRepo.AddRankAsync(dep1);
+                    dep2.Id = await testRepo.AddRankAsync(dep2);
+
+                    var dep3 = new BLL.Ranks
+                    {
+                        //add values
+                        Nam = "r3",
+                        Fee = 3
+                    };
+                    dep3.Id = await testRepo.AddRankAsync(dep3);
+
+                    var dep4 = new BLL.RankRequirements
+                    {
+                        CurrentRankId = dep1.Id,
+                        NextRankId = dep2.Id,
+                        MinTotalStats = 10,
+                        NumberRequests = 11
+                    };
+                    await testRepo.AddRankRequirementsAsync(dep4);
+
+                    var obj = new BLL.RankRequirements
+                    {
+                        //add values
+                        CurrentRankId = dep1.Id,
+                        NextRankId = dep3.Id,
+                        MinTotalStats = 12,
+                        NumberRequests = 13
+                    };
+                    await Assert.ThrowsAsync<ArgumentException>( () => testRepo.AddRankRequirementsAsync(obj));
+
+                }
+
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        [Fact]
         public async Task Add_RequestAsync_writes_to_database()
         {
             // In-memory database only exists while the connection is open
