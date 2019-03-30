@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -26,6 +27,29 @@ namespace The_Guild_Back.API.Controllers
             //dbContext.Database.EnsureCreated();
             SignInManager = signInManager;
             _logger = logger;
+        }
+
+        [HttpGet("[action]")]
+        [AllowAnonymous]
+        public ApiAccountDetails Details()
+        {
+            // if we want to know which user is logged in or which roles he has
+            // apart from [Authorize] attribute...
+            // we have User.Identity.IsAuthenticated
+            // User.IsInRole("admin")
+            // User.Identity.Name
+            if (!User.Identity.IsAuthenticated)
+            {
+                _logger.LogInformation("");
+                return null;
+            }
+            var details = new ApiAccountDetails
+            {
+                Username = User.Identity.Name,
+                Roles = User.Claims.Where(c => c.Type == ClaimTypes.Role)
+                                   .Select(c => c.Value)
+            };
+            return details;
         }
 
         // POST for create resource, but also for "perform operation"
