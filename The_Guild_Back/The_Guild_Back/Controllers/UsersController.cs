@@ -28,6 +28,7 @@ namespace The_Guild_Back.API.Controllers
         [Authorize(Roles = "master, receptionist")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IEnumerable<ApiUsers> Get()
         {
             //repo call for all users
