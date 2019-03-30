@@ -162,7 +162,14 @@ namespace The_Guild_Back.BLL
                 mapped.Cost = rank?.Fee;  //if rank is null, there will be 
                 //a problem on updating the db right? Cause FK Referential Integrity
             }
-            _db.Entry(await _db.Request.FindAsync(request.Id)).CurrentValues.SetValues(mapped);
+
+            var currentReq = await _db.Request.FindAsync(request.Id);
+            if(currentReq.ProgressId > mapped.ProgressId) //assumes we won't change what the preset progress in db are
+            {
+                throw new ArgumentException(); //cannot set progress backwards
+            }
+
+            _db.Entry(currentReq).CurrentValues.SetValues(mapped);
             await _db.SaveChangesAsync();
         }
 
@@ -340,6 +347,9 @@ namespace The_Guild_Back.BLL
         public async Task<int> AddRankRequirementsAsync(RankRequirements rankReq)
         {
             var mapped = Mapper.Map(rankReq);
+
+            //Need logic to prevent adding a rankrequirements if one for the current rank already exists.
+
             _db.Add(mapped);
             await _db.SaveChangesAsync();
             return mapped.Id;
@@ -366,6 +376,7 @@ namespace The_Guild_Back.BLL
         }
         public async Task UpdateRankRequirementsAsync(RankRequirements RankRequirements)
         {
+            //Need logic to prevent updating a rankrequirements if one for the new current rank already exists.
             _db.Entry(await _db.RankRequirements.FindAsync(RankRequirements.Id)).CurrentValues.SetValues(Mapper.Map(RankRequirements));
             await _db.SaveChangesAsync();
         }
