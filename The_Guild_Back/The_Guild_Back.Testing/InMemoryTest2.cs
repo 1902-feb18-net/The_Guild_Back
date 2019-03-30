@@ -336,6 +336,81 @@ namespace The_Guild_Back.Testing
         }
 
         [Fact]
+        public async Task UpdateAsync_Requests_Progress_Backwards_Throws_Error()
+        {
+            // In-memory database only exists while the connection is open
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+
+            try
+            {
+                var options = new DbContextOptionsBuilder<project2theGuildContext>()
+                    .UseSqlite(connection)
+                    .Options;
+
+                // Create the schema in the database
+                using (var context = new project2theGuildContext(options))
+                {
+                    context.Database.EnsureCreated();
+                }
+
+                // Run the test against one instance of the context
+                using (var context = new project2theGuildContext(options))
+                {
+                    //create new Repo
+                    var testRepo = new Repository(context);
+
+                    //add dependency
+                    var dep1 = new BLL.Progress
+                    {
+                        //assign values
+                        Nam = "testProgressName"
+                    };
+                    dep1.Id = await testRepo.AddProgressAsync(dep1); //will be one
+
+                    var dep2 = new BLL.Progress
+                    {
+                        //assign values
+                        Nam = "testProgressTwo"
+                    };
+                    dep2.Id = await testRepo.AddProgressAsync(dep2); //will be two
+
+                    //add obj with values
+                    var obj = new BLL.Request
+                    {
+                        //add values
+                        Descript = "testDescription",
+                        Requirements = "testRequirements",
+                        ProgressId = dep1.Id
+                    };
+
+                    obj.Id = await testRepo.AddRequestAsync(obj);
+
+                    obj.Descript = "newDescription";
+                    obj.Requirements = "newRequirements";
+                    obj.ProgressId = dep2.Id;
+                    await testRepo.UpdateRequestAsync(obj);
+
+                    obj.ProgressId = dep1.Id;
+                    await Assert.ThrowsAsync<ArgumentException>(() => testRepo.UpdateRequestAsync(obj));
+                }
+
+                // Use a separate instance of the context to verify correct data was saved to database
+                using (var context = new project2theGuildContext(options))
+                {
+                    Assert.Equal(1, context.Request.Count()); //check size of dbset is now one
+                    //check values equal given values
+                    Assert.Equal("newDescription", context.Request.Single().Descript);
+                    Assert.Equal("newRequirements", context.Request.Single().Requirements);
+                }
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        [Fact]
         public async Task UpdateAsync_RequestingGroup_writes_to_database()
         {
             // In-memory database only exists while the connection is open
