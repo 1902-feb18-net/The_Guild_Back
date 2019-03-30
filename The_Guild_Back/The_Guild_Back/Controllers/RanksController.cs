@@ -52,8 +52,8 @@ namespace The_Guild_Back.API.Controllers
             return NotFound();
         }
 
-        // GET: api/Ranks/5
-        [HttpGet("{id}/RankRequirements", Name = "GetRankRequirements")]
+        // GET: api/Ranks/5/RankRequirements
+        [HttpGet("{id}/RankRequirements", Name = "GetUsersRankRequirements")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ApiRankRequirements>> GetRankRequirementsByRankId(int id)
         {

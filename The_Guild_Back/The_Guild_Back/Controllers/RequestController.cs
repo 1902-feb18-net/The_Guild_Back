@@ -90,12 +90,21 @@ namespace The_Guild_Back.API.Controllers
             //validate    
             //if problem, return 400
 
-            //need repo methods implemented
+
             if (await _repo.GetRequestByIdAsync(id) is Request request) //if found
             {
                 //update with given Request info
                 Request upRequest = _mapp.Map(apiRequest);
-                await _repo.UpdateRequestAsync(upRequest);
+                try
+                {
+                    await _repo.UpdateRequestAsync(upRequest);
+                }
+                catch (ArgumentException)
+                {
+                    //log it!
+
+                    return BadRequest(); //400
+                }
                 return NoContent(); // 204
             }
 

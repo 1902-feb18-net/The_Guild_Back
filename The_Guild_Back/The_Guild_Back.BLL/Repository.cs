@@ -166,7 +166,7 @@ namespace The_Guild_Back.BLL
             var currentReq = await _db.Request.FindAsync(request.Id);
             if(currentReq.ProgressId > mapped.ProgressId) //assumes we won't change what the preset progress in db are
             {
-                throw new ArgumentException(); //cannot set progress backwards
+                throw new ArgumentException("Request's progress cannot go backwards!"); //cannot set progress backwards
             }
 
             _db.Entry(currentReq).CurrentValues.SetValues(mapped);
@@ -348,7 +348,10 @@ namespace The_Guild_Back.BLL
         {
             var mapped = Mapper.Map(rankReq);
 
-            //Need logic to prevent adding a rankrequirements if one for the current rank already exists.
+            //Logic to prevent adding a rankrequirements if one for the current rank already exists.
+            var check = await _db.RankRequirements.FindAsync(mapped.CurrentRankId);
+            if (check != null) //if there is a result
+            { throw new ArgumentException("Rank-up requirements for given rank already exist."); }
 
             _db.Add(mapped);
             await _db.SaveChangesAsync();
