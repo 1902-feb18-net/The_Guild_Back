@@ -186,7 +186,9 @@ namespace The_Guild_Back.BLL
         public async Task UpdateRequestAsync(Request request)
         {
             var mapped = Mapper.Map(request);
-            if (mapped.RankId != null)
+            //add checks for updating fields depending on request's progress. Make sure to change tests as well.
+
+            if (mapped.RankId != null) //only do this in some cases
             {
                 var rank = await _db.Ranks.FindAsync(mapped.RankId); //can return null
                 mapped.Cost = rank?.Fee;  //if rank is null, there will be 
