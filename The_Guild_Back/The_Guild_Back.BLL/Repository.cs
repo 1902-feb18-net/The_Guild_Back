@@ -61,7 +61,37 @@ namespace The_Guild_Back.BLL
         }
         public async Task UpdateUserAsync(Users user)
         {
-            _db.Entry(await _db.Users.FindAsync(user.Id)).CurrentValues.SetValues(Mapper.Map(user));
+            var mapped = Mapper.Map(user);
+            var current = await _db.Users.FindAsync(user.Id);
+
+            if(mapped.RankId != current.RankId) //if they're trying to rank up
+            {
+                var requirements = await _db.RankRequirements.FindAsync(current.RankId);
+
+                //minimum total stats check
+                int userStats = 0;
+                userStats += mapped.Charisma ?? 0;
+                userStats += mapped.Constitution ?? 0;
+                userStats += mapped.Dex ?? 0;
+                userStats += mapped.Intelligence ?? 0;
+                userStats += mapped.Strength ?? 0;
+                userStats += mapped.Wisdom ?? 0;
+                if(userStats < requirements.MinTotalStats)
+                {
+                    throw new ArgumentException("User doesn't have high enough stats to rank up.");
+                }
+
+                //number of completed requests check
+                var requests = _db.AdventurerParty.Include(p=> p.Request).ThenInclude(r => r.Progress)
+                    .Where(p => p.AdventurerId == user.Id && p.Request.Progress.Nam == "Completed");
+
+                if(requests.Count() < requirements.NumberRequests)
+                {
+                    throw new ArgumentException("User doesn't have enough completed requests to rank up.");
+                }
+            }
+
+            _db.Entry(current).CurrentValues.SetValues(mapped);
             await _db.SaveChangesAsync();
         }
 

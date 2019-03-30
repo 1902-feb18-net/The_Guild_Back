@@ -113,8 +113,18 @@ namespace The_Guild_Back.API.Controllers
             if (await _repo.GetUserByIdAsync(id) is Users user) //if found
             {
                 //update with given user info
-                Users upUser = _mapp.Map(apiUser);
-                await _repo.UpdateUserAsync(upUser);
+                Users upUser = _mapp.Map(apiUser);             
+                try
+                {
+                    await _repo.UpdateUserAsync(upUser);
+                }
+                catch(ArgumentException)
+                {
+                    //log it!
+
+                    return BadRequest(); //400
+                }
+
                 return NoContent(); // 204
             }
 
