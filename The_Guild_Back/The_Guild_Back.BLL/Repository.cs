@@ -99,6 +99,14 @@ namespace The_Guild_Back.BLL
         {
             var mapped = Mapper.Map(obj);
             mapped.ProgressId = 1; //set new dbRequest to pending
+
+            if(mapped.RankId != null)
+            {
+                var rank = await _db.Ranks.FindAsync(mapped.RankId);
+                mapped.Cost = rank?.Fee;  //if rank is null, there will be 
+                //a problem on adding to the db right? Cause FK Referential Integrity
+            }
+
             _db.Add(mapped);
             await _db.SaveChangesAsync();
             return mapped.Id;
@@ -135,12 +143,26 @@ namespace The_Guild_Back.BLL
 
         public void UpdateRequest(Request request)
         {
-            _db.Entry(_db.Request.Find(request.Id)).CurrentValues.SetValues(Mapper.Map(request));
+            var mapped = Mapper.Map(request);
+            if (mapped.RankId != null)
+            {
+                var rank = _db.Ranks.Find(mapped.RankId); //can return null
+                mapped.Cost = rank?.Fee;  //if rank is null, there will be 
+                //a problem on updating the db right? Cause FK Referential Integrity
+            }
+            _db.Entry(_db.Request.Find(request.Id)).CurrentValues.SetValues(mapped);
             _db.SaveChanges();
         }
         public async Task UpdateRequestAsync(Request request)
         {
-            _db.Entry(await _db.Request.FindAsync(request.Id)).CurrentValues.SetValues(Mapper.Map(request));
+            var mapped = Mapper.Map(request);
+            if (mapped.RankId != null)
+            {
+                var rank = await _db.Ranks.FindAsync(mapped.RankId); //can return null
+                mapped.Cost = rank?.Fee;  //if rank is null, there will be 
+                //a problem on updating the db right? Cause FK Referential Integrity
+            }
+            _db.Entry(await _db.Request.FindAsync(request.Id)).CurrentValues.SetValues(mapped);
             await _db.SaveChangesAsync();
         }
 
