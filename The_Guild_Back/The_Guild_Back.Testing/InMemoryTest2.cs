@@ -616,7 +616,6 @@ namespace The_Guild_Back.Testing
                     };
                     obj.Id = await testRepo.AddUserAsync(obj);
 
-                    obj.UserName = "newUser";
                     obj.FirstName = "newFirst";
                     obj.LastName = "newLast";
                     await testRepo.UpdateUserAsync(obj);
@@ -627,7 +626,6 @@ namespace The_Guild_Back.Testing
                 {
                     Assert.Equal(1, context.Users.Count()); //check size of dbset is now one
                     //check values equal given values
-                    Assert.Equal("newUser", context.Users.Single().UserName);
                     Assert.Equal("newFirst", context.Users.Single().FirstName ); 
                     Assert.Equal("newLast", context.Users.Single().LastName);
                 }
@@ -704,7 +702,7 @@ namespace The_Guild_Back.Testing
                     };
                     obj.Id = await testRepo.AddUserAsync(obj);
 
-                    obj.UserName = "newUser";
+
                     obj.FirstName = "newFirst";
                     obj.LastName = "newLast";
                     obj.RankId = dep2.Id;
@@ -716,7 +714,6 @@ namespace The_Guild_Back.Testing
                 {
                     Assert.Equal(1, context.Users.Count()); //check size of dbset is now one
                     //check values equal given values
-                    Assert.Equal("newUser", context.Users.Single().UserName);
                     Assert.Equal("newFirst", context.Users.Single().FirstName);
                     Assert.Equal("newLast", context.Users.Single().LastName);
                     Assert.Equal(10, context.Users.Single().Charisma);
@@ -798,12 +795,72 @@ namespace The_Guild_Back.Testing
                     };
                     obj.Id = await testRepo.AddUserAsync(obj);
 
-                    obj.UserName = "newUser";
                     obj.FirstName = "newFirst";
                     obj.LastName = "newLast";
                     obj.RankId = dep2.Id;
 
                     await Assert.ThrowsAsync<ArgumentException>( () => testRepo.UpdateUserAsync(obj));
+                }
+
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        [Fact]
+        public async Task UpdateAsync_User_UserName_Throws_Error()
+        {
+            // In-memory database only exists while the connection is open
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+
+            try
+            {
+                var options = new DbContextOptionsBuilder<project2theGuildContext>()
+                    .UseSqlite(connection)
+                    .Options;
+
+                // Create the schema in the database
+                using (var context = new project2theGuildContext(options))
+                {
+                    context.Database.EnsureCreated();
+                }
+                BLL.Users obj;
+                // Run the test against one instance of the context
+                using (var context = new project2theGuildContext(options))
+                {
+                    //create new Repo
+                    var testRepo = new Repository(context);
+
+                    //
+                    var dep1 = new BLL.Ranks
+                    {
+                        Nam = "Rank1",
+                        Fee = 1
+                    };
+                    dep1.Id = await testRepo.AddRankAsync(dep1);
+                
+                    //add obj with values
+                    obj = new BLL.Users
+                    {
+                        UserName = "testUser",
+                        FirstName = "testFirst",
+                        LastName = "testLast",
+                        Charisma = 10,
+                        Constitution = 10,
+                        Dex = 10,
+                        Intelligence = 10,
+                        Strength = 10,
+                        Wisdom = 10,
+                        RankId = dep1.Id
+                    };
+                    obj.Id = await testRepo.AddUserAsync(obj);
+
+                    obj.UserName = "newUsername";
+
+                    await Assert.ThrowsAsync<ArgumentException>(() => testRepo.UpdateUserAsync(obj));
                 }
 
             }
