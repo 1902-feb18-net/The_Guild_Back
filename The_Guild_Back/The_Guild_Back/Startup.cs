@@ -45,7 +45,10 @@ namespace The_Guild_Back.API
             options.UseSqlServer(Configuration.GetConnectionString("AuthDb")));
 
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
-            { }).AddEntityFrameworkStores<AuthDbContext>();
+            {
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            }).AddEntityFrameworkStores<AuthDbContext>();
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -64,6 +67,26 @@ namespace The_Guild_Back.API
 
             services.AddAuthentication();
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                builder =>
+                {
+                    // for dev scenario, we can be pretty tolerant
+                    // in prod, we should be restrictive, we would fill in
+                    // only the origins where our Angular app was hosted.
+                    builder.WithOrigins(new[]
+                    {
+                        "http://localhost:4200",
+                    })
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
+
+            services.AddAuthentication();
+
             services.AddMvc(options =>
             {
                 options.ReturnHttpNotAcceptable = true;
@@ -72,7 +95,7 @@ namespace The_Guild_Back.API
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Character API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "Guild API", Version = "v1" });
             });
 
         }

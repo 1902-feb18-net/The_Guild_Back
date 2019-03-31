@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using The_Guild_Back.API.Models;
@@ -10,6 +11,7 @@ using The_Guild_Back.BLL;
 namespace The_Guild_Back.API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -23,8 +25,10 @@ namespace The_Guild_Back.API.Controllers
         }
 
         // GET: api/Users
+        [Authorize(Roles = "master, receptionist")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IEnumerable<ApiUsers> Get()
         {
             //repo call for all users
@@ -52,7 +56,7 @@ namespace The_Guild_Back.API.Controllers
                 return NotFound();
         }
 
-        // GET: api/Users/5
+        // GET: api/Users/5/SubmittedRequests
         [HttpGet("{id}/SubmittedRequests", Name = "GetUsersSubmittedRequest")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IEnumerable<ApiRequest> GetSubmittedRequestsByUserId(int id)
@@ -66,7 +70,7 @@ namespace The_Guild_Back.API.Controllers
             //(needs to return actual ActionResult)
         }
 
-        // GET: api/Users/5
+        // GET: api/Users/5/AcceptedRequests
         [HttpGet("{id}/AcceptedRequests", Name = "GetUsersAcceptedRequest")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IEnumerable<ApiRequest> GetAcceptedRequestsByUserId(int id)
@@ -82,6 +86,7 @@ namespace The_Guild_Back.API.Controllers
 
         // POST: api/Users
         [HttpPost]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(Users), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post([FromBody] ApiUsers apiUser)

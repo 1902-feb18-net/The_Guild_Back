@@ -13,7 +13,6 @@ using The_Guild_Back.DAL;
 namespace The_Guild_Back.API.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -24,17 +23,14 @@ namespace The_Guild_Back.API.Controllers
         public AccountController(SignInManager<IdentityUser> signInManager,
             AuthDbContext dbContext, ILogger<AccountController> logger)
         {
-            // we can do code-first "skipping" migrations at runtime
-            // the downside is, we can't run migrations on the database that gets generated
-            // later.
-            dbContext.Database.EnsureCreated();
+            //dbContext.Database.EnsureCreated();
             SignInManager = signInManager;
             _logger = logger;
         }
 
         // POST for create resource, but also for "perform operation"
         // when there is no way to fit the operation into CRUD terms.
-        // POST /account/login
+        // POST azureyurl/api/account/login
         [HttpPost("[action]")]
         public async Task<IActionResult> Login(Login login)
         {
@@ -59,7 +55,7 @@ namespace The_Guild_Back.API.Controllers
         }
 
         // POST /account
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<IActionResult> Register(RegisterUser register,
             [FromServices] UserManager<IdentityUser> userManager,
             [FromServices] RoleManager<IdentityRole> roleManager)
@@ -73,27 +69,6 @@ namespace The_Guild_Back.API.Controllers
                 return BadRequest(result);
             }
 
-            if(register.IsMaster)
-            {
-                if(!await roleManager.RoleExistsAsync("master"))
-                {
-                    var role = new IdentityRole("master");
-                    IdentityResult identityResult = await roleManager.CreateAsync(role);
-                    if(!identityResult.Succeeded)
-                    {
-                        return StatusCode(StatusCodes.Status500InternalServerError,
-                            "master role not created");
-                    }
-                }
-
-                IdentityResult addResult = await userManager.AddToRoleAsync(user, "master");
-                if(!addResult.Succeeded)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError,
-                        "failed to make guild master");
-                }
-            }
-
             await SignInManager.SignInAsync(user, false);
 
             return NoContent(); // nothing to show the user that he can access
@@ -101,7 +76,7 @@ namespace The_Guild_Back.API.Controllers
 
         // PUT /account/update/5
         [HttpPut("[action]")]
-        [Authorize]
+        [Authorize(Roles = "master")]
         public async Task<IActionResult> AssignRole(string id,
             string role,
             [FromServices] UserManager<IdentityUser> userManager,
@@ -110,7 +85,7 @@ namespace The_Guild_Back.API.Controllers
             IdentityUser user = await userManager.FindByIdAsync(id);
             IdentityResult result = await userManager.AddToRoleAsync(user, role);
 
-            if(!result.Succeeded)
+            if (!result.Succeeded)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     "unable to update user permissions");
@@ -122,7 +97,8 @@ namespace The_Guild_Back.API.Controllers
         [HttpPost("[action]")]
         [AllowAnonymous]
         public async Task<IActionResult> Roles(
-            [FromServices] RoleManager<IdentityRole> roleManager)
+            [FromServices] RoleManager<IdentityRole> roleManager,
+            [FromServices] UserManager<IdentityUser> userManager)
         {
             if(!await roleManager.RoleExistsAsync("receptionist"))
             {
@@ -145,6 +121,51 @@ namespace The_Guild_Back.API.Controllers
                         "adventurer role not created");
                 }
             }
+
+            if (!await roleManager.RoleExistsAsync("master"))
+            {
+                var role3 = new IdentityRole("master");
+                IdentityResult identityResult = await roleManager.CreateAsync(role3);
+                if (!identityResult.Succeeded)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError,
+                        "master role not created");
+                }
+            }
+
+            if (!await roleManager.RoleExistsAsync("user"))
+            {
+                var role4 = new IdentityRole("user");
+                IdentityResult identityResult = await roleManager.CreateAsync(role4);
+                if(!identityResult.Succeeded)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError,
+                        "base user role not created");
+                }
+            }
+
+            var Lee = "Lunk";
+            if (await userManager.FindByIdAsync(Lee) is null)
+            {
+                var leeUser = userManager.FindByNameAsync(Lee).Result;
+
+
+                /*IdentityResult result = await userManager.CreateAsync(leeUser, "NamineHano23#");
+
+                if (!result.Succeeded)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError,
+                        "failed to seed user");
+                }*/
+                
+                IdentityResult addRoleResult = await userManager.AddToRoleAsync(leeUser, "master");
+                if (!addRoleResult.Succeeded)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError,
+                        "failed to add user to admin role");
+                }
+            }
+
             return NoContent();
         }
     }

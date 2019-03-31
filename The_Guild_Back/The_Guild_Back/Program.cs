@@ -14,6 +14,7 @@ namespace The_Guild_Back.API
     {
         public static void Main(string[] args)
         {
+
             CreateWebHostBuilder(args).Build().Run();
         }
 

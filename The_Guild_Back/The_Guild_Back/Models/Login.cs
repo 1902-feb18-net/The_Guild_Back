@@ -8,7 +8,6 @@ namespace The_Guild_Back.API.Models
 {
     public class Login
     {
-        [EmailAddress]
         public string Username { get; set; }
 
         public string Password { get; set; }
