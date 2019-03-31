@@ -78,6 +78,7 @@ namespace The_Guild_Back.API
                     builder.WithOrigins(new[]
                     {
                         "http://localhost:4200",
+                        "http://localhost:44347"
                     })
                         .AllowAnyHeader()
                         .AllowAnyMethod()
