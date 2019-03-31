@@ -39,6 +39,7 @@ namespace The_Guild_Back.Testing
                     //dependencies
                     var adventurer  = new BLL.Users
                     {
+                        UserName = "testUser",
                         FirstName = "testFirst",
                         LastName = "testLast"
                     };
@@ -519,6 +520,7 @@ namespace The_Guild_Back.Testing
                     //dependencies
                     var customer = new BLL.Users
                     {
+                        UserName = "testUser",
                         FirstName = "testFirst",
                         LastName = "testLast"
                     };
@@ -550,6 +552,7 @@ namespace The_Guild_Back.Testing
 
                     var customer2 = new BLL.Users
                     {
+                        UserName = "testUser",
                         FirstName = "testFirst",
                         LastName = "testLast"
                     };
@@ -607,11 +610,13 @@ namespace The_Guild_Back.Testing
                     //add obj with values
                     obj = new BLL.Users
                     {
+                        UserName = "testUser",
                         FirstName = "testFirst",
                         LastName = "testLast"
                     };
                     obj.Id = await testRepo.AddUserAsync(obj);
 
+                    obj.UserName = "newUser";
                     obj.FirstName = "newFirst";
                     obj.LastName = "newLast";
                     await testRepo.UpdateUserAsync(obj);
@@ -622,6 +627,7 @@ namespace The_Guild_Back.Testing
                 {
                     Assert.Equal(1, context.Users.Count()); //check size of dbset is now one
                     //check values equal given values
+                    Assert.Equal("newUser", context.Users.Single().UserName);
                     Assert.Equal("newFirst", context.Users.Single().FirstName ); 
                     Assert.Equal("newLast", context.Users.Single().LastName);
                 }
@@ -685,6 +691,7 @@ namespace The_Guild_Back.Testing
                     //add obj with values
                     obj = new BLL.Users
                     {
+                        UserName = "testUser",
                         FirstName = "testFirst",
                         LastName = "testLast",
                         Charisma = 10,
@@ -697,6 +704,7 @@ namespace The_Guild_Back.Testing
                     };
                     obj.Id = await testRepo.AddUserAsync(obj);
 
+                    obj.UserName = "newUser";
                     obj.FirstName = "newFirst";
                     obj.LastName = "newLast";
                     obj.RankId = dep2.Id;
@@ -708,6 +716,7 @@ namespace The_Guild_Back.Testing
                 {
                     Assert.Equal(1, context.Users.Count()); //check size of dbset is now one
                     //check values equal given values
+                    Assert.Equal("newUser", context.Users.Single().UserName);
                     Assert.Equal("newFirst", context.Users.Single().FirstName);
                     Assert.Equal("newLast", context.Users.Single().LastName);
                     Assert.Equal(10, context.Users.Single().Charisma);
@@ -776,6 +785,7 @@ namespace The_Guild_Back.Testing
                     //add obj with values
                     obj = new BLL.Users
                     {
+                        UserName = "newUser",
                         FirstName = "testFirst",
                         LastName = "testLast",
                         Charisma = 10,
@@ -788,6 +798,7 @@ namespace The_Guild_Back.Testing
                     };
                     obj.Id = await testRepo.AddUserAsync(obj);
 
+                    obj.UserName = "newUser";
                     obj.FirstName = "newFirst";
                     obj.LastName = "newLast";
                     obj.RankId = dep2.Id;
