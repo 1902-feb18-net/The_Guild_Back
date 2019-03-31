@@ -21,7 +21,7 @@ namespace The_Guild_Back.DAL
         public virtual DbSet<Ranks> Ranks { get; set; }
         public virtual DbSet<Request> Request { get; set; }
         public virtual DbSet<RequestingGroup> RequestingGroup { get; set; }
-        public virtual DbSet<Users> Users { get; set; }        
+        public virtual DbSet<Users> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,7 +30,7 @@ namespace The_Guild_Back.DAL
             modelBuilder.Entity<AdventurerParty>(entity =>
             {
                 entity.HasIndex(e => e.Nam)
-                    .HasName("UQ__Adventur__DF906FE5CBD4AC4F")
+                    .HasName("UQ__Adventur__DF906FE55592CD76")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -198,6 +198,11 @@ namespace The_Guild_Back.DAL
                     .HasColumnType("money");
 
                 entity.Property(e => e.Strength).HasColumnName("strength");
+
+                entity.Property(e => e.UserName)
+                    .IsRequired()
+                    .HasColumnName("userName")
+                    .HasMaxLength(256);
 
                 entity.Property(e => e.Wisdom).HasColumnName("wisdom");
 

@@ -56,7 +56,7 @@ namespace The_Guild_Back.API.Controllers
                 return NotFound();
         }
 
-        // GET: api/Users/5
+        // GET: api/Users/5/SubmittedRequests
         [HttpGet("{id}/SubmittedRequests", Name = "GetUsersSubmittedRequest")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IEnumerable<ApiRequest> GetSubmittedRequestsByUserId(int id)
@@ -70,7 +70,7 @@ namespace The_Guild_Back.API.Controllers
             //(needs to return actual ActionResult)
         }
 
-        // GET: api/Users/5
+        // GET: api/Users/5/AcceptedRequests
         [HttpGet("{id}/AcceptedRequests", Name = "GetUsersAcceptedRequest")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IEnumerable<ApiRequest> GetAcceptedRequestsByUserId(int id)
@@ -118,8 +118,18 @@ namespace The_Guild_Back.API.Controllers
             if (await _repo.GetUserByIdAsync(id) is Users user) //if found
             {
                 //update with given user info
-                Users upUser = _mapp.Map(apiUser);
-                await _repo.UpdateUserAsync(upUser);
+                Users upUser = _mapp.Map(apiUser);             
+                try
+                {
+                    await _repo.UpdateUserAsync(upUser);
+                }
+                catch(ArgumentException)
+                {
+                    //log it!
+
+                    return BadRequest(); //400
+                }
+
                 return NoContent(); // 204
             }
 

@@ -61,7 +61,37 @@ namespace The_Guild_Back.BLL
         }
         public async Task UpdateUserAsync(Users user)
         {
-            _db.Entry(await _db.Users.FindAsync(user.Id)).CurrentValues.SetValues(Mapper.Map(user));
+            var mapped = Mapper.Map(user);
+            var current = await _db.Users.FindAsync(user.Id);
+
+            if(mapped.RankId != current.RankId) //if they're trying to rank up
+            {
+                var requirements = await _db.RankRequirements.FindAsync(current.RankId);
+
+                //minimum total stats check
+                int userStats = 0;
+                userStats += mapped.Charisma ?? 0;
+                userStats += mapped.Constitution ?? 0;
+                userStats += mapped.Dex ?? 0;
+                userStats += mapped.Intelligence ?? 0;
+                userStats += mapped.Strength ?? 0;
+                userStats += mapped.Wisdom ?? 0;
+                if(userStats < requirements.MinTotalStats)
+                {
+                    throw new ArgumentException("User doesn't have high enough stats to rank up.");
+                }
+
+                //number of completed requests check
+                var requests = _db.AdventurerParty.Include(p=> p.Request).ThenInclude(r => r.Progress)
+                    .Where(p => p.AdventurerId == user.Id && p.Request.Progress.Nam == "Completed");
+
+                if(requests.Count() < requirements.NumberRequests)
+                {
+                    throw new ArgumentException("User doesn't have enough completed requests to rank up.");
+                }
+            }
+
+            _db.Entry(current).CurrentValues.SetValues(mapped);
             await _db.SaveChangesAsync();
         }
 
@@ -81,10 +111,32 @@ namespace The_Guild_Back.BLL
             return Mapper.Map(reqs);
         }
 
+        public async Task<RankRequirements> GetRankRequirementsByCurrentRankIdAsync(int id)
+        {
+            if (_db.RankRequirements.Count() == 0) //if empty, firstasync threw an error
+                return null;
+
+            var rankReq = await _db.RankRequirements.FirstAsync(r => r.CurrentRankId == id); //should only be one
+
+            if (rankReq == null)
+                return null;
+            else
+                return Mapper.Map(rankReq);
+        }
+
+
         public async Task<int> AddRequestAsync(Request obj)
         {
             var mapped = Mapper.Map(obj);
             mapped.ProgressId = 1; //set new dbRequest to pending
+
+            if(mapped.RankId != null)
+            {
+                var rank = await _db.Ranks.FindAsync(mapped.RankId);
+                mapped.Cost = rank?.Fee;  //if rank is null, there will be 
+                //a problem on adding to the db right? Cause FK Referential Integrity
+            }
+
             _db.Add(mapped);
             await _db.SaveChangesAsync();
             return mapped.Id;
@@ -121,12 +173,35 @@ namespace The_Guild_Back.BLL
 
         public void UpdateRequest(Request request)
         {
-            _db.Entry(_db.Request.Find(request.Id)).CurrentValues.SetValues(Mapper.Map(request));
+            var mapped = Mapper.Map(request);
+            if (mapped.RankId != null)
+            {
+                var rank = _db.Ranks.Find(mapped.RankId); //can return null
+                mapped.Cost = rank?.Fee;  //if rank is null, there will be 
+                //a problem on updating the db right? Cause FK Referential Integrity
+            }
+            _db.Entry(_db.Request.Find(request.Id)).CurrentValues.SetValues(mapped);
             _db.SaveChanges();
         }
         public async Task UpdateRequestAsync(Request request)
         {
-            _db.Entry(await _db.Request.FindAsync(request.Id)).CurrentValues.SetValues(Mapper.Map(request));
+            var mapped = Mapper.Map(request);
+            //add checks for updating fields depending on request's progress. Make sure to change tests as well.
+
+            if (mapped.RankId != null) //only do this in some cases
+            {
+                var rank = await _db.Ranks.FindAsync(mapped.RankId); //can return null
+                mapped.Cost = rank?.Fee;  //if rank is null, there will be 
+                //a problem on updating the db right? Cause FK Referential Integrity
+            }
+
+            var currentReq = await _db.Request.FindAsync(request.Id);
+            if(currentReq.ProgressId > mapped.ProgressId) //assumes we won't change what the preset progress in db are
+            {
+                throw new ArgumentException("Request's progress cannot go backwards!"); //cannot set progress backwards
+            }
+
+            _db.Entry(currentReq).CurrentValues.SetValues(mapped);
             await _db.SaveChangesAsync();
         }
 
@@ -304,6 +379,12 @@ namespace The_Guild_Back.BLL
         public async Task<int> AddRankRequirementsAsync(RankRequirements rankReq)
         {
             var mapped = Mapper.Map(rankReq);
+
+            //Logic to prevent adding a rankrequirements if one for the current rank already exists.
+            var check = await _db.RankRequirements.FindAsync(mapped.CurrentRankId);
+            if (check != null) //if there is a result
+            { throw new ArgumentException("Rank-up requirements for given rank already exist."); }
+
             _db.Add(mapped);
             await _db.SaveChangesAsync();
             return mapped.Id;
@@ -330,6 +411,7 @@ namespace The_Guild_Back.BLL
         }
         public async Task UpdateRankRequirementsAsync(RankRequirements RankRequirements)
         {
+            //Need logic to prevent updating a rankrequirements if one for the new current rank already exists.
             _db.Entry(await _db.RankRequirements.FindAsync(RankRequirements.Id)).CurrentValues.SetValues(Mapper.Map(RankRequirements));
             await _db.SaveChangesAsync();
         }
