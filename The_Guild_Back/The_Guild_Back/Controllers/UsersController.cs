@@ -56,7 +56,7 @@ namespace The_Guild_Back.API.Controllers
                 return NotFound();
         }
 
-        // GET: api/Users/5
+        // GET: api/Users/5/SubmittedRequests
         [HttpGet("{id}/SubmittedRequests", Name = "GetUsersSubmittedRequest")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IEnumerable<ApiRequest> GetSubmittedRequestsByUserId(int id)
@@ -70,7 +70,7 @@ namespace The_Guild_Back.API.Controllers
             //(needs to return actual ActionResult)
         }
 
-        // GET: api/Users/5
+        // GET: api/Users/5/AcceptedRequests
         [HttpGet("{id}/AcceptedRequests", Name = "GetUsersAcceptedRequest")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IEnumerable<ApiRequest> GetAcceptedRequestsByUserId(int id)
@@ -86,6 +86,7 @@ namespace The_Guild_Back.API.Controllers
 
         // POST: api/Users
         [HttpPost]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(Users), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post([FromBody] ApiUsers apiUser)
