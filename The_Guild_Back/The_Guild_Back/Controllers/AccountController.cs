@@ -171,16 +171,16 @@ namespace The_Guild_Back.API.Controllers
             var Lee = "Lunk";
             if (await userManager.FindByIdAsync(Lee) is null)
             {
-                var leeUser = userManager.FindByNameAsync(Lee).Result;
+                var leeUser = new IdentityUser(Lee); //FindByNameAsync(Lee).Result;
 
 
-                /*IdentityResult result = await userManager.CreateAsync(leeUser, "NamineHano23#");
+                IdentityResult result = await userManager.CreateAsync(leeUser, "NamineHano23#");
 
                 if (!result.Succeeded)
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError,
                         "failed to seed user");
-                }*/
+                }
                 
                 IdentityResult addRoleResult = await userManager.AddToRoleAsync(leeUser, "master");
                 if (!addRoleResult.Succeeded)
