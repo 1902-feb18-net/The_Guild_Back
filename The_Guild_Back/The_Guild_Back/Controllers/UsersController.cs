@@ -86,6 +86,7 @@ namespace The_Guild_Back.API.Controllers
 
         // POST: api/Users
         [HttpPost]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(Users), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post([FromBody] ApiUsers apiUser)

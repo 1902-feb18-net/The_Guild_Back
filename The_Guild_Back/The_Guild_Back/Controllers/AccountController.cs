@@ -168,10 +168,32 @@ namespace The_Guild_Back.API.Controllers
                 }
             }
 
+            var oz = "Ozzy";
+            if (await userManager.FindByIdAsync(oz) is null)
+            {
+                var ozUser = new IdentityUser(oz);
+
+
+                IdentityResult result = await userManager.CreateAsync(ozUser, "password123");
+
+                if (!result.Succeeded)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError,
+                        "failed to seed user");
+                }
+
+                IdentityResult addRoleResult = await userManager.AddToRoleAsync(ozUser, "receptionist");
+                if (!addRoleResult.Succeeded)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError,
+                        "failed to add user to admin role");
+                }
+            }
+
             var Lee = "Lunk";
             if (await userManager.FindByIdAsync(Lee) is null)
             {
-                var leeUser = new IdentityUser(Lee); //FindByNameAsync(Lee).Result;
+                var leeUser = new IdentityUser(Lee);
 
 
                 IdentityResult result = await userManager.CreateAsync(leeUser, "NamineHano23#");
