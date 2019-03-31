@@ -119,6 +119,8 @@ namespace The_Guild_Back.API
 
             app.UseAuthentication();
 
+            app.UseCors("AllowAll");
+
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
