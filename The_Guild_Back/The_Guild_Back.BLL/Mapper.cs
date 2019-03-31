@@ -275,6 +275,22 @@ namespace The_Guild_Back.BLL
                 Id = user.Id,
                 RankId = user.RankId              
             };
+
+            try
+            {
+                use.UserName = user.UserName;
+            }
+            catch (ArgumentNullException e)
+            {
+                logger.Error(e, "Mapping null UserName to User");
+                throw;
+            }
+            catch (ArgumentException e)
+            {
+                logger.Error(e, "Mapping empty or whitespace UserName to User");
+                throw;
+            }
+
             try
             {
                 use.FirstName = user.FirstName;
@@ -389,6 +405,7 @@ namespace The_Guild_Back.BLL
             DAL.Users use = new DAL.Users
             {
                 Id = user.Id,
+                UserName = user.UserName,
                 RankId = user.RankId,
                 FirstName = user.FirstName,
                 LastName = user.LastName,

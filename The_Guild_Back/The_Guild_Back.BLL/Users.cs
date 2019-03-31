@@ -6,12 +6,22 @@ namespace The_Guild_Back.BLL
 {
     public class Users
     {
-        private string _firstName, _lastName;
+        private string _firstName, _lastName, _userName;
         private int? _strength, _dex, _intelligence, _wisdom, _charisma, _constitution;
         private decimal? _salary;
 
         public int Id { get; set; }
         public int? RankId { get; set; }
+
+        public string UserName
+        {
+            get => _userName;
+            set
+            {
+                Guard.Against.NullOrWhiteSpace(value, nameof(value));
+                _userName = value;
+            }
+        }
 
         public string FirstName
         {

@@ -39,6 +39,7 @@ namespace The_Guild_Back.Testing
                     //dependencies
                     var adventurer  = new BLL.Users
                     {
+                        UserName = "testUser",
                         FirstName = "testFirst",
                         LastName = "testLast"
                     };
@@ -486,6 +487,7 @@ namespace The_Guild_Back.Testing
                     //dependencies
                     var customer = new BLL.Users
                     {
+                        UserName = "testUser",
                         FirstName = "testFirst",
                         LastName = "testLast"
                     };
@@ -555,6 +557,7 @@ namespace The_Guild_Back.Testing
                     //add obj with values
                     var obj = new BLL.Users
                     {
+                        UserName = "testUser",
                         FirstName = "testFirst",
                         LastName = "testLast"
                     };
@@ -566,6 +569,7 @@ namespace The_Guild_Back.Testing
                 {
                     Assert.Equal(1, context.Users.Count()); //check size of dbset is now one
                     //check values equal given values
+                    Assert.Equal("testUser", context.Users.Single().UserName);
                     Assert.Equal("testFirst", context.Users.Single().FirstName ); 
                     Assert.Equal("testLast", context.Users.Single().LastName);
                 }

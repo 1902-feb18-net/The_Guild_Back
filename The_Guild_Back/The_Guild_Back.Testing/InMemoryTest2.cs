@@ -39,6 +39,7 @@ namespace The_Guild_Back.Testing
                     //dependencies
                     var adventurer  = new BLL.Users
                     {
+                        UserName = "testUser",
                         FirstName = "testFirst",
                         LastName = "testLast"
                     };
@@ -519,6 +520,7 @@ namespace The_Guild_Back.Testing
                     //dependencies
                     var customer = new BLL.Users
                     {
+                        UserName = "testUser",
                         FirstName = "testFirst",
                         LastName = "testLast"
                     };
@@ -550,6 +552,7 @@ namespace The_Guild_Back.Testing
 
                     var customer2 = new BLL.Users
                     {
+                        UserName = "testUser",
                         FirstName = "testFirst",
                         LastName = "testLast"
                     };
@@ -607,6 +610,7 @@ namespace The_Guild_Back.Testing
                     //add obj with values
                     obj = new BLL.Users
                     {
+                        UserName = "testUser",
                         FirstName = "testFirst",
                         LastName = "testLast"
                     };
@@ -685,6 +689,7 @@ namespace The_Guild_Back.Testing
                     //add obj with values
                     obj = new BLL.Users
                     {
+                        UserName = "testUser",
                         FirstName = "testFirst",
                         LastName = "testLast",
                         Charisma = 10,
@@ -696,6 +701,7 @@ namespace The_Guild_Back.Testing
                         RankId = dep1.Id
                     };
                     obj.Id = await testRepo.AddUserAsync(obj);
+
 
                     obj.FirstName = "newFirst";
                     obj.LastName = "newLast";
@@ -776,6 +782,7 @@ namespace The_Guild_Back.Testing
                     //add obj with values
                     obj = new BLL.Users
                     {
+                        UserName = "newUser",
                         FirstName = "testFirst",
                         LastName = "testLast",
                         Charisma = 10,
@@ -793,6 +800,67 @@ namespace The_Guild_Back.Testing
                     obj.RankId = dep2.Id;
 
                     await Assert.ThrowsAsync<ArgumentException>( () => testRepo.UpdateUserAsync(obj));
+                }
+
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        [Fact]
+        public async Task UpdateAsync_User_UserName_Throws_Error()
+        {
+            // In-memory database only exists while the connection is open
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+
+            try
+            {
+                var options = new DbContextOptionsBuilder<project2theGuildContext>()
+                    .UseSqlite(connection)
+                    .Options;
+
+                // Create the schema in the database
+                using (var context = new project2theGuildContext(options))
+                {
+                    context.Database.EnsureCreated();
+                }
+                BLL.Users obj;
+                // Run the test against one instance of the context
+                using (var context = new project2theGuildContext(options))
+                {
+                    //create new Repo
+                    var testRepo = new Repository(context);
+
+                    //
+                    var dep1 = new BLL.Ranks
+                    {
+                        Nam = "Rank1",
+                        Fee = 1
+                    };
+                    dep1.Id = await testRepo.AddRankAsync(dep1);
+                
+                    //add obj with values
+                    obj = new BLL.Users
+                    {
+                        UserName = "testUser",
+                        FirstName = "testFirst",
+                        LastName = "testLast",
+                        Charisma = 10,
+                        Constitution = 10,
+                        Dex = 10,
+                        Intelligence = 10,
+                        Strength = 10,
+                        Wisdom = 10,
+                        RankId = dep1.Id
+                    };
+                    obj.Id = await testRepo.AddUserAsync(obj);
+
+                    obj.UserName = "newUsername";
+
+                    await Assert.ThrowsAsync<ArgumentException>(() => testRepo.UpdateUserAsync(obj));
                 }
 
             }

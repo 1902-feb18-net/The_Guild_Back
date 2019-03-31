@@ -108,6 +108,7 @@ namespace The_Guild_Back.Api.Models
         public ApiUsers Map(Users users) => new ApiUsers
         {
             Id = users.Id,
+            UserName = users.UserName,
             FirstName = users.FirstName,
             LastName = users.LastName,
             Salary = users.Salary,
@@ -123,6 +124,7 @@ namespace The_Guild_Back.Api.Models
         public Users Map(ApiUsers ApiUsers) => new Users
         {
             Id = ApiUsers.Id,
+            UserName = ApiUsers.UserName,
             FirstName = ApiUsers.FirstName,
             LastName = ApiUsers.LastName,
             Salary = ApiUsers.Salary,
