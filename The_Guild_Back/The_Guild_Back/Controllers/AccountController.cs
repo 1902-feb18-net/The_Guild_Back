@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -26,6 +27,29 @@ namespace The_Guild_Back.API.Controllers
             //dbContext.Database.EnsureCreated();
             SignInManager = signInManager;
             _logger = logger;
+        }
+
+        [HttpGet("[action]")]
+        [AllowAnonymous]
+        public ApiAccountDetails Details()
+        {
+            // if we want to know which user is logged in or which roles he has
+            // apart from [Authorize] attribute...
+            // we have User.Identity.IsAuthenticated
+            // User.IsInRole("admin")
+            // User.Identity.Name
+            if (!User.Identity.IsAuthenticated)
+            {
+                _logger.LogInformation("");
+                return null;
+            }
+            var details = new ApiAccountDetails
+            {
+                Username = User.Identity.Name,
+                Roles = User.Claims.Where(c => c.Type == ClaimTypes.Role)
+                                   .Select(c => c.Value)
+            };
+            return details;
         }
 
         // POST for create resource, but also for "perform operation"
@@ -144,19 +168,41 @@ namespace The_Guild_Back.API.Controllers
                 }
             }
 
-            var Lee = "Lunk";
-            if (await userManager.FindByIdAsync(Lee) is null)
+            var oz = "Ozzy";
+            if (await userManager.FindByIdAsync(oz) is null)
             {
-                var leeUser = userManager.FindByNameAsync(Lee).Result;
+                var ozUser = new IdentityUser(oz);
 
 
-                /*IdentityResult result = await userManager.CreateAsync(leeUser, "NamineHano23#");
+                IdentityResult result = await userManager.CreateAsync(ozUser, "password123");
 
                 if (!result.Succeeded)
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError,
                         "failed to seed user");
-                }*/
+                }
+
+                IdentityResult addRoleResult = await userManager.AddToRoleAsync(ozUser, "receptionist");
+                if (!addRoleResult.Succeeded)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError,
+                        "failed to add user to admin role");
+                }
+            }
+
+            var Lee = "Lunk";
+            if (await userManager.FindByIdAsync(Lee) is null)
+            {
+                var leeUser = new IdentityUser(Lee);
+
+
+                IdentityResult result = await userManager.CreateAsync(leeUser, "NamineHano23#");
+
+                if (!result.Succeeded)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError,
+                        "failed to seed user");
+                }
                 
                 IdentityResult addRoleResult = await userManager.AddToRoleAsync(leeUser, "master");
                 if (!addRoleResult.Succeeded)
