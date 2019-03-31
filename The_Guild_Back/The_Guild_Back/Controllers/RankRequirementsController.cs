@@ -63,7 +63,7 @@ namespace The_Guild_Back.API.Controllers
             {
                 //log it!
 
-                return BadRequest(); 
+                return BadRequest();
             }
             ApiRankRequirements newApiReq = _mapp.Map(RankRequest);
 
