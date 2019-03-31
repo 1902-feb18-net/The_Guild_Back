@@ -117,13 +117,11 @@ namespace The_Guild_Back.API.Controllers
         // PUT /account/update/5
         [HttpPut]
         [Authorize(Roles = "master")]
-        public async Task<IActionResult> AssignRole(string userName,
-            string role,
-            [FromServices] UserManager<IdentityUser> userManager,
-            [FromServices] RoleManager<IdentityRole> roleManager)
+        public async Task<IActionResult> AssignRole(UpdateRole update,
+            [FromServices] UserManager<IdentityUser> userManager)
         {
-            IdentityUser user = await userManager.FindByNameAsync(userName);
-            IdentityResult result = await userManager.AddToRoleAsync(user, role);
+            IdentityUser user = await userManager.FindByNameAsync(update.Username);
+            IdentityResult result = await userManager.AddToRoleAsync(user, update.Role);
 
             if (!result.Succeeded)
             {
