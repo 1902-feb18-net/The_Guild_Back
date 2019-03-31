@@ -41,6 +41,7 @@ namespace The_Guild_Back.BLL
         Task<Users> GetUserByIdAsync(int id);
         IEnumerable<Request> GetAcceptedRequestsByUserId(int id);
         IEnumerable<Request> GetSubmittedRequestsByUserId(int id);
+        Task<RankRequirements> GetRankRequirementsByCurrentRankIdAsync(int id);
         void Save();
         Task SaveAsync();
         void UpdateAdventurerParty(AdventurerParty adventurerParty);
