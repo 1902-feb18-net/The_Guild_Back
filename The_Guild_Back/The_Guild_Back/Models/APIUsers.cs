@@ -11,6 +11,8 @@ namespace The_Guild_Back.API.Models
     {
         public int Id { get; set; }
 
+        public string UserName { get; set; }
+
         [Required]
         public string FirstName { get; set; }
 

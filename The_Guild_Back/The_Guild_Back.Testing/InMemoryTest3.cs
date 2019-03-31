@@ -39,6 +39,7 @@ namespace The_Guild_Back.Testing
                     //dependencies
                     var adventurer  = new BLL.Users
                     {
+                        UserName = "testUser",
                         FirstName = "testFirst",
                         LastName = "testLast"
                     };
@@ -340,6 +341,7 @@ namespace The_Guild_Back.Testing
                     //dependencies
                     var customer = new BLL.Users
                     {
+                        UserName = "testUser",
                         FirstName = "testFirst",
                         LastName = "testLast"
                     };
@@ -411,6 +413,7 @@ namespace The_Guild_Back.Testing
                     //add obj with values
                     obj = new BLL.Users
                     {
+                        UserName = "testUser",
                         FirstName = "testFirst",
                         LastName = "testLast"
                     };

@@ -64,6 +64,11 @@ namespace The_Guild_Back.BLL
             var mapped = Mapper.Map(user);
             var current = await _db.Users.FindAsync(user.Id);
 
+            if(mapped.UserName != current.UserName)
+            {
+                throw new ArgumentException("Cannot change username");
+            }
+
             if(mapped.RankId != current.RankId) //if they're trying to rank up
             {
                 var requirements = await _db.RankRequirements.FindAsync(current.RankId);
