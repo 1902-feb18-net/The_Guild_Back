@@ -67,6 +67,26 @@ namespace The_Guild_Back.API
 
             services.AddAuthentication();
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                builder =>
+                {
+                    // for dev scenario, we can be pretty tolerant
+                    // in prod, we should be restrictive, we would fill in
+                    // only the origins where our Angular app was hosted.
+                    builder.WithOrigins(new[]
+                    {
+                        "http://localhost:4200",
+                    })
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
+
+            services.AddAuthentication();
+
             services.AddMvc(options =>
             {
                 options.ReturnHttpNotAcceptable = true;

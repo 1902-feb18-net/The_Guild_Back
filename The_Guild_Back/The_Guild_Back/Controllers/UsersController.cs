@@ -28,6 +28,7 @@ namespace The_Guild_Back.API.Controllers
         [Authorize(Roles = "master, receptionist")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IEnumerable<ApiUsers> Get()
         {
             //repo call for all users
@@ -53,6 +54,34 @@ namespace The_Guild_Back.API.Controllers
 
                 //if user not found,
                 return NotFound();
+        }
+
+        // GET: api/Users/5
+        [HttpGet("{id}/SubmittedRequests", Name = "GetUsersSubmittedRequest")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IEnumerable<ApiRequest> GetSubmittedRequestsByUserId(int id)
+        {
+            var requests = _repo.GetSubmittedRequestsByUserId(id).Select(x => _mapp.Map(x));
+            return requests;
+
+            ////if no requests found at all,
+            //would normally return not found (404) 
+            //won't work with nick's automatic 200 OK wrapping of IEnumerable?
+            //(needs to return actual ActionResult)
+        }
+
+        // GET: api/Users/5
+        [HttpGet("{id}/AcceptedRequests", Name = "GetUsersAcceptedRequest")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IEnumerable<ApiRequest> GetAcceptedRequestsByUserId(int id)
+        {
+            var requests = _repo.GetAcceptedRequestsByUserId(id).Select(x => _mapp.Map(x));
+            return requests;
+
+            ////if no requests found at all,
+            //would normally return not found (404) 
+            //won't work with nick's automatic 200 OK wrapping of IEnumerable?
+            //(needs to return actual ActionResult)
         }
 
         // POST: api/Users
