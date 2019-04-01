@@ -64,7 +64,12 @@ namespace The_Guild_Back.BLL
             var mapped = Mapper.Map(user);
             var current = await _db.Users.FindAsync(user.Id);
 
-            if(mapped.UserName != current.UserName)
+            if (current == null)
+            {
+                throw new ArgumentException("User does not exist.");
+            }
+
+            if (mapped.UserName != current.UserName)
             {
                 throw new ArgumentException("Cannot change username");
             }
@@ -72,6 +77,11 @@ namespace The_Guild_Back.BLL
             if(mapped.RankId != current.RankId) //if they're trying to rank up
             {
                 var requirements = await _db.RankRequirements.FindAsync(current.RankId);
+
+                if(requirements == null)
+                {
+                    throw new ArgumentException("New rank does not exist.");
+                }
 
                 //minimum total stats check
                 int userStats = 0;
@@ -272,14 +282,26 @@ namespace The_Guild_Back.BLL
         {
             return Mapper.Map(_db.AdventurerParty.AsNoTracking().First(p => p.Id == id));
         }
+
         public async Task<AdventurerParty> GetAdventurerPartyByIdAsync(int id)
         {
-            var AdventurerParty = await _db.AdventurerParty.FindAsync(id);
-            if (AdventurerParty == null)
+            var party = await _db.AdventurerParty.FindAsync(id);
+            if (party == null)
+            {
+                return null;
+            }
+            else
+                return Mapper.Map(party);
+        }
+
+        /*public async Task<List<AdventurerParty>> GetAdventurerPartyByRequestIdAsync(int id)
+        {
+            List<AdventurerParty> party = await _db.AdventurerParty.Where(a => a.RequestId == id).FindAsync();
+            if (party == null)
                 return null;
             else
-                return Mapper.Map(AdventurerParty);
-        }
+                return Mapper.Map(party);
+        }*/
 
         public void UpdateAdventurerParty(AdventurerParty adventurerParty)
         {
