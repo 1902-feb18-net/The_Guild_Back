@@ -11,7 +11,6 @@ using The_Guild_Back.BLL;
 namespace The_Guild_Back.API.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
     [ApiController]
     public class UsersController : ControllerBase
     {
