@@ -25,7 +25,6 @@ namespace The_Guild_Back.API.Controllers
         }
 
         // GET: api/Users
-        [Authorize(Roles = "master, receptionist")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -139,6 +138,7 @@ namespace The_Guild_Back.API.Controllers
         }
 
         // DELETE: api/users/5
+        [Authorize(Roles ="master")]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
