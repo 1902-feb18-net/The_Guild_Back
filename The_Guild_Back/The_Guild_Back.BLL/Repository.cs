@@ -64,12 +64,7 @@ namespace The_Guild_Back.BLL
             var mapped = Mapper.Map(user);
             var current = await _db.Users.FindAsync(user.Id);
 
-            if (current == null)
-            {
-                throw new ArgumentException("User does not exist.");
-            }
-
-            if (mapped.UserName != current.UserName)
+            if(mapped.UserName != current.UserName)
             {
                 throw new ArgumentException("Cannot change username");
             }
@@ -77,11 +72,6 @@ namespace The_Guild_Back.BLL
             if(mapped.RankId != current.RankId) //if they're trying to rank up
             {
                 var requirements = await _db.RankRequirements.FindAsync(current.RankId);
-
-                if(requirements == null)
-                {
-                    throw new ArgumentException("New rank does not exist.");
-                }
 
                 //minimum total stats check
                 int userStats = 0;

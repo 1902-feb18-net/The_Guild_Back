@@ -53,7 +53,7 @@ namespace The_Guild_Back.API
             services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.Name = "UserServiceAuth";
-                options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(2);
                 options.Events = new CookieAuthenticationEvents
                 {
                     OnRedirectToLogin = context =>
@@ -78,7 +78,6 @@ namespace The_Guild_Back.API
                     builder.WithOrigins(new[]
                     {
                         "http://localhost:4200",
-                        "http://localhost:44347"
                     })
                         .AllowAnyHeader()
                         .AllowAnyMethod()
@@ -118,8 +117,6 @@ namespace The_Guild_Back.API
             }
 
             app.UseAuthentication();
-
-            app.UseCors("AllowAll");
 
             app.UseSwagger();
 
