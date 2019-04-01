@@ -29,22 +29,6 @@ namespace The_Guild_Back.API.Controllers
             _logger = logger;
         }
 
-        [Authorize(Roles = "master")]
-        [HttpGet]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IEnumerable<IdentityUser> Get([FromServices]UserManager<IdentityUser> userManager)
-        {
-            //repo call for all users
-            var users = userManager.Users;//.GetAllUsers().Select(x => _mapp.Map(x));
-            return users;
-
-            ////if no users at all,
-            //would normally return not found (404) 
-            //won't work with nick's automatic 200 OK wrapping of IEnumerable?
-            //(needs to return actual ActionResult)
-        }
-
         [HttpGet("[action]")]
         [AllowAnonymous]
         public ApiAccountDetails Details()
@@ -115,13 +99,15 @@ namespace The_Guild_Back.API.Controllers
         }
 
         // PUT /account/update/5
-        [HttpPut]
+        [HttpPut("[action]")]
         [Authorize(Roles = "master")]
-        public async Task<IActionResult> AssignRole(UpdateRole update,
-            [FromServices] UserManager<IdentityUser> userManager)
+        public async Task<IActionResult> AssignRole(string id,
+            string role,
+            [FromServices] UserManager<IdentityUser> userManager,
+            [FromServices] RoleManager<IdentityRole> roleManager)
         {
-            IdentityUser user = await userManager.FindByNameAsync(update.Username);
-            IdentityResult result = await userManager.AddToRoleAsync(user, update.Role);
+            IdentityUser user = await userManager.FindByIdAsync(id);
+            IdentityResult result = await userManager.AddToRoleAsync(user, role);
 
             if (!result.Succeeded)
             {
@@ -183,7 +169,7 @@ namespace The_Guild_Back.API.Controllers
             }
 
             var oz = "Ozzy";
-            if (await userManager.FindByNameAsync(oz) is null)
+            if (await userManager.FindByIdAsync(oz) is null)
             {
                 var ozUser = new IdentityUser(oz);
 
@@ -205,9 +191,11 @@ namespace The_Guild_Back.API.Controllers
             }
 
             var Lee = "Lunk";
-            if (await userManager.FindByNameAsync(Lee) is null)
+            if (await userManager.FindByIdAsync(Lee) is null)
             {
                 var leeUser = new IdentityUser(Lee);
+
+
                 IdentityResult result = await userManager.CreateAsync(leeUser, "NamineHano23#");
 
                 if (!result.Succeeded)
@@ -221,30 +209,6 @@ namespace The_Guild_Back.API.Controllers
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError,
                         "failed to add user to admin role");
-                }
-            }
-            else
-            {
-                var leeUser = userManager.FindByNameAsync(Lee).Result;
-                IdentityResult addRoleResult = await userManager.AddToRoleAsync(leeUser, "receptionist");
-                if (!addRoleResult.Succeeded)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError,
-                        "failed to add user to recept role");
-                }
-
-                addRoleResult = await userManager.AddToRoleAsync(leeUser, "adventurer");
-                if (!addRoleResult.Succeeded)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError,
-                        "failed to add user to adv role");
-                }
-
-                addRoleResult = await userManager.AddToRoleAsync(leeUser, "user");
-                if (!addRoleResult.Succeeded)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError,
-                        "failed to add user to user role");
                 }
             }
 
