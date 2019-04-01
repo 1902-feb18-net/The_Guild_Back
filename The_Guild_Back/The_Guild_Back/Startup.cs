@@ -53,7 +53,7 @@ namespace The_Guild_Back.API
             services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.Name = "UserServiceAuth";
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(2);
+                options.ExpireTimeSpan = TimeSpan.FromHours(2);
                 options.Events = new CookieAuthenticationEvents
                 {
                     OnRedirectToLogin = context =>
