@@ -282,26 +282,14 @@ namespace The_Guild_Back.BLL
         {
             return Mapper.Map(_db.AdventurerParty.AsNoTracking().First(p => p.Id == id));
         }
-
         public async Task<AdventurerParty> GetAdventurerPartyByIdAsync(int id)
         {
-            var party = await _db.AdventurerParty.FindAsync(id);
-            if (party == null)
-            {
+            var AdventurerParty = await _db.AdventurerParty.FindAsync(id);
+            if (AdventurerParty == null)
                 return null;
-            }
             else
-                return Mapper.Map(party);
+                return Mapper.Map(AdventurerParty);
         }
-
-        /*public async Task<List<AdventurerParty>> GetAdventurerPartyByRequestIdAsync(int id)
-        {
-            List<AdventurerParty> party = await _db.AdventurerParty.Where(a => a.RequestId == id).FindAsync();
-            if (party == null)
-                return null;
-            else
-                return Mapper.Map(party);
-        }*/
 
         public void UpdateAdventurerParty(AdventurerParty adventurerParty)
         {

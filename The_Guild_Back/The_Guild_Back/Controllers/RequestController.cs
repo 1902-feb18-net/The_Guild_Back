@@ -129,33 +129,5 @@ namespace The_Guild_Back.API.Controllers
             //if not found,
             return NotFound(); //404
         }
-
-        [HttpPost("[action]/{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> SendAdvToRequest(ApiAdventureParty ApiParty)
-        {
-            if (await _repo.GetRequestByIdAsync(ApiParty.RequestId) is Request request
-                && await _repo.GetUserByIdAsync(ApiParty.AdventurerId) is Users user) //if both found
-            {
-                AdventurerParty party = new AdventurerParty
-                {
-                    AdventurerId = ApiParty.AdventurerId,
-                    RequestId = ApiParty.RequestId,
-                    Nam = ApiParty.Name
-                };
-                try
-                {
-                    await _repo.AddAdventurerPartyAsync(party);
-                }
-                catch(ArgumentException)
-                {
-                    BadRequest();
-                }
-                return NoContent();
-            }
-            return NotFound();
-        }
     }
 }
