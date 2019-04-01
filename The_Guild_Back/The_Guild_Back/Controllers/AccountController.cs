@@ -68,6 +68,8 @@ namespace The_Guild_Back.API.Controllers
             return details;
         }
 
+        
+
         // POST for create resource, but also for "perform operation"
         // when there is no way to fit the operation into CRUD terms.
         // POST azureyurl/api/account/login
